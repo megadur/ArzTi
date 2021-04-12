@@ -1,23 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj": {}
+    "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj": {}
   },
   "projects": {
-    "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj": {
+    "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj",
+        "projectUniqueName": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj",
         "projectName": "ArzTiServer",
-        "projectPath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj",
+        "projectPath": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj",
         "packagesPath": "C:\\Users\\DonTillo\\.nuget\\packages\\",
-        "outputPath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\obj\\",
+        "outputPath": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
           "C:\\Users\\DonTillo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -43,9 +45,27 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.10.13, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "Serilog.Sinks.RollingFile": {
+              "target": "Package",
+              "version": "[3.3.0, )"
             }
           },
           "imports": [

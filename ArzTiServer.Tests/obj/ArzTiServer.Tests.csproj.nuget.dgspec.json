@@ -1,23 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj": {}
+    "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj": {}
   },
   "projects": {
-    "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj": {
+    "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj",
+        "projectUniqueName": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj",
         "projectName": "ArzTiServer.Tests",
-        "projectPath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj",
+        "projectPath": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj",
         "packagesPath": "C:\\Users\\DonTillo\\.nuget\\packages\\",
-        "outputPath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\obj\\",
+        "outputPath": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
           "C:\\Users\\DonTillo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
