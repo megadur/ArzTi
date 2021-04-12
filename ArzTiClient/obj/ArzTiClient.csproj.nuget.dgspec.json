@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj": {}
+    "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj": {}
   },
   "projects": {
-    "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj": {
+    "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj",
+        "projectUniqueName": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj",
         "projectName": "ArzTiClient",
-        "projectPath": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj",
+        "projectPath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj",
         "packagesPath": "C:\\Users\\DonTillo\\.nuget\\packages\\",
-        "outputPath": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\obj\\",
+        "outputPath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

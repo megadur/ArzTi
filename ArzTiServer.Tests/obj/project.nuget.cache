@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Nktnhf2wLCFOvDE8IGtl/ugR0uJRmOhw9FMmyDRLSpKhXuz8QyRXNFyOJWk1ing2j+boZQR/QpLOsNQMaGiGyg==",
+  "dgSpecHash": "L/PL98CxXe8nrZAUpMv7wz6x/yU2bXv0Wm4u31Djn2F1BI6wJmWwUwI63uBDQn863VGOttvYVmuMHIHgQlDb5A==",
   "success": true,
-  "projectFilePath": "c:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj",
+  "projectFilePath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DonTillo\\.nuget\\packages\\coverlet.collector\\1.3.0\\coverlet.collector.1.3.0.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\microsoft.codecoverage\\16.7.1\\microsoft.codecoverage.16.7.1.nupkg.sha512",

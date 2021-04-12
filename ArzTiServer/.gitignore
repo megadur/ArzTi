@@ -1,0 +1,15 @@
+# these work
+*.gz
+*.tmproj
+*.7z
+
+# these won't as they are folders
+.vscode/
+build/
+obj/
+
+# but you can do this
+.vscode/*
+build/*
+obj/*
+

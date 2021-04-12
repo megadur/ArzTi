@@ -24,14 +24,20 @@ servers:
   - url: http://staging-api.arzsoftware.de
     description: Internal staging server for testing
 paths:
-
-  /mrezept:
+# M-Rezeptre
+  /apotheke/{apoik}/mrezept:
     get:
       tags:
         - M-Rezept
       summary: liefert eine Liste von M-Rezepten
       description: ""
       parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
         - name: maxnum
           in: query
           description: maximale Anzahl der Rezepte, die zurückgegeben werden
@@ -66,12 +72,136 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'       # <-----
 
-  /mrezept/Abholstatus:
+  /apotheke/{apoik}/mrezept/status:
+    get:
+      tags:
+        - M-Rezept
+      summary: Statusabfrage aller M-Rezepte
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: zeitraum
+          in: query
+          description: Welcher Zeitraum im Format YYYY-MM
+          required: false
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert eine Liste der Status aller M-Rezepte
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MRezeptStatus'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MRezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+ 
+  /apotheke/{apoik}/mrezept/{rezid}:
+    get:
+      tags:
+        - M-Rezept
+      summary: liefert ein M-Rezept
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die M-RezeptID.
+          required: true
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert das M-Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+ 
+    delete:
+      tags:
+        - M-Rezept
+      summary: löscht ein M-Rezept
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die M-RezeptID.
+          required: true
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_write]
+      responses:
+        '200':
+          description: Liefert das M-Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/mrezept/{rezid}/Abholstatus:
     put:
       tags:
         - M-Rezept
       summary: Änderung des M-Rezept Abholstatus
       description: "ändert Abholstatus einer Liste von M-Rezepten"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die M-RezeptID.
+          required: true
+          schema:
+            type: string
       operationId: "aendereAbholstatusRezeptList"
       requestBody:
         description: ''
@@ -106,72 +236,20 @@ paths:
         "405":
           description: "Validation exception"      
 
-  /mrezept/{id}:
-    get:
-      tags:
-        - M-Rezept
-      summary: liefert ein M-Rezept
-      description: ""
-      parameters:
-        - name: id
-          in: path
-          description: Die M-RezeptID.
-          required: true
-          schema:
-            type: string
-      security:
-        - BasicAuth: [arz_read]
-      responses:
-        '200':
-          description: Liefert das M-Rezept für die ID
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Rezept'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Rezept'
-        '401':
-          $ref: '#/components/responses/Unauthorized'   # <-----
-        '404':
-          $ref: '#/components/responses/NotFound'       # <-----
- 
-    delete:
-      tags:
-        - M-Rezept
-      summary: löscht ein M-Rezept
-      description: ""
-      parameters:
-        - name: id
-          in: path
-          description: Die M-RezeptID.
-          required: true
-          schema:
-            type: string
-      security:
-        - BasicAuth: [arz_write]
-      responses:
-        '200':
-          description: Liefert das M-Rezept für die ID
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Rezept'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Rezept'
-        '401':
-          $ref: '#/components/responses/Unauthorized'   # <-----
-        '404':
-          $ref: '#/components/responses/NotFound'       # <-----
-  /mrezept/{id}/pruefung:
+  /apotheke/{apoik}/mrezept/{rezid}/pruefung:
     put:
       tags:
         - M-Rezept
       summary: prüft ein M-Rezept
       description: ""
       parameters:
-        - name: id
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
           in: path
           description: Die M-RezeptID.
           required: true
@@ -203,81 +281,20 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'       # <-----
 
-  /mrezept/apotheke/{id}:
-    get:
-      tags:
-        - M-Rezept
-      summary: Alle Rezepte einer Apotheke
-      description: ""
-      parameters:
-        - name: id
-          in: path
-          description: Die Apotheke-IK.
-          required: true
-          schema:
-            type: string
-      security:
-        - BasicAuth: [arz_read]
-      responses:
-        '200':
-          description: Liefert eine Page mit gefundenen Rezepten.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Rezept'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Rezept'
-        '401':
-          $ref: '#/components/responses/Unauthorized'   # <-----
-        '404':
-          $ref: '#/components/responses/NotFound'       # <-----
-
-  /mrezept/status:
-    get:
-      tags:
-        - M-Rezept
-      summary: Statusabfrage aller M-Rezepte
-      description: ""
-      parameters:
-        - name: zeitraum
-          in: query
-          description: Welcher Zeitraum im Format YYYY-MM
-          required: false
-          schema:
-            type: string
-      security:
-        - BasicAuth: [arz_read]
-      responses:
-        '200':
-          description: Liefert eine Liste der Status aller M-Rezepte
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MRezeptStatus'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MRezeptStatus'
-        '401':
-          $ref: '#/components/responses/Unauthorized'   # <-----
-        '404':
-          $ref: '#/components/responses/NotFound'       # <-----
-  /mrezept/status/{id}:
+  /apotheke/{apoik}/mrezept/{rezid}/status:
     get:
       tags:
         - M-Rezept
       summary: Statusabfrage des M-Rezeptes
       description: ""
       parameters:
-        - name: id
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
           in: path
           description: Die Rezept-ID.
           required: true
@@ -305,7 +322,13 @@ paths:
       summary: Statusänderung des M-Rezeptes
       description: ""
       parameters:
-        - name: id
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
           in: path
           description: Die Rezept-ID.
           required: true
@@ -326,6 +349,680 @@ paths:
       responses:
         '200':
           description: Liefert den Status des M-Rezeptes für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+# P-Rezepte
+  /apotheke/{apoik}/prezept:
+    get:
+      tags:
+        - P-Rezept
+      summary: liefert eine Liste von P-Rezepten
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: maxnum
+          in: query
+          description: maximale Anzahl der Rezepte, die zurückgegeben werden
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: zeitraum
+          in: query
+          description: Welcher Zeitraum im Format YYYY-MM
+          required: false
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert eine Page mit gefundenen Rezepten.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/prezept/status:
+    get:
+      tags:
+        - P-Rezept
+      summary: Statusabfrage aller P-Rezepte
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: zeitraum
+          in: query
+          description: Welcher Zeitraum im Format YYYY-MM
+          required: false
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert eine Liste der Status aller P-Rezepte
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/prezeptStatus'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/prezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+ 
+  /apotheke/{apoik}/prezept/{rezid}:
+    get:
+      tags:
+        - P-Rezept
+      summary: liefert ein P-Rezept
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die P-RezeptID.
+          required: true
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert das P-Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+ 
+    delete:
+      tags:
+        - P-Rezept
+      summary: löscht ein P-Rezept
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die P-RezeptID.
+          required: true
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_write]
+      responses:
+        '200':
+          description: Liefert das P-Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/prezept/{rezid}/Abholstatus:
+    put:
+      tags:
+        - P-Rezept
+      summary: Änderung des P-Rezept Abholstatus
+      description: "ändert Abholstatus einer Liste von P-Rezepten"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die P-RezeptID.
+          required: true
+          schema:
+            type: string
+      operationId: "aendereAbholstatusRezeptList"
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Abholstatus'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Abholstatus'
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Returns the newly created item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Abholstatus'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Abholstatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+        "405":
+          description: "Validation exception"      
+
+  /apotheke/{apoik}/prezept/{rezid}/pruefung:
+    put:
+      tags:
+        - P-Rezept
+      summary: prüft ein P-Rezept
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die P-RezeptID.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: 'optionaler eMuster16 Datensatz'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rezept'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Rezept'
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert das P-Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/prezept/{rezid}/status:
+    get:
+      tags:
+        - P-Rezept
+      summary: Statusabfrage des P-Rezeptes
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die Rezept-ID.
+          required: true
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert den Status des P-Rezeptes für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ERezeptStatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ERezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+    patch:
+      tags:
+        - P-Rezept
+      summary: Statusänderung des P-Rezeptes
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die Rezept-ID.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ERezeptStatus'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ERezeptStatus'
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert den Status des P-Rezeptes für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+# E-Rezepte
+  /apotheke/{apoik}/erezept:
+    get:
+      tags:
+        - E-Rezept
+      summary: liefert eine Liste von E-Rezepten
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: maxnum
+          in: query
+          description: maximale Anzahl der Rezepte, die zurückgegeben werden
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: zeitraum
+          in: query
+          description: Welcher Zeitraum im Format YYYY-MM
+          required: false
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert eine Page mit gefundenen Rezepten.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/erezept/status:
+    get:
+      tags:
+        - E-Rezept
+      summary: Statusabfrage aller E-Rezepte
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: zeitraum
+          in: query
+          description: Welcher Zeitraum im Format YYYY-MM
+          required: false
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert eine Liste der Status aller E-Rezepte
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/erezeptStatus'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/erezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+ 
+  /apotheke/{apoik}/erezept/{rezid}:
+    get:
+      tags:
+        - E-Rezept
+      summary: liefert ein E-Rezept
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die E-RezeptID.
+          required: true
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert das E-Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+ 
+    delete:
+      tags:
+        - E-Rezept
+      summary: löscht ein E-Rezept
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die E-RezeptID.
+          required: true
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_write]
+      responses:
+        '200':
+          description: Liefert das E-Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/erezept/{rezid}/Abholstatus:
+    put:
+      tags:
+        - E-Rezept
+      summary: Änderung des E-Rezept Abholstatus
+      description: "ändert Abholstatus einer Liste von E-Rezepten"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die E-RezeptID.
+          required: true
+          schema:
+            type: string
+      operationId: "aendereAbholstatusERezeptList"
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Abholstatus'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Abholstatus'
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Returns the newly created item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Abholstatus'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Abholstatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+        "405":
+          description: "Validation exception"      
+
+  /apotheke/{apoik}/erezept/{rezid}/pruefung:
+    put:
+      tags:
+        - E-Rezept
+      summary: prüft ein E-Rezept
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die E-RezeptID.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: 'optionaler E-Rezept Datensatz'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rezept'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Rezept'
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert das E-Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/erezept/{rezid}/status:
+    get:
+      tags:
+        - E-Rezept
+      summary: Statusabfrage des E-Rezeptes
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die Rezept-ID.
+          required: true
+          schema:
+            type: string
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert den Status des E-Rezeptes für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+    patch:
+      tags:
+        - E-Rezept
+      summary: Statusänderung des E-Rezeptes
+      description: ""
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: rezid
+          in: path
+          description: Die Rezept-ID.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/erezeptStatus'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/erezeptStatus'
+      security:
+        - BasicAuth: [arz_read]
+      responses:
+        '200':
+          description: Liefert den Status des E-Rezeptes für die ID
           content:
             application/json:
               schema:
@@ -378,7 +1075,7 @@ components:
           example: 1
         status:
           type: "string"
-          description: "Der Status des Rezeptes"
+          description: "Der Status des eMuster16"
           enum:
           - "VOR_PRUEFUNG"
           - "FEHLER"
@@ -386,6 +1083,29 @@ components:
           - "ABRECHENBAR"
           - "HINWEIS"
       title: M-Status
+
+    ERezeptStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Status des E-Rezepts
+          format: int32
+          example: 1
+        status:
+          type: "string"
+          description: "Der Statuswert des E-Rezeptes"
+          enum:
+          - "VOR_PRUEFUNG"
+          - "VOR_ABRECHNUNG"
+          - "FEHLER"
+          - "VERBESSERBAR	"
+          - "RUECKWEISUNG"
+          - "ABGERECHNET"
+          - "STORNIERT"
+          - "HINWEIS"
+          - "ABRECHENBAR"
+          title: M-Status
   
     Rezept:
       type: object
