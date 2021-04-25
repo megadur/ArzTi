@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace ArzTiServer.Models
 {
-    public partial class User
+    public partial class TblApotheke
     {
         public int Id { get; set; }
+        public string Ik { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
     }
 }

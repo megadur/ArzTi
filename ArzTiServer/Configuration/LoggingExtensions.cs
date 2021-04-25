@@ -18,11 +18,8 @@ namespace ArzTiServer.Api.Configuration
 
             var loggingConfiguration = loggerConfiguration ?? new LoggerConfiguration()
                                            .ReadFrom.Configuration(configuration)
-                                           .WriteTo
-                                           .RollingFile($@"{logPath}\{{Date}}.txt", retainedFileCountLimit: 10,
-                                               shared: true)
-                                           .WriteTo
-                                           .Console(theme: AnsiConsoleTheme.Code);
+                                           .WriteTo.File($@"{logPath}\{{Date}}.txt", retainedFileCountLimit: 10, shared: true)
+                                           .WriteTo.Console(theme: AnsiConsoleTheme.Code);
 
             Log.Write(LogEventLevel.Information, "Logging has started");
 

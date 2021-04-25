@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ArzTiServer.DataAccess
 {
-    public interface IDataAccessProvider
+    public interface IHospitalAccessProvider
     {
         void AddPatientRecord(Patient patient);
         void UpdatePatientRecord(Patient patient);

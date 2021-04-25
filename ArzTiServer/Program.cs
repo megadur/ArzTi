@@ -1,26 +1,56 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using ArzTiServer.Api.Configuration;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Serilog;
 
 namespace ArzTiServer
 {
     public class Program
     {
-        public static void Main(string[] args)
+        private static IConfiguration _configuration;
+
+        public static async Task<int> Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            try
+            {
+                _configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", false, true)
+                    // .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",true)
+                    .AddEnvironmentVariables()
+                    .AddCommandLine(args)
+                    .Build();
+
+                Log.Logger = _configuration.ConfigureLogging().CreateLogger();
+                var host = BuildWebHost(args);
+
+                //initialization
+                await host.RunAsync();
+                return 0;
+            }
+            catch (Exception exception)
+            {
+                Log.Fatal(exception, "Site terminated");
+                return 1;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        private static IWebHost BuildWebHost(string[] args)
+        {
+            var builder = WebHost.CreateDefaultBuilder(args)
+                .UseConfiguration(_configuration)
+                .UseSerilog()
+                .UseStartup<Startup>();
+
+            return builder.Build();
+        }
     }
 }

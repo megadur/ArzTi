@@ -9,17 +9,18 @@ namespace ArzTiServer.Controllers
     [Route("api/[controller]")]
     public class PatientsController : ControllerBase
     {
-        private readonly IDataAccessProvider _dataAccessProvider;
+        private readonly IHospitalAccessProvider _dataAccessProvider;
 
-        public PatientsController(IDataAccessProvider dataAccessProvider)
+        public PatientsController(IHospitalAccessProvider dataAccessProvider)
         {
             _dataAccessProvider = dataAccessProvider;
         }
 
         [HttpGet]
-        public IEnumerable<Patient> Get()
+        public ActionResult< IEnumerable<Patient>> Get()
         {
-            return _dataAccessProvider.GetPatientRecords();
+            var items = _dataAccessProvider.GetPatientRecords();
+            return Ok(items);
         }
 
         [HttpPost]

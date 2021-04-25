@@ -88,7 +88,7 @@ namespace ArzTiServer.Models
                     .HasColumnName("email");
 
                 entity.Property(e => e.Name)
-                    .HasColumnType("character varying(50)[]")
+                    .HasColumnType("character varying(50)")
                     .HasColumnName("name");
             });
 

@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ArzTiServer.Models;
 
-namespace ArzTiServer.DataAccess
+namespace ArzTiServer.Models
 {
-    public class PostgreSqlContext: DbContext
+    public class HospitalContext : DbContext
     {
-        public PostgreSqlContext(DbContextOptions<PostgreSqlContext> options) : base(options)
-        {
-        }
+        public HospitalContext(DbContextOptions<HospitalContext> options) : base(options) { }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Patient> patients { get; set; }
 

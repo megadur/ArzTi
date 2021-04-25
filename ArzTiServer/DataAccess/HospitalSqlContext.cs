@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ArzTiServer.Models;
 
-namespace ArzTiServer.Models
+namespace ArzTiServer.DataAccess
 {
-    public class MyContext : DbContext
+    public class HospitalSqlContext: DbContext
     {
-        public MyContext(DbContextOptions<MyContext> options) : base(options) { }
-
+        public HospitalSqlContext(DbContextOptions<HospitalSqlContext> options) : base(options)
+        {
+        }
         public DbSet<User> Users { get; set; }
-        public DbSet<Patient> patients { get; set; }
+        public DbSet<Patient> Patients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

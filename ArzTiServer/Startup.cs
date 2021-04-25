@@ -1,5 +1,4 @@
 using ArzTiServer.DataAccess;
-using ArzTiServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace ArzTiServer
 {
@@ -29,11 +29,15 @@ namespace ArzTiServer
             _logger.LogInformation($"{nameof(ConfigureServices)} starting...");
 
             services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArzTiServer", Version = "v1" });
+            });
+
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
-
-            services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(sqlConnectionString));
-
-            services.AddScoped<IDataAccessProvider, DataAccessProvider>();
+            services.AddDbContext<HospitalSqlContext>(options => options.UseNpgsql(sqlConnectionString));
+            services.AddScoped<IHospitalAccessProvider, HospitalAccessProvider>();
 
             _logger.LogInformation($"{nameof(ConfigureServices)} complete...");
         }
@@ -49,6 +53,9 @@ namespace ArzTiServer
             if (env.IsDevelopment())
             {
                 builder.UseDeveloperExceptionPage();
+                builder.UseSwagger();
+                builder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArzTiServer v1"));
+
             }
 
             //app.UseHttpsRedirection();

@@ -1,13 +1,4 @@
-﻿
-
-# these work
-*.gz
-*.tmproj
-*.7z
-
-# these won't as they are folders
-.vs/
-.vscode/
-build/
-obj/
-temp.swagger.yml
+﻿**/.vs/
+**/.vscode/
+**/build/
+**/obj/*/
