@@ -12,12 +12,12 @@ namespace ArzTiServer.DataAccess.Tests
         [TestMethod()]
         public void Add_Patients_Test()
         {
-            var options = new DbContextOptionsBuilder<HospitalSqlContext>()
+            var options = new DbContextOptionsBuilder<HospitalDbContext>()
                 .UseInMemoryDatabase(databaseName: "PatientsDatabase")
                 .Options;
 
             // Use a clean instance of the context to run the test
-            using (var context = new HospitalSqlContext(options))
+            using (var context = new HospitalDbContext(options))
             {
                 HospitalAccessProvider dap = new HospitalAccessProvider(context);
                 dap.AddPatientRecord(new Patient { Id = "1", Name = "Patient 1", Address = "Address 1", City = "City  1", Age = 11, Gender = "m" });
@@ -25,7 +25,7 @@ namespace ArzTiServer.DataAccess.Tests
 
 
             // Insert seed data into the database using one instance of the context
-            using (var context = new HospitalSqlContext(options))
+            using (var context = new HospitalDbContext(options))
             {
                 var item = context.Set<Patient>().Single(e => e.Name == "Patient 1");
 
@@ -37,12 +37,12 @@ namespace ArzTiServer.DataAccess.Tests
         [TestMethod()]
         public void GetAll_Patients_Test()
         {
-            var options = new DbContextOptionsBuilder<HospitalSqlContext>()
+            var options = new DbContextOptionsBuilder<HospitalDbContext>()
                 .UseInMemoryDatabase(databaseName: "PatientsDatabase")
                 .Options;
 
             // Insert seed data into the database using one instance of the context
-            using (var context = new HospitalSqlContext(options))
+            using (var context = new HospitalDbContext(options))
             {
                 context.Patients.Add(new Patient { Id = "1", Name = "Patient 1", Address = "Address 1", City = "City  1", Age = 11, Gender = "m" });
                 context.Patients.Add(new Patient { Id = "2", Name = "Patient 2", Address = "Address 2", City = "City  2", Age = 12, Gender = "m" });
@@ -51,7 +51,7 @@ namespace ArzTiServer.DataAccess.Tests
             }
 
             // Use a clean instance of the context to run the test
-            using (var context = new HospitalSqlContext(options))
+            using (var context = new HospitalDbContext(options))
             {
                 HospitalAccessProvider dap = new HospitalAccessProvider(context);
                 List<Patient> patients = dap.GetPatientRecords();

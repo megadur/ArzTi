@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-04-19.yaml",
+      "url": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-04-20.yaml",
       "output": "OpenAPI.nswag.json",
       "newLineBehavior": "Auto"
     }
@@ -14,7 +14,7 @@
       "controllerStyle": "Partial",
       "controllerTarget": "AspNetCore",
       "useCancellationToken": false,
-      "useActionResultType": true,
+      "useActionResultType": false,
       "generateModelValidationAttributes": false,
       "routeNamingStrategy": "None",
       "basePath": null,

@@ -7,7 +7,7 @@
   "ExtendedData": {
     "ServiceName": "OpenAPIService",
     "GeneratedFileName": "OpenAPI",
-    "Endpoint": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-04-19.yaml",
+    "Endpoint": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-04-20.yaml",
     "GeneratedFileNamePrefix": null,
     "GenerateCSharpClient": false,
     "GenerateTypeScriptClient": false,
@@ -20,7 +20,7 @@
       "ControllerStyle": 0,
       "ControllerTarget": 1,
       "UseCancellationToken": false,
-      "UseActionResultType": true,
+      "UseActionResultType": false,
       "GenerateModelValidationAttributes": false,
       "RouteNamingStrategy": 0,
       "BasePath": null,

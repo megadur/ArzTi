@@ -17,34 +17,34 @@ namespace ArzTiServer.Tests
             [TestMethod]
             public void CreateBlog_saves_a_blog_via_context()
             {
-                var mockSet = new Mock<DbSet<Blog>>();
+                var mockSet = new Mock<DbSet<BloggingDbContext>>();
 
-                var mockContext = new Mock<BloggingContext>();
+                var mockContext = new Mock<BloggingDbContext>();
                 mockContext.Setup(m => m.Blogs).Returns(mockSet.Object);
 
                 var service = new BlogService(mockContext.Object);
                 service.AddBlog("ADO.NET Blog", "http://blogs.msdn.com/adonet");
 
-                mockSet.Verify(m => m.Add(It.IsAny<Blog>()), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<BloggingDbContext>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             [TestMethod]
             public void GetAllBlogs_orders_by_name()
             {
-                var data = new List<Blog>
+                var data = new List<BloggingDbContext>
         {
-            new Blog { Name = "BBB" },
-            new Blog { Name = "ZZZ" },
-            new Blog { Name = "AAA" },
+            new BloggingDbContext { Name = "BBB" },
+            new BloggingDbContext { Name = "ZZZ" },
+            new BloggingDbContext { Name = "AAA" },
         }.AsQueryable();
 
-                var mockSet = new Mock<DbSet<Blog>>();
-                mockSet.As<IQueryable<Blog>>().Setup(m => m.Provider).Returns(data.Provider);
-                mockSet.As<IQueryable<Blog>>().Setup(m => m.Expression).Returns(data.Expression);
-                mockSet.As<IQueryable<Blog>>().Setup(m => m.ElementType).Returns(data.ElementType);
-                mockSet.As<IQueryable<Blog>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+                var mockSet = new Mock<DbSet<BloggingDbContext>>();
+                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.Provider).Returns(data.Provider);
+                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.Expression).Returns(data.Expression);
+                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.ElementType).Returns(data.ElementType);
+                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-                var mockContext = new Mock<BloggingContext>();
+                var mockContext = new Mock<BloggingDbContext>();
                 mockContext.Setup(c => c.Blogs).Returns(mockSet.Object);
 
                 var service = new BlogService(mockContext.Object);

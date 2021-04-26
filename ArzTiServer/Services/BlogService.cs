@@ -11,9 +11,9 @@ namespace ArzTiServer.Services
 {
     public class BlogService
     {
-        private BloggingContext _context;
+        private BloggingDbContext _context;
 
-        public BlogService(BloggingContext context)
+        public BlogService(BloggingDbContext context)
         {
             _context = context;
         }

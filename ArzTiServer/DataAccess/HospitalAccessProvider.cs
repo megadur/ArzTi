@@ -6,9 +6,9 @@ namespace ArzTiServer.DataAccess
 {
     public class HospitalAccessProvider: IHospitalAccessProvider
     {
-        private readonly HospitalSqlContext _context;
+        private readonly HospitalDbContext _context;
 
-        public HospitalAccessProvider(HospitalSqlContext context)
+        public HospitalAccessProvider(HospitalDbContext context)
         {
             _context = context;
         }

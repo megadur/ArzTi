@@ -2,13 +2,12 @@
 
 namespace ArzTiServer.Models
 {
-    public class HospitalContext : DbContext
+    public class WeatherDbContext : DbContext
     {
-        public HospitalContext(DbContextOptions<HospitalContext> options) : base(options) { }
+        public WeatherDbContext(DbContextOptions<WeatherDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Patient> patients { get; set; }
-
+       
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

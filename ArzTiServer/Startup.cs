@@ -36,7 +36,7 @@ namespace ArzTiServer
             });
 
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
-            services.AddDbContext<HospitalSqlContext>(options => options.UseNpgsql(sqlConnectionString));
+            services.AddDbContext<HospitalDbContext>(options => options.UseNpgsql(sqlConnectionString));
             services.AddScoped<IHospitalAccessProvider, HospitalAccessProvider>();
 
             _logger.LogInformation($"{nameof(ConfigureServices)} complete...");

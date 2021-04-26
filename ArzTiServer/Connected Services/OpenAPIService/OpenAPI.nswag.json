@@ -16,7 +16,7 @@
     }
   ],
   "paths": {
-    "/apotheke/{apoik}": {
+    "/apotheke/{apoik}/rezept": {
       "get": {
         "tags": [
           "RezeptList"
@@ -100,7 +100,7 @@
         ]
       }
     },
-    "/apotheke/{apoik}/status": {
+    "/apotheke/{apoik}/rezept/status": {
       "get": {
         "tags": [
           "RezeptList"
@@ -174,7 +174,7 @@
         ]
       }
     },
-    "/apotheke/{apoik}/Abholstatus": {
+    "/apotheke/{apoik}/rezept/abholumg": {
       "put": {
         "tags": [
           "RezeptList"
@@ -252,7 +252,7 @@
         ]
       }
     },
-    "/apotheke/{apoik}/pruefung": {
+    "/apotheke/{apoik}/rezept/pruefung": {
       "put": {
         "tags": [
           "RezeptList"
@@ -320,7 +320,7 @@
         ]
       }
     },
-    "/apotheke/{apoik}/reztyp/{reztyp}/{rezid}": {
+    "/apotheke/{apoik}/rezept/{reztyp}/{rezid}": {
       "get": {
         "tags": [
           "Rezept"
@@ -460,7 +460,7 @@
         ]
       }
     },
-    "/apotheke/{apoik}/reztyp/{reztyp}/{rezid}/status": {
+    "/apotheke/{apoik}/rezept/{reztyp}/{rezid}/status": {
       "get": {
         "tags": [
           "Rezept"
@@ -619,6 +619,113 @@
           }
         ]
       }
+    },
+    "/apotheke": {
+      "get": {
+        "tags": [
+          "Apotheke"
+        ],
+        "summary": "liefert eine Liste aller Apotheken",
+        "description": "",
+        "operationId": "getApothekenList",
+        "responses": {
+          "200": {
+            "description": "Liefert eine Liste mit den gefundenen Rezepten.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Apotheke"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Apotheke"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/apotheke/{apoik}": {
+      "get": {
+        "tags": [
+          "Apotheke"
+        ],
+        "summary": "liefert Details einer Apotheke",
+        "description": "",
+        "operationId": "getApotheke",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "liefert Details einer Apotheke.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Apotheke"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Apotheke"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -720,6 +827,21 @@
           },
           "abgeholt": {
             "type": "boolean"
+          }
+        }
+      },
+      "Apotheke": {
+        "type": "object",
+        "required": [
+          "ik",
+          "name"
+        ],
+        "properties": {
+          "ik": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
           }
         }
       },

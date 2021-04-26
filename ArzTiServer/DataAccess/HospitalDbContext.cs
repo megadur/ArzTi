@@ -3,9 +3,9 @@ using ArzTiServer.Models;
 
 namespace ArzTiServer.DataAccess
 {
-    public class HospitalSqlContext: DbContext
+    public class HospitalDbContext: DbContext
     {
-        public HospitalSqlContext(DbContextOptions<HospitalSqlContext> options) : base(options)
+        public HospitalDbContext(DbContextOptions<HospitalDbContext> options) : base(options)
         {
         }
         public DbSet<User> Users { get; set; }

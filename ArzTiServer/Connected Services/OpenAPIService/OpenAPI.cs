@@ -16,7 +16,7 @@ namespace ArzTiServer.OpenAPIService
     using System = global::System;
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.9.0 (NJsonSchema v10.4.1.0 (Newtonsoft.Json v12.0.0.2))")]
-    public interface IController
+    public interface IArzTiController
     {
         /// <summary>liefert eine Liste von Rezepten  einer Apotheke</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
@@ -24,63 +24,72 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="maxnum">maximale Anzahl der Rezepte, die zurückgegeben werden</param>
         /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
         /// <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
-        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<Rezept>>> GetRezeptListNewAsync(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezeptListNewAsync(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum);
     
         /// <summary>Statusabfrage aller Rezepte einer Apotheke</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="reztyp">.</param>
         /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
         /// <returns>Liefert eine Liste der Status aller Rezepte</returns>
-        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<RezeptStatus>>> GetRezeptListByStatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RezeptStatus>> GetRezeptListByStatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum);
     
         /// <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <returns>Returns the newly created item</returns>
-        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Abholstatus>> PutAbholstatusRezeptListAsync(string apoik, System.Collections.Generic.IEnumerable<Abholstatus> body);
+        System.Threading.Tasks.Task<Abholstatus> PutAbholstatusRezeptListAsync(string apoik, System.Collections.Generic.IEnumerable<Abholstatus> body);
     
         /// <summary>prüft eine Liste von Rezepten</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="body">optionaler eMuster16 Datensatz</param>
         /// <returns>Liefert das Rezept für die ID</returns>
-        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<RezeptPruefRes>> PutRezeptPruefungAsync(string apoik, Rezept body);
+        System.Threading.Tasks.Task<RezeptPruefRes> PutRezeptPruefungAsync(string apoik, Rezept body);
     
         /// <summary>liefert ein Rezept</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die RezeptID.</param>
         /// <returns>Liefert das Rezept für die ID</returns>
-        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Rezept>> GetRezeptAsync(string apoik, RezeptTyp reztyp, string rezid);
+        System.Threading.Tasks.Task<Rezept> GetRezeptAsync(string apoik, RezeptTyp reztyp, string rezid);
     
         /// <summary>löscht ein Rezept</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die RezeptID.</param>
         /// <returns>Liefert das Rezept für die ID</returns>
-        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Rezept>> DeleteRezeptAsync(string apoik, RezeptTyp reztyp, string rezid);
+        System.Threading.Tasks.Task<Rezept> DeleteRezeptAsync(string apoik, RezeptTyp reztyp, string rezid);
     
         /// <summary>Statusabfrage eines Rezeptes</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die Rezept-ID.</param>
         /// <returns>Liefert den Status des Rezeptes für die ID</returns>
-        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Rezept>> GetRezeptStatusAsync(string apoik, RezeptTyp reztyp, string rezid);
+        System.Threading.Tasks.Task<Rezept> GetRezeptStatusAsync(string apoik, RezeptTyp reztyp, string rezid);
     
         /// <summary>Statusänderung eines Rezeptes</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die Rezept-ID.</param>
         /// <returns>Liefert den Status des Rezeptes für die ID</returns>
-        System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Rezept>> PatchRezeptStatusAsync(string apoik, Reztyp reztyp, string rezid, RezeptStatus body);
+        System.Threading.Tasks.Task<Rezept> PatchRezeptStatusAsync(string apoik, Reztyp reztyp, string rezid, RezeptStatus body);
+    
+        /// <summary>liefert eine Liste aller Apotheken</summary>
+        /// <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Apotheke>> GetApothekenListAsync();
+    
+        /// <summary>liefert Details einer Apotheke</summary>
+        /// <param name="apoik">Die Apotheken IK.</param>
+        /// <returns>liefert Details einer Apotheke.</returns>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Apotheke>> GetApothekeAsync(string apoik);
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.9.0 (NJsonSchema v10.4.1.0 (Newtonsoft.Json v12.0.0.2))")]
     [Microsoft.AspNetCore.Mvc.Route("v1")]
-    public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
+    public partial class ArzTiController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
-        private IController _implementation;
+        private IArzTiController _implementation;
     
-        public Controller(IController implementation)
+        public ArzTiController(IArzTiController implementation)
         {
             _implementation = implementation;
         }
@@ -91,8 +100,8 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="maxnum">maximale Anzahl der Rezepte, die zurückgegeben werden</param>
         /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
         /// <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}")]
-        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<Rezept>>> GetRezeptListNew(string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] int? maxnum, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept")]
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezeptListNew(string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] int? maxnum, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
         {
             return _implementation.GetRezeptListNewAsync(apoik, reztyp, maxnum, zeitraum);
         }
@@ -102,8 +111,8 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="reztyp">.</param>
         /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
         /// <returns>Liefert eine Liste der Status aller Rezepte</returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/status")]
-        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<System.Collections.Generic.ICollection<RezeptStatus>>> GetRezeptListByStatus(string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/status")]
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RezeptStatus>> GetRezeptListByStatus(string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
         {
             return _implementation.GetRezeptListByStatusAsync(apoik, reztyp, zeitraum);
         }
@@ -111,8 +120,8 @@ namespace ArzTiServer.OpenAPIService
         /// <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <returns>Returns the newly created item</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/Abholstatus")]
-        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Abholstatus>> PutAbholstatusRezeptList(string apoik, [Microsoft.AspNetCore.Mvc.FromBody] System.Collections.Generic.IEnumerable<Abholstatus> body)
+        [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/abholumg")]
+        public System.Threading.Tasks.Task<Abholstatus> PutAbholstatusRezeptList(string apoik, [Microsoft.AspNetCore.Mvc.FromBody] System.Collections.Generic.IEnumerable<Abholstatus> body)
         {
             return _implementation.PutAbholstatusRezeptListAsync(apoik, body);
         }
@@ -121,8 +130,8 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="body">optionaler eMuster16 Datensatz</param>
         /// <returns>Liefert das Rezept für die ID</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/pruefung")]
-        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<RezeptPruefRes>> PutRezeptPruefung(string apoik, [Microsoft.AspNetCore.Mvc.FromBody] Rezept body)
+        [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/pruefung")]
+        public System.Threading.Tasks.Task<RezeptPruefRes> PutRezeptPruefung(string apoik, [Microsoft.AspNetCore.Mvc.FromBody] Rezept body)
         {
             return _implementation.PutRezeptPruefungAsync(apoik, body);
         }
@@ -132,8 +141,8 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die RezeptID.</param>
         /// <returns>Liefert das Rezept für die ID</returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/reztyp/{reztyp}/{rezid}")]
-        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Rezept>> GetRezept(string apoik, RezeptTyp reztyp, string rezid)
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/{reztyp}/{rezid}")]
+        public System.Threading.Tasks.Task<Rezept> GetRezept(string apoik, RezeptTyp reztyp, string rezid)
         {
             return _implementation.GetRezeptAsync(apoik, reztyp, rezid);
         }
@@ -143,8 +152,8 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die RezeptID.</param>
         /// <returns>Liefert das Rezept für die ID</returns>
-        [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/reztyp/{reztyp}/{rezid}")]
-        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Rezept>> DeleteRezept(string apoik, RezeptTyp reztyp, string rezid)
+        [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/{reztyp}/{rezid}")]
+        public System.Threading.Tasks.Task<Rezept> DeleteRezept(string apoik, RezeptTyp reztyp, string rezid)
         {
             return _implementation.DeleteRezeptAsync(apoik, reztyp, rezid);
         }
@@ -154,8 +163,8 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die Rezept-ID.</param>
         /// <returns>Liefert den Status des Rezeptes für die ID</returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/reztyp/{reztyp}/{rezid}/status")]
-        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Rezept>> GetRezeptStatus(string apoik, RezeptTyp reztyp, string rezid)
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/{reztyp}/{rezid}/status")]
+        public System.Threading.Tasks.Task<Rezept> GetRezeptStatus(string apoik, RezeptTyp reztyp, string rezid)
         {
             return _implementation.GetRezeptStatusAsync(apoik, reztyp, rezid);
         }
@@ -165,10 +174,27 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die Rezept-ID.</param>
         /// <returns>Liefert den Status des Rezeptes für die ID</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPatch, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/reztyp/{reztyp}/{rezid}/status")]
-        public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<Rezept>> PatchRezeptStatus(string apoik, Reztyp reztyp, string rezid, [Microsoft.AspNetCore.Mvc.FromBody] RezeptStatus body)
+        [Microsoft.AspNetCore.Mvc.HttpPatch, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/{reztyp}/{rezid}/status")]
+        public System.Threading.Tasks.Task<Rezept> PatchRezeptStatus(string apoik, Reztyp reztyp, string rezid, [Microsoft.AspNetCore.Mvc.FromBody] RezeptStatus body)
         {
             return _implementation.PatchRezeptStatusAsync(apoik, reztyp, rezid, body);
+        }
+    
+        /// <summary>liefert eine Liste aller Apotheken</summary>
+        /// <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke")]
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Apotheke>> GetApothekenList()
+        {
+            return _implementation.GetApothekenListAsync();
+        }
+    
+        /// <summary>liefert Details einer Apotheke</summary>
+        /// <param name="apoik">Die Apotheken IK.</param>
+        /// <returns>liefert Details einer Apotheke.</returns>
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}")]
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Apotheke>> GetApotheke(string apoik)
+        {
+            return _implementation.GetApothekeAsync(apoik);
         }
     
     }
@@ -368,6 +394,38 @@ namespace ArzTiServer.OpenAPIService
         public static Abholstatus FromJson(string data)
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Abholstatus>(data, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v12.0.0.2)")]
+    public partial class Apotheke 
+    {
+        [Newtonsoft.Json.JsonProperty("ik", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Ik { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Name { get; set; }
+    
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+    
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties; }
+            set { _additionalProperties = value; }
+        }
+    
+        public string ToJson()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, new Newtonsoft.Json.JsonSerializerSettings());
+        }
+    
+        public static Apotheke FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<Apotheke>(data, new Newtonsoft.Json.JsonSerializerSettings());
         }
     
     }

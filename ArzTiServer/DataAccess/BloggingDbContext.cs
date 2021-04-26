@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ArzTiServer.Models
 {
-    public class BloggingContext : DbContext
+    public class BloggingDbContext : DbContext
     {
         public virtual DbSet<Blog> Blogs { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
@@ -33,6 +33,6 @@ namespace ArzTiServer.Models
         public string Content { get; set; }
 
         public int BlogId { get; set; }
-        public virtual Blog Blog { get; set; }
+        public virtual BloggingDbContext Blog { get; set; }
     }
 }

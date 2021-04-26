@@ -9,9 +9,9 @@ namespace ArzTiServer.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly HospitalContext _context;
+        private readonly WeatherDbContext _context;
 
-        public WeatherForecastController(HospitalContext context)
+        public WeatherForecastController(WeatherDbContext context)
         {
             _context = context;
         }
