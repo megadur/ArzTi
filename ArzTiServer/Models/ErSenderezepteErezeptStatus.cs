@@ -9,7 +9,7 @@ namespace ArzTiServer.Models
     {
         public int IdSenderezepteErezeptStatus { get; set; }
         public int? IdSenderezepteErezept { get; set; }
-        public long? TransaktionsNummer { get; set; }
+        public string ErezeptId { get; set; }
         public string RezeptStatus { get; set; }
         public bool? RezeptCheck { get; set; }
         public DateTime? StatusAbfrageDatum { get; set; }

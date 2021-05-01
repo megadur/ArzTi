@@ -1,4 +1,9 @@
+using ArzTiServer.Controllers;
 using ArzTiServer.DataAccess;
+using ArzTiServer.Models;
+using ArzTiServer.OpenAPIService;
+using ArzTiServer.Repositories;
+using ArzTiServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +43,15 @@ namespace ArzTiServer
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
             services.AddDbContext<HospitalDbContext>(options => options.UseNpgsql(sqlConnectionString));
             services.AddScoped<IHospitalAccessProvider, HospitalAccessProvider>();
+            services.AddScoped<IArzTiController, ArzTiControllerImpl>();
+            services.AddScoped<IArzTiDatenService, ArzTiDatenService>();
+            services.AddScoped<IArzTiVerwaltungService, ArzTiVerwaltungService>();
+            services.AddScoped<IDatenRepository, DatenRepository>();
+            services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
+            
+
+            services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["ApoDatenConnectionString"]));
+            services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["ApoVerwaltungConnectionString"]));
 
             _logger.LogInformation($"{nameof(ConfigureServices)} complete...");
         }

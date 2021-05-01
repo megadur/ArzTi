@@ -24,7 +24,7 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="maxnum">maximale Anzahl der Rezepte, die zurückgegeben werden</param>
         /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
         /// <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezeptListNewAsync(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezepteOffen(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum);
     
         /// <summary>Statusabfrage aller Rezepte einer Apotheke</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
@@ -103,7 +103,7 @@ namespace ArzTiServer.OpenAPIService
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept")]
         public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezeptListNew(string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] int? maxnum, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
         {
-            return _implementation.GetRezeptListNewAsync(apoik, reztyp, maxnum, zeitraum);
+            return _implementation.GetRezepteOffen(apoik, reztyp, maxnum, zeitraum);
         }
     
         /// <summary>Statusabfrage aller Rezepte einer Apotheke</summary>

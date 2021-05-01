@@ -10,13 +10,13 @@ namespace ArzTiServer.Models
         public ErSenderezeptePrezept()
         {
             ErSenderezeptePrezeptDatens = new HashSet<ErSenderezeptePrezeptDaten>();
-            ErSenderezeptePrezeptLieferids = new HashSet<ErSenderezeptePrezeptLieferid>();
             ErSenderezeptePrezeptPcharges = new HashSet<ErSenderezeptePrezeptPcharge>();
             ErSenderezeptePrezeptStatuses = new HashSet<ErSenderezeptePrezeptStatus>();
             ErSenderezeptePrezeptStatusinfos = new HashSet<ErSenderezeptePrezeptStatusinfo>();
         }
 
         public int IdSenderezeptePrezept { get; set; }
+        public int IdSenderezepteHeader { get; set; }
         public string RzLieferId { get; set; }
         public string RzDatum { get; set; }
         public DateTime? RzLieferDatum { get; set; }
@@ -53,8 +53,8 @@ namespace ArzTiServer.Models
         public short? KzSonstige { get; set; }
         public string VersichertenkarteGueltigBis { get; set; }
 
+        public virtual ErSenderezepteHeader IdSenderezepteHeaderNavigation { get; set; }
         public virtual ICollection<ErSenderezeptePrezeptDaten> ErSenderezeptePrezeptDatens { get; set; }
-        public virtual ICollection<ErSenderezeptePrezeptLieferid> ErSenderezeptePrezeptLieferids { get; set; }
         public virtual ICollection<ErSenderezeptePrezeptPcharge> ErSenderezeptePrezeptPcharges { get; set; }
         public virtual ICollection<ErSenderezeptePrezeptStatus> ErSenderezeptePrezeptStatuses { get; set; }
         public virtual ICollection<ErSenderezeptePrezeptStatusinfo> ErSenderezeptePrezeptStatusinfos { get; set; }

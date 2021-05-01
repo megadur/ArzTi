@@ -5,17 +5,14 @@ using System.Collections.Generic;
 
 namespace ArzTiServer.Models
 {
-    public partial class ErSenderezepteHeader
+    public partial class ErPrueferezeptHeader
     {
-        public ErSenderezepteHeader()
+        public ErPrueferezeptHeader()
         {
-            ErSenderezepteEmuster16s = new HashSet<ErSenderezepteEmuster16>();
-            ErSenderezepteErezepts = new HashSet<ErSenderezepteErezept>();
-            ErSenderezepteHeaderDatens = new HashSet<ErSenderezepteHeaderDaten>();
-            ErSenderezeptePrezepts = new HashSet<ErSenderezeptePrezept>();
+            ErPrueferezeptErezeptLieferids = new HashSet<ErPrueferezeptErezeptLieferid>();
         }
 
-        public int IdSenderezepteHeader { get; set; }
+        public int IdPrueferezeptHeader { get; set; }
         public int ApoIntNr { get; set; }
         public long? ApoIkNr { get; set; }
         public string SoftwareHersteller { get; set; }
@@ -33,18 +30,13 @@ namespace ArzTiServer.Models
         public bool? ReztypErez { get; set; }
         public bool? ReztypEm16 { get; set; }
         public bool? ReztypPrez { get; set; }
-        public DateTime? AbfrageDatum { get; set; }
-        public TimeSpan? AbfrageZeit { get; set; }
+        public DateTime? StatusAbfrageDatum { get; set; }
+        public TimeSpan? StatusAbfrageZeit { get; set; }
         public bool? CheckErez { get; set; }
         public bool? CheckEm16 { get; set; }
         public bool? CheckPrez { get; set; }
         public short? ImportTyp { get; set; }
-        public DateTime? CheckDatum { get; set; }
-        public TimeSpan? CheckZeit { get; set; }
 
-        public virtual ICollection<ErSenderezepteEmuster16> ErSenderezepteEmuster16s { get; set; }
-        public virtual ICollection<ErSenderezepteErezept> ErSenderezepteErezepts { get; set; }
-        public virtual ICollection<ErSenderezepteHeaderDaten> ErSenderezepteHeaderDatens { get; set; }
-        public virtual ICollection<ErSenderezeptePrezept> ErSenderezeptePrezepts { get; set; }
+        public virtual ICollection<ErPrueferezeptErezeptLieferid> ErPrueferezeptErezeptLieferids { get; set; }
     }
 }

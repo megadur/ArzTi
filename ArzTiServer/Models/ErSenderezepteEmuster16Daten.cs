@@ -9,7 +9,7 @@ namespace ArzTiServer.Models
     {
         public int IdSenderezepteEmuster16Daten { get; set; }
         public int? IdSenderezepteEmuster16 { get; set; }
-        public string RezeptGuid { get; set; }
+        public string RezeptUuid { get; set; }
         public bool? TransferArz { get; set; }
         public string XmlRequest { get; set; }
 

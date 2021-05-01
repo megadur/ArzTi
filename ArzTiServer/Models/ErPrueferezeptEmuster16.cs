@@ -5,24 +5,22 @@ using System.Collections.Generic;
 
 namespace ArzTiServer.Models
 {
-    public partial class ErSenderezepteEmuster16
+    public partial class ErPrueferezeptEmuster16
     {
-        public ErSenderezepteEmuster16()
+        public ErPrueferezeptEmuster16()
         {
-            ErSenderezepteEmuster16Artikels = new HashSet<ErSenderezepteEmuster16Artikel>();
-            ErSenderezepteEmuster16Datens = new HashSet<ErSenderezepteEmuster16Daten>();
-            ErSenderezepteEmuster16Statuses = new HashSet<ErSenderezepteEmuster16Status>();
-            ErSenderezepteEmuster16Statusinfos = new HashSet<ErSenderezepteEmuster16Statusinfo>();
+            ErPrueferezeptEmuster16Artikels = new HashSet<ErPrueferezeptEmuster16Artikel>();
+            ErPrueferezeptEmuster16Statuses = new HashSet<ErPrueferezeptEmuster16Status>();
+            ErPrueferezeptEmuster16Statusinfos = new HashSet<ErPrueferezeptEmuster16Statusinfo>();
         }
 
-        public int IdSenderezepteEmuster16 { get; set; }
-        public int IdSenderezepteHeader { get; set; }
+        public int IdPrueferezeptEmuster16 { get; set; }
         public string RzLieferId { get; set; }
         public string RzDatum { get; set; }
         public DateTime? RzLieferDatum { get; set; }
         public TimeSpan? RzLieferZeit { get; set; }
         public string AvsId { get; set; }
-        public string AbrechnungsPeriode { get; set; }
+        public string PruefModus { get; set; }
         public string RezeptTyp { get; set; }
         public long? Muster16Id { get; set; }
         public string AbdaKassentyp { get; set; }
@@ -64,11 +62,10 @@ namespace ArzTiServer.Models
         public short? TFachinformation { get; set; }
         public short? TInLabel { get; set; }
         public short? TOffLabel { get; set; }
+        public int IdPrueferezepteHeader { get; set; }
 
-        public virtual ErSenderezepteHeader IdSenderezepteHeaderNavigation { get; set; }
-        public virtual ICollection<ErSenderezepteEmuster16Artikel> ErSenderezepteEmuster16Artikels { get; set; }
-        public virtual ICollection<ErSenderezepteEmuster16Daten> ErSenderezepteEmuster16Datens { get; set; }
-        public virtual ICollection<ErSenderezepteEmuster16Status> ErSenderezepteEmuster16Statuses { get; set; }
-        public virtual ICollection<ErSenderezepteEmuster16Statusinfo> ErSenderezepteEmuster16Statusinfos { get; set; }
+        public virtual ICollection<ErPrueferezeptEmuster16Artikel> ErPrueferezeptEmuster16Artikels { get; set; }
+        public virtual ICollection<ErPrueferezeptEmuster16Status> ErPrueferezeptEmuster16Statuses { get; set; }
+        public virtual ICollection<ErPrueferezeptEmuster16Statusinfo> ErPrueferezeptEmuster16Statusinfos { get; set; }
     }
 }
