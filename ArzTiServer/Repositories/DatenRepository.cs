@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ArzTiServer.ArzTiService;
 using ArzTiServer.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,77 +10,148 @@ namespace ArzTiServer.Repositories
 {
     public class DatenRepository : IDatenRepository
     {
-        //private readonly DbSet<ErSenderezepteEmuster16> _dbSetMRezept;
-        //private readonly DbSet<ErSenderezepteErezept> _dbSetERezept;
-        //private readonly DbSet<ErSenderezeptePrezept> _dbSetPRezept;
-        private readonly ArzDBContext _context;
-
+         private readonly ArzDBContext _context;
+     
         public DatenRepository(ArzDBContext context)
         {
             _context = context;
         }
-        public IQueryable<ErSenderezepteEmuster16> GetMRezeptQueryable()
+
+
+        public async Task<List<ErSenderezepteEmuster16>> GetMRezeptList()
         {
-            return _context.ErSenderezepteEmuster16s;
+            return await _context.ErSenderezepteEmuster16s
+                                 .ToListAsync();
+
         }
 
-        public List<ErSenderezepteEmuster16> GetMRezeptList() {
-            return _context.ErSenderezepteEmuster16s.ToList();
-        }
-        
-        public List<ErSenderezepteEmuster16> GetOffeneMRezeptList(String apoik, int MaxNum )
-        {
-            #region disable_format
-
-            return _context.ErSenderezepteEmuster16s
-                 .Where(a => a.ApoIkNr.ToString() == apoik)
-                 .Take (MaxNum)
-                 .ToList();
-            #endregion
-        }
-
-
-        public IQueryable<ErSenderezeptePrezept> GetPRezeptQueryable()
-        {
-            return _context.ErSenderezeptePrezepts; 
-        }
-
-        public List<ErSenderezeptePrezept> GetPRezeptList()
-        {
-            return _context.ErSenderezeptePrezepts.ToList();
-        }
-
-        public List<ErSenderezeptePrezept> GetOffenePRezeptList(String apoik, int MaxNum)
+        public async Task<List<ErSenderezepteEmuster16>> GetOffeneMRezeptList(String apoik, int MaxNum)
         {
             #region disable_format
 
-            return _context.ErSenderezeptePrezepts
+            return await _context.ErSenderezepteEmuster16s
                  .Where(a => a.ApoIkNr.ToString() == apoik)
                  .Take(MaxNum)
-                 .ToList();
+                 .ToListAsync();
             #endregion
         }
 
 
-        public IQueryable<ErSenderezepteErezept> GetERezeptQueryable()
+
+        public async Task<List<ErSenderezeptePrezept>> GetPRezeptList()
         {
-            return _context.ErSenderezepteErezepts;
+            return await _context.ErSenderezeptePrezepts
+                                 .ToListAsync();
+
         }
+
+        public async Task<List<ErSenderezeptePrezept> > GetOffenePRezeptList(String apoik, int MaxNum)
+        {
+            #region disable_format
+
+            return await _context.ErSenderezeptePrezepts
+                 .Where(a => a.ApoIkNr.ToString() == apoik)
+                 .Take(MaxNum)
+                 .ToListAsync();
+            #endregion
+        }
+
+
 
         public List<ErSenderezepteErezept> GetERezeptList()
         {
-            return _context.ErSenderezepteErezepts.ToList();
+            return _context.ErSenderezepteErezepts
+                                 .ToList();
+
         }
 
-        public List<ErSenderezepteErezept> GetOffeneERezeptList(String apoik, int MaxNum)
+        public async Task<List<ErSenderezepteErezept>> GetOffeneERezeptList(String apoik, int MaxNum)
         {
             #region disable_format
-            return _context.ErSenderezepteErezepts
+            return await _context.ErSenderezepteErezepts
                  .Where(a => a.ApoIkNr.ToString() == apoik)
                  .Take(MaxNum)
-                 .ToList();
+                 .ToListAsync();
             #endregion
         }
 
+        public async Task<List<ErSenderezepteErezept>> GetERezeptIdListByStatusAsync(string apoik, string zeitraum)
+        {
+            #region disable_format
+            return await _context.ErSenderezepteErezepts
+                 .Where(a => a.ApoIkNr.ToString() == apoik)
+                 .ToListAsync();
+            #endregion
+        }
+
+        public async Task<List<ErSenderezepteErezept>> GetERezeptIdListByTransferAsync(string apoik, string zeitraum)
+        {
+            #region disable_format
+            return await _context.ErSenderezepteErezepts
+                 .Where(a => a.ApoIkNr.ToString() == apoik)
+                 .ToListAsync();
+            #endregion
+        }
+
+        public async Task<ErSenderezepteErezept> GetERezeptIdAsync(string apoik, string rezid)
+        {
+            #region disable_format
+            return await _context.ErSenderezepteErezepts
+                    .Where(e => e.ApoIkNr.ToString() == apoik)
+                    .Where(e => e.ErezeptId.ToString() == rezid)
+                    .FirstAsync()
+                    ;
+            #endregion
+
+        }
+
+        public async List<ErSenderezepteErezept> GetERezeptIdListAsync(string apoik, int? maxnum, string zeitraum)
+        {
+            #region disable_format
+            return  _context.ErSenderezepteErezepts
+                .Where(a => a.ApoIkNr.ToString() == apoik)
+                .ToList();
+            #endregion
+        }
+
+        public async Task<ErSenderezepteErezept> DeleteERezeptIdAsync(string apoik, string rezid)
+        {
+            #region disable_format
+            var res = _context.ErSenderezepteErezepts
+                        .Where(a => a.ApoIkNr.ToString() == apoik)
+                        .Where(a => a.ErezeptId.ToString() == rezid)
+                        .First()
+                        ;
+            lock (_context.ErSenderezepteErezepts)
+            {
+                if (res != null)
+                    _context.ErSenderezepteErezepts.Remove(res);
+            }
+            #endregion
+            await _context.SaveChangesAsync();
+            return res;
+        }
+
+        public async Task<ErSenderezepteErezept> DeleteERezeptUIdAsync(string ruid)
+        {
+            #region disable_format
+            var res =  _context.ErSenderezepteErezepts
+                    .Where(e => e.ErSenderezepteErezeptDatens.First().RezeptUuid == ruid)
+                    .First()
+                    ;
+            lock (_context.ErSenderezepteErezepts)
+            {
+                if (res != null)
+                    _context.ErSenderezepteErezepts.Remove(res); 
+            }
+            #endregion
+            await _context.SaveChangesAsync();
+            return res;
+        }
+
+        public Task<ErSenderezepteErezept> GetERezeptIdStatusAsync(string apoik, string rezid)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

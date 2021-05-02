@@ -1,5 +1,4 @@
 ﻿using ArzTiServer.Models;
-using ArzTiServer.OpenAPIService;
 using ArzTiServer.Repositories;
 using ArzTiServer.Services;
 using MockQueryable.Moq;
@@ -16,18 +15,18 @@ namespace ArzTiServer.xUnit.Services
     {
         private MockRepository mockRepository;
 
-        private Mock<ApoDatenDBContext> mockApoDatenDBContext;
+        private Mock<ArzDBContext> mockApoDatenDBContext;
 
         public xArzTiDatenServiceTests()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-            this.mockApoDatenDBContext = this.mockRepository.Create<ApoDatenDBContext>();
+            this.mockApoDatenDBContext = this.mockRepository.Create<ArzDBContext>();
         }
-
-        private IArzTiDatenService CreateService()
+/*
+        private IArzTiDatenServiceV1a CreateService()
         {
-            return null;// new ArzTiDatenService(                this.mockRepository);
+            return new ArzTiDatenService(                this.mockApoDatenDBContext);
         }
 
         [Fact]
@@ -44,12 +43,12 @@ namespace ArzTiServer.xUnit.Services
             };
             var mock = datenEmuster16.AsQueryable().BuildMockDbSet();
             var datenRepository = new DatenRepository(mock.Object, null, null);
-            var service = new IArzTiDatenService(datenRepository);
+            var service = new IArzTiDatenServiceV1a(datenRepository);
             //act
             var result = await service.GetRezepteOffen (RezeptTyp.ERezept, "123456", 1, "");
             //assert
             Assert.Equal(1, result.Count);
         }
-
+*/
     }
 }

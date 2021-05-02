@@ -3,8 +3,8 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-04-20.yaml",
-      "output": "OpenAPI.nswag.json",
+      "url": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-05-02.yaml",
+      "output": "ArzTiService.nswag.json",
       "newLineBehavior": "Auto"
     }
   },
@@ -15,7 +15,7 @@
       "controllerTarget": "AspNetCore",
       "useCancellationToken": false,
       "useActionResultType": false,
-      "generateModelValidationAttributes": false,
+      "generateModelValidationAttributes": true,
       "routeNamingStrategy": "None",
       "basePath": null,
       "className": "{controller}",
@@ -33,7 +33,7 @@
       "wrapResponseMethods": [],
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
-      "namespace": "ArzTiServer.OpenAPIService",
+      "namespace": "ArzTiServer.ArzTiService",
       "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTimeOffset",
       "jsonConverters": null,
@@ -70,7 +70,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "OpenAPI.cs",
+      "output": "ArzTiService.cs",
       "newLineBehavior": "Auto"
     }
   }

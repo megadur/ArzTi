@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ArzTiServer.Repositories
 {
-    public interface IAsyncRepository<T> where T : ErApotheke
+    public interface IAsyncRepository<T> 
     {
 
         Task<T> GetById(int id);

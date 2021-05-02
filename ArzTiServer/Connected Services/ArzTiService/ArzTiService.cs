@@ -11,7 +11,7 @@
 #pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
 #pragma warning disable 8073 // Disable "CS8073 The result of the expression is always 'false' since a value of type 'T' is never equal to 'null' of type 'T?'"
 
-namespace ArzTiServer.OpenAPIService
+namespace ArzTiServer.ArzTiService
 {
     using System = global::System;
     
@@ -24,53 +24,84 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="maxnum">maximale Anzahl der Rezepte, die zurückgegeben werden</param>
         /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
         /// <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezepteOffen(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezeptIdListAsync(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum);
+    
+        /// <summary>Abfrage aller neuen Rezepte einer Apotheke</summary>
+        /// <param name="apoik">Die Apotheken IK.</param>
+        /// <param name="reztyp">.</param>
+        /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+        /// <returns>Liefert eine Liste der Status aller Rezepte</returns>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RezeptStatus>> GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum);
     
         /// <summary>Statusabfrage aller Rezepte einer Apotheke</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="reztyp">.</param>
         /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
         /// <returns>Liefert eine Liste der Status aller Rezepte</returns>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RezeptStatus>> GetRezeptListByStatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RezeptStatus>> GetRezeptIdListByStatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum);
     
         /// <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <returns>Returns the newly created item</returns>
-        System.Threading.Tasks.Task<Abholstatus> PutAbholstatusRezeptListAsync(string apoik, System.Collections.Generic.IEnumerable<Abholstatus> body);
+        System.Threading.Tasks.Task<Abholstatus> PutRezeptIdListAbholstatusAsync(string apoik, System.Collections.Generic.IEnumerable<Abholstatus> body);
     
         /// <summary>prüft eine Liste von Rezepten</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="body">optionaler eMuster16 Datensatz</param>
         /// <returns>Liefert das Rezept für die ID</returns>
-        System.Threading.Tasks.Task<RezeptPruefRes> PutRezeptPruefungAsync(string apoik, Rezept body);
+        System.Threading.Tasks.Task<RezeptPruefRes> PutRezeptIdListPruefungAsync(string apoik, Rezept body);
     
         /// <summary>liefert ein Rezept</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die RezeptID.</param>
         /// <returns>Liefert das Rezept für die ID</returns>
-        System.Threading.Tasks.Task<Rezept> GetRezeptAsync(string apoik, RezeptTyp reztyp, string rezid);
+        System.Threading.Tasks.Task<Rezept> GetRezeptIdAsync(string apoik, RezeptTyp reztyp, string rezid);
     
         /// <summary>löscht ein Rezept</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die RezeptID.</param>
         /// <returns>Liefert das Rezept für die ID</returns>
-        System.Threading.Tasks.Task<Rezept> DeleteRezeptAsync(string apoik, RezeptTyp reztyp, string rezid);
-    
-        /// <summary>Statusabfrage eines Rezeptes</summary>
-        /// <param name="apoik">Die Apotheken IK.</param>
-        /// <param name="reztyp">.</param>
-        /// <param name="rezid">Die Rezept-ID.</param>
-        /// <returns>Liefert den Status des Rezeptes für die ID</returns>
-        System.Threading.Tasks.Task<Rezept> GetRezeptStatusAsync(string apoik, RezeptTyp reztyp, string rezid);
+        System.Threading.Tasks.Task<Rezept> DeleteRezeptIdAsync(string apoik, RezeptTyp reztyp, string rezid);
     
         /// <summary>Statusänderung eines Rezeptes</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <param name="reztyp">.</param>
         /// <param name="rezid">Die Rezept-ID.</param>
         /// <returns>Liefert den Status des Rezeptes für die ID</returns>
-        System.Threading.Tasks.Task<Rezept> PatchRezeptStatusAsync(string apoik, Reztyp reztyp, string rezid, RezeptStatus body);
+        System.Threading.Tasks.Task<Rezept> PatchRezeptIdStatusAsync(string apoik, Reztyp reztyp, string rezid, RezeptStatus body);
+    
+        /// <summary>Statusabfrage eines Rezeptes</summary>
+        /// <param name="apoik">Die Apotheken IK.</param>
+        /// <param name="reztyp">.</param>
+        /// <param name="rezid">Die Rezept-ID.</param>
+        /// <returns>Liefert den Status des Rezeptes für die ID</returns>
+        System.Threading.Tasks.Task<Rezept> GetRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid);
+    
+        /// <summary>liefert ein Rezept</summary>
+        /// <param name="ruid">Die Rezept UID.</param>
+        /// <returns>Liefert das gefundene Rezepte.</returns>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezeptUIdAsync(string ruid);
+    
+        /// <summary>löscht ein Rezept</summary>
+        /// <param name="ruid">Die Rezept UID.</param>
+        /// <returns>Liefert das Rezept für die ID</returns>
+        System.Threading.Tasks.Task<Rezept> DeleteRezeptUIdAsync(string ruid);
+    
+        /// <summary>Statusänderung eines Rezeptes</summary>
+        /// <param name="ruid">Die Rezept UID.</param>
+        /// <returns>Liefert den Status des Rezeptes für die ID</returns>
+        System.Threading.Tasks.Task<Rezept> PatchRezeptUIdStatusAsync(string ruid, RezeptStatus body);
+    
+        /// <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
+        /// <returns>Returns the newly created item</returns>
+        System.Threading.Tasks.Task<Abholstatus> PutRezeptUIdListAbholstatusAsync(System.Collections.Generic.IEnumerable<Abholstatus> body);
+    
+        /// <summary>prüft eine Liste von Rezepten</summary>
+        /// <param name="body">optionaler eMuster16 Datensatz</param>
+        /// <returns>Liefert das Rezept für die ID</returns>
+        System.Threading.Tasks.Task<RezeptPruefRes> PutRezeptUidListPruefungAsync(Rezept body);
     
         /// <summary>liefert eine Liste aller Apotheken</summary>
         /// <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
@@ -79,17 +110,17 @@ namespace ArzTiServer.OpenAPIService
         /// <summary>liefert Details einer Apotheke</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <returns>liefert Details einer Apotheke.</returns>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Apotheke>> GetApothekeAsync(string apoik);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Apotheke>> GetApothekeByIKAsync(string apoik);
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.9.0 (NJsonSchema v10.4.1.0 (Newtonsoft.Json v12.0.0.2))")]
     [Microsoft.AspNetCore.Mvc.Route("v1")]
-    public partial class ArzTiController : Microsoft.AspNetCore.Mvc.ControllerBase
+    public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IArzTiController _implementation;
     
-        public ArzTiController(IArzTiController implementation)
+        public Controller(IArzTiController implementation)
         {
             _implementation = implementation;
         }
@@ -101,9 +132,20 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
         /// <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept")]
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezeptListNew(string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] int? maxnum, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezeptIdList([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] int? maxnum, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
         {
-            return _implementation.GetRezepteOffen(apoik, reztyp, maxnum, zeitraum);
+            return _implementation.GetRezeptIdListAsync(apoik, reztyp, maxnum, zeitraum);
+        }
+    
+        /// <summary>Abfrage aller neuen Rezepte einer Apotheke</summary>
+        /// <param name="apoik">Die Apotheken IK.</param>
+        /// <param name="reztyp">.</param>
+        /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+        /// <returns>Liefert eine Liste der Status aller Rezepte</returns>
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/neu")]
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RezeptStatus>> GetRezeptIdListByTransfer([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
+        {
+            return _implementation.GetRezeptIdListByTransferAsync(apoik, reztyp, zeitraum);
         }
     
         /// <summary>Statusabfrage aller Rezepte einer Apotheke</summary>
@@ -112,18 +154,18 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
         /// <returns>Liefert eine Liste der Status aller Rezepte</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/status")]
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RezeptStatus>> GetRezeptListByStatus(string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<RezeptStatus>> GetRezeptIdListByStatus([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik, [Microsoft.AspNetCore.Mvc.FromQuery] RezeptTyp? reztyp, [Microsoft.AspNetCore.Mvc.FromQuery] string zeitraum)
         {
-            return _implementation.GetRezeptListByStatusAsync(apoik, reztyp, zeitraum);
+            return _implementation.GetRezeptIdListByStatusAsync(apoik, reztyp, zeitraum);
         }
     
         /// <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <returns>Returns the newly created item</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/abholumg")]
-        public System.Threading.Tasks.Task<Abholstatus> PutAbholstatusRezeptList(string apoik, [Microsoft.AspNetCore.Mvc.FromBody] System.Collections.Generic.IEnumerable<Abholstatus> body)
+        [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/abholung")]
+        public System.Threading.Tasks.Task<Abholstatus> PutRezeptIdListAbholstatus([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik, [Microsoft.AspNetCore.Mvc.FromBody] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] System.Collections.Generic.IEnumerable<Abholstatus> body)
         {
-            return _implementation.PutAbholstatusRezeptListAsync(apoik, body);
+            return _implementation.PutRezeptIdListAbholstatusAsync(apoik, body);
         }
     
         /// <summary>prüft eine Liste von Rezepten</summary>
@@ -131,9 +173,9 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="body">optionaler eMuster16 Datensatz</param>
         /// <returns>Liefert das Rezept für die ID</returns>
         [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/pruefung")]
-        public System.Threading.Tasks.Task<RezeptPruefRes> PutRezeptPruefung(string apoik, [Microsoft.AspNetCore.Mvc.FromBody] Rezept body)
+        public System.Threading.Tasks.Task<RezeptPruefRes> PutRezeptIdListPruefung([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik, [Microsoft.AspNetCore.Mvc.FromBody] Rezept body)
         {
-            return _implementation.PutRezeptPruefungAsync(apoik, body);
+            return _implementation.PutRezeptIdListPruefungAsync(apoik, body);
         }
     
         /// <summary>liefert ein Rezept</summary>
@@ -142,9 +184,9 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="rezid">Die RezeptID.</param>
         /// <returns>Liefert das Rezept für die ID</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/{reztyp}/{rezid}")]
-        public System.Threading.Tasks.Task<Rezept> GetRezept(string apoik, RezeptTyp reztyp, string rezid)
+        public System.Threading.Tasks.Task<Rezept> GetRezeptId([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] RezeptTyp reztyp, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string rezid)
         {
-            return _implementation.GetRezeptAsync(apoik, reztyp, rezid);
+            return _implementation.GetRezeptIdAsync(apoik, reztyp, rezid);
         }
     
         /// <summary>löscht ein Rezept</summary>
@@ -153,9 +195,20 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="rezid">Die RezeptID.</param>
         /// <returns>Liefert das Rezept für die ID</returns>
         [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/{reztyp}/{rezid}")]
-        public System.Threading.Tasks.Task<Rezept> DeleteRezept(string apoik, RezeptTyp reztyp, string rezid)
+        public System.Threading.Tasks.Task<Rezept> DeleteRezeptId([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] RezeptTyp reztyp, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string rezid)
         {
-            return _implementation.DeleteRezeptAsync(apoik, reztyp, rezid);
+            return _implementation.DeleteRezeptIdAsync(apoik, reztyp, rezid);
+        }
+    
+        /// <summary>Statusänderung eines Rezeptes</summary>
+        /// <param name="apoik">Die Apotheken IK.</param>
+        /// <param name="reztyp">.</param>
+        /// <param name="rezid">Die Rezept-ID.</param>
+        /// <returns>Liefert den Status des Rezeptes für die ID</returns>
+        [Microsoft.AspNetCore.Mvc.HttpPatch, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/{reztyp}/{rezid}")]
+        public System.Threading.Tasks.Task<Rezept> PatchRezeptIdStatus([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] Reztyp reztyp, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string rezid, [Microsoft.AspNetCore.Mvc.FromBody] RezeptStatus body)
+        {
+            return _implementation.PatchRezeptIdStatusAsync(apoik, reztyp, rezid, body);
         }
     
         /// <summary>Statusabfrage eines Rezeptes</summary>
@@ -164,20 +217,53 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="rezid">Die Rezept-ID.</param>
         /// <returns>Liefert den Status des Rezeptes für die ID</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/{reztyp}/{rezid}/status")]
-        public System.Threading.Tasks.Task<Rezept> GetRezeptStatus(string apoik, RezeptTyp reztyp, string rezid)
+        public System.Threading.Tasks.Task<Rezept> GetRezeptIdStatus([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] RezeptTyp reztyp, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string rezid)
         {
-            return _implementation.GetRezeptStatusAsync(apoik, reztyp, rezid);
+            return _implementation.GetRezeptIdStatusAsync(apoik, reztyp, rezid);
+        }
+    
+        /// <summary>liefert ein Rezept</summary>
+        /// <param name="ruid">Die Rezept UID.</param>
+        /// <returns>Liefert das gefundene Rezepte.</returns>
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("rezept/{ruid}")]
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Rezept>> GetRezeptUId([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string ruid)
+        {
+            return _implementation.GetRezeptUIdAsync(ruid);
+        }
+    
+        /// <summary>löscht ein Rezept</summary>
+        /// <param name="ruid">Die Rezept UID.</param>
+        /// <returns>Liefert das Rezept für die ID</returns>
+        [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("rezept/{ruid}")]
+        public System.Threading.Tasks.Task<Rezept> DeleteRezeptUId([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string ruid)
+        {
+            return _implementation.DeleteRezeptUIdAsync(ruid);
         }
     
         /// <summary>Statusänderung eines Rezeptes</summary>
-        /// <param name="apoik">Die Apotheken IK.</param>
-        /// <param name="reztyp">.</param>
-        /// <param name="rezid">Die Rezept-ID.</param>
+        /// <param name="ruid">Die Rezept UID.</param>
         /// <returns>Liefert den Status des Rezeptes für die ID</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPatch, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}/rezept/{reztyp}/{rezid}/status")]
-        public System.Threading.Tasks.Task<Rezept> PatchRezeptStatus(string apoik, Reztyp reztyp, string rezid, [Microsoft.AspNetCore.Mvc.FromBody] RezeptStatus body)
+        [Microsoft.AspNetCore.Mvc.HttpPatch, Microsoft.AspNetCore.Mvc.Route("rezept/{ruid}")]
+        public System.Threading.Tasks.Task<Rezept> PatchRezeptUIdStatus([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string ruid, [Microsoft.AspNetCore.Mvc.FromBody] RezeptStatus body)
         {
-            return _implementation.PatchRezeptStatusAsync(apoik, reztyp, rezid, body);
+            return _implementation.PatchRezeptUIdStatusAsync(ruid, body);
+        }
+    
+        /// <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
+        /// <returns>Returns the newly created item</returns>
+        [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("rezept/abholung")]
+        public System.Threading.Tasks.Task<Abholstatus> PutRezeptUIdListAbholstatus([Microsoft.AspNetCore.Mvc.FromBody] [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] System.Collections.Generic.IEnumerable<Abholstatus> body)
+        {
+            return _implementation.PutRezeptUIdListAbholstatusAsync(body);
+        }
+    
+        /// <summary>prüft eine Liste von Rezepten</summary>
+        /// <param name="body">optionaler eMuster16 Datensatz</param>
+        /// <returns>Liefert das Rezept für die ID</returns>
+        [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("rezept/pruefung")]
+        public System.Threading.Tasks.Task<RezeptPruefRes> PutRezeptUidListPruefung([Microsoft.AspNetCore.Mvc.FromBody] Rezept body)
+        {
+            return _implementation.PutRezeptUidListPruefungAsync(body);
         }
     
         /// <summary>liefert eine Liste aller Apotheken</summary>
@@ -192,9 +278,9 @@ namespace ArzTiServer.OpenAPIService
         /// <param name="apoik">Die Apotheken IK.</param>
         /// <returns>liefert Details einer Apotheke.</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("apotheke/{apoik}")]
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Apotheke>> GetApotheke(string apoik)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<Apotheke>> GetApothekeByIK([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string apoik)
         {
-            return _implementation.GetApothekeAsync(apoik);
+            return _implementation.GetApothekeByIKAsync(apoik);
         }
     
     }

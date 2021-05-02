@@ -1,13 +1,14 @@
 ﻿{
   "ProviderId": "Unchase.OpenAPI.ConnectedService",
-  "Version": "1.5.20.0",
+  "Version": "1.5.21.0",
   "GettingStartedDocument": {
     "Uri": "https://github.com/unchase/Unchase.OpenAPI.Connectedservice/"
   },
   "ExtendedData": {
-    "ServiceName": "OpenAPIService",
-    "GeneratedFileName": "OpenAPI",
-    "Endpoint": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-04-20.yaml",
+    "ServiceName": "ArzTiService",
+    "AcceptAllUntrustedCertificates": true,
+    "GeneratedFileName": "ArzTiService",
+    "Endpoint": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-05-02.yaml",
     "GeneratedFileNamePrefix": null,
     "GenerateCSharpClient": false,
     "GenerateTypeScriptClient": false,
@@ -21,7 +22,7 @@
       "ControllerTarget": 1,
       "UseCancellationToken": false,
       "UseActionResultType": false,
-      "GenerateModelValidationAttributes": false,
+      "GenerateModelValidationAttributes": true,
       "RouteNamingStrategy": 0,
       "BasePath": null,
       "ClassName": "{controller}",
@@ -39,7 +40,7 @@
       "WrapResponseMethods": [],
       "GenerateResponseClasses": true,
       "ResponseClass": "SwaggerResponse",
-      "Namespace": "ArzTiServer.OpenAPIService",
+      "Namespace": "ArzTiServer.ArzTiService",
       "RequiredPropertiesMustBeDefined": true,
       "DateType": "System.DateTimeOffset",
       "JsonConverters": null,
@@ -76,7 +77,7 @@
       "EnumNameGeneratorType": null,
       "ServiceHost": null,
       "ServiceSchemes": null,
-      "output": "OpenAPI.cs",
+      "output": "ArzTiService.cs",
       "newLineBehavior": 0
     },
     "Variables": null,

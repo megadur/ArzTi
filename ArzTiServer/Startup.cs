@@ -1,7 +1,6 @@
 using ArzTiServer.Controllers;
 using ArzTiServer.DataAccess;
 using ArzTiServer.Models;
-using ArzTiServer.OpenAPIService;
 using ArzTiServer.Repositories;
 using ArzTiServer.Services;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ArzTiServer.ArzTiService;
 
 namespace ArzTiServer
 {
@@ -38,16 +38,39 @@ namespace ArzTiServer
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArzTiServer", Version = "v1" });
+                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                              new OpenApiSecurityScheme
+                                {
+                                    Reference = new OpenApiReference
+                                    {
+                                        Type = ReferenceType.SecurityScheme,
+                                        Id = "basic"
+                                    }
+                                },
+                                new string[] {}
+                        }
+                        });
             });
 
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
             services.AddDbContext<HospitalDbContext>(options => options.UseNpgsql(sqlConnectionString));
             services.AddScoped<IHospitalAccessProvider, HospitalAccessProvider>();
-            services.AddScoped<IArzTiController, ArzTiControllerImpl>();
+            services.AddScoped<IArzTiController, ArzTiController>();
             services.AddScoped<IArzTiDatenService, ArzTiDatenService>();
             services.AddScoped<IArzTiVerwaltungService, ArzTiVerwaltungService>();
             services.AddScoped<IDatenRepository, DatenRepository>();
             services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
+            //services.AddScoped<IAsyncRepository<ErSenderezepteEmuster16>, ErApothekeRepository<ErApotheke>>();
             
 
             services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["ApoDatenConnectionString"]));

@@ -1,13 +1,14 @@
-﻿using ArzTiServer.Models;
-using ArzTiServer.OpenAPIService;
+﻿using ArzTiServer.ArzTiService;
+using ArzTiServer.Models;
 using ArzTiServer.Repositories;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ArzTiServer.Services
 {
-
-    public class ArzTiVerwaltungService: IArzTiVerwaltungService
+    public class ArzTiVerwaltungService : IArzTiVerwaltungService
     {
         IAsyncRepository<ErApotheke> _repository;
         public ArzTiVerwaltungService(IAsyncRepository<ErApotheke> repository)
@@ -15,21 +16,20 @@ namespace ArzTiServer.Services
             _repository = repository;
         }
 
-        public async Task<ICollection<Apotheke>> GetApothekenListAsync()
-        {
-            //throw new NotImplementedException();
-            var list = await _repository.GetAll() ;
-            return getList(list );
 
-        }
-
-        public async Task<ICollection<Apotheke>> GetApothekeAsync(string apoik)
+        public async Task<ICollection<Apotheke>> GetApothekeByIKAsync(string apoik)
         {
-            var res= await _repository.GetWhere (a => a.ApoIkNr.ToString()  == apoik) ;
+            var res = await _repository.GetWhere(a => a.ApoIkNr.ToString() == apoik);
             return getList(res);
         }
 
-        private ICollection<Apotheke> getList(IEnumerable<ErApotheke> list)
+        public async Task<ICollection<Apotheke>> GetApothekenListAsync()
+        {
+            var list = await _repository.GetAll();
+            return getList(list);
+        }
+
+        internal ICollection<Apotheke> getList(IEnumerable<ErApotheke> list)
         {
             if (list == null)
             {
@@ -42,7 +42,7 @@ namespace ArzTiServer.Services
             }
             return apoList;
         }
-        private Apotheke getApotheke(ErApotheke item)
+        internal Apotheke getApotheke(ErApotheke item)
         {
             return new Apotheke()
             {
@@ -50,6 +50,5 @@ namespace ArzTiServer.Services
                 Name = item.ApothekeName
             };
         }
-
     }
 }

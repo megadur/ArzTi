@@ -50,7 +50,7 @@ namespace ArzTiServer.xUnit.Services
             string apoik = null;
 
             // Act
-            var result = await service.GetApothekeAsync(
+            var result = await service.GetApothekeByIKAsync(
                 apoik);
 
             // Assert

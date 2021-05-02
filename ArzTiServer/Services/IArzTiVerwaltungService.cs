@@ -1,4 +1,4 @@
-﻿using ArzTiServer.OpenAPIService;
+﻿using ArzTiServer.ArzTiService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +8,10 @@ namespace ArzTiServer.Services
 {
     public interface IArzTiVerwaltungService
     {
-        public Task<ICollection<Apotheke>> GetApothekenListAsync();
 
-        public Task<ICollection<Apotheke>> GetApothekeAsync(string apoik);
+        public Task<ICollection<Apotheke>> GetApothekeByIKAsync(string apoik);
+
+        public Task<ICollection<Apotheke>> GetApothekenListAsync();
 
     }
 }
