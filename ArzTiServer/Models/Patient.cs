@@ -7,6 +7,7 @@ namespace ArzTiServer.Models
 {
     public partial class Patient
     {
+        public Patient() { }
         public Patient(string id, string name, string address, string city, decimal age, string gender)
         {
             Id = id;

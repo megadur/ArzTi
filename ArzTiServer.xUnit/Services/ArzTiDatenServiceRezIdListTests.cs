@@ -44,7 +44,7 @@ namespace ArzTiServer.xUnit.Services
             int? maxnum = null;
             string zeitraum = null;
 
-            mockDatenRepository.Setup(d => d.GetERezeptIdListAsync(apoik, maxnum, zeitraum)).Returns(dr.GetERezeptList() );
+            mockDatenRepository.Setup(d => d.GetERezeptIdListAsync(apoik, maxnum, zeitraum)).Returns(dr.GetERezeptList());
 
             // Act
             var result = await service.GetRezeptIdListAsync(
@@ -66,7 +66,7 @@ namespace ArzTiServer.xUnit.Services
             string apoik = null;
             RezeptTyp? reztyp = null;
             string zeitraum = null;
-            mockDatenRepository.Setup(d => d.GetERezeptIdListByStatusAsync(apoik, zeitraum)).ReturnsAsync(dr.GetERezeptList());
+            mockDatenRepository.Setup(d => d.GetERezeptIdListByStatusAsync(apoik, zeitraum)).Returns(dr.GetERezeptList());
 
             // Act
             var result = await service.GetRezeptIdListByStatusAsync(
@@ -88,7 +88,7 @@ namespace ArzTiServer.xUnit.Services
             RezeptTyp? reztyp = RezeptTyp.ERezept;
             string zeitraum = null;
 
-            mockDatenRepository.Setup(d => d.GetERezeptIdListByTransferAsync(apoik, zeitraum)).ReturnsAsync(dr.GetERezeptList());
+            mockDatenRepository.Setup(d => d.GetERezeptIdListByTransferAsync(apoik, zeitraum)).Returns(dr.GetERezeptList());
          
             // Act
             var result = await service.GetRezeptIdListByTransferAsync(
@@ -109,7 +109,8 @@ namespace ArzTiServer.xUnit.Services
             string apoik = null;
             RezeptTyp reztyp = RezeptTyp.ERezept ;
             string rezid = null;
-            mockDatenRepository.Setup(d => d.GetERezeptIdStatusAsync(apoik, rezid)).Returns(dr.GetERezeptList());
+            ErSenderezepteErezept x = dr.GetERezeptList().Result[0] ;
+            mockDatenRepository.Setup(d => d.GetERezeptIdStatusAsync(apoik, rezid)).ReturnsAsync(x);
 
             // Act
             var result = await service.GetRezeptIdStatusAsync(
@@ -118,7 +119,7 @@ namespace ArzTiServer.xUnit.Services
                 rezid);
 
             // Assert
-            Assert.Equal(3, result.Count());
+            Assert.Equal("1", result.Data );
             this.mockRepository.VerifyAll();
         }
 

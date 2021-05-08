@@ -51,7 +51,7 @@ namespace ArzTiServer.xUnit.Repositories
             int MaxNum = 0;
 
             // Act
-            var result = datenRepository.GetOffeneMRezeptList(
+            var result = datenRepository.GetMRezeptListOffen(
                 apoik,
                 MaxNum);
 
@@ -84,7 +84,7 @@ namespace ArzTiServer.xUnit.Repositories
             int MaxNum = 0;
 
             // Act
-            var result = datenRepository.GetOffenePRezeptList(
+            var result = datenRepository.GetPRezeptListOffen(
                 apoik,
                 MaxNum);
 
@@ -117,7 +117,7 @@ namespace ArzTiServer.xUnit.Repositories
             int MaxNum = 0;
 
             // Act
-            var result = datenRepository.GetOffeneERezeptList(
+            var result = datenRepository.GetERezeptListOffen(
                 apoik,
                 MaxNum);
 

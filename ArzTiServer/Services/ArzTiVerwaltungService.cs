@@ -16,6 +16,9 @@ namespace ArzTiServer.Services
             _repository = repository;
         }
 
+        public ArzTiVerwaltungService()
+        {
+        }
 
         public async Task<ICollection<Apotheke>> GetApothekeByIKAsync(string apoik)
         {

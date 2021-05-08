@@ -20,7 +20,7 @@ namespace ArzTiServer.DataAccess.Tests
             using (var context = new HospitalDbContext(options))
             {
                 HospitalAccessProvider dap = new HospitalAccessProvider(context);
-                dap.AddPatientRecord(new Patient { Id = "1", Name = "Patient 1", Address = "Address 1", City = "City  1", Age = 11, Gender = "m" });
+                dap.AddPatientRecord(new Patient {  Id = "id1", Name = "Patient 1", Address = "Address 1", City = "City  1", Age = 11, Gender = "m" });
             }
 
 

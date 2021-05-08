@@ -31,18 +31,19 @@ namespace ArzTiServer.Tests
             [TestMethod]
             public void GetAllBlogs_orders_by_name()
             {
-                var data = new List<BloggingDbContext>
+                Blog b = new Blog() { Name = "BBB" };
+                var data = new List<Blog>
         {
-            new BloggingDbContext { Name = "BBB" },
-            new BloggingDbContext { Name = "ZZZ" },
-            new BloggingDbContext { Name = "AAA" },
+            new Blog {  Name = "BBB" } ,
+            new Blog { Name = "ZZZ" },
+            new Blog{ Name = "AAA" },
         }.AsQueryable();
 
                 var mockSet = new Mock<DbSet<BloggingDbContext>>();
                 mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.Provider).Returns(data.Provider);
                 mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.Expression).Returns(data.Expression);
                 mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.ElementType).Returns(data.ElementType);
-                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.GetEnumerator).Returns(data.GetEnumerator());
 
                 var mockContext = new Mock<BloggingDbContext>();
                 mockContext.Setup(c => c.Blogs).Returns(mockSet.Object);

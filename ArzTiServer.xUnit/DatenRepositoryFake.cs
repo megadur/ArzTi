@@ -52,6 +52,10 @@ namespace ArzTiServer.xUnit
         {
             return _erSenderezepteErezept;
         }
+        public ErSenderezepteErezept GetERezept()
+        {
+            return _erSenderezepteErezept[0];
+        }
 
         public IQueryable<ErSenderezepteErezept> GetERezeptQueryable()
         {
@@ -124,7 +128,7 @@ namespace ArzTiServer.xUnit
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezepteEmuster16>> IDatenRepository.GetOffeneMRezeptList(string apoik, int MaxNum)
+        Task<List<ErSenderezepteEmuster16>> IDatenRepository.GetMRezeptListOffen(string apoik, int MaxNum)
         {
             throw new NotImplementedException();
         }
@@ -134,17 +138,18 @@ namespace ArzTiServer.xUnit
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezeptePrezept>> IDatenRepository.GetOffenePRezeptList(string apoik, int MaxNum)
+        Task<List<ErSenderezeptePrezept>> IDatenRepository.GetPRezeptListOffen(string apoik, int MaxNum)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezepteErezept>> IDatenRepository.GetOffeneERezeptList(string apoik, int MaxNum)
+        Task<List<ErSenderezepteErezept>> IDatenRepository.GetERezeptListOffen(string apoik, int MaxNum)
         {
             throw new NotImplementedException();
         }
 
-        List<ErSenderezepteErezept> IDatenRepository.GetERezeptIdListAsync(string apoik, int? maxnum, string zeitraum)
+
+        Task<List<ErSenderezepteErezept>> IDatenRepository.GetERezeptList()
         {
             throw new NotImplementedException();
         }

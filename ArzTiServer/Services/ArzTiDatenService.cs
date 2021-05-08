@@ -68,7 +68,7 @@ namespace ArzTiServer.Services
 
         public async Task<ICollection<RezeptStatus>> GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
         {
-            List<RezeptStatus> rezList = new List<RezeptStatus>();
+            var rezList = new List<RezeptStatus>();
             if (reztyp == RezeptTyp.ERezept)
             {
                 var list = await _datenRepository.GetERezeptIdListByTransferAsync(apoik, zeitraum);
@@ -129,7 +129,7 @@ namespace ArzTiServer.Services
             if (item.ErSenderezepteErezeptDatens.Count > 0)
                 xml = item.ErSenderezepteErezeptDatens.First().XmlRequest;
             return new Rezept
-            {
+            {                
                 Typ = RezeptTyp.ERezept,
                 Data = xml
             };
