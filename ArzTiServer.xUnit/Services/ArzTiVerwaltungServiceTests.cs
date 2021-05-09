@@ -33,14 +33,28 @@ namespace ArzTiServer.xUnit.Services
         {
             // Arrange
             var service = this.CreateService();
+            //arrange
+            var daten = new List<ErApotheke>
+            {
+                new ErApotheke{ ApoIkNr =1L, ApothekeName ="A1"},
+                new ErApotheke{ ApoIkNr =12L, ApothekeName ="A2"},
+                new ErApotheke{ ApoIkNr =123L, ApothekeName ="A3"},
+                new ErApotheke{ ApoIkNr =1234L, ApothekeName ="A4"}
+
+            };
+            IEnumerable<ErApotheke> ena = daten;
+            var responseTask = Task.FromResult(ena);
+            mockAsyncRepository.Setup(a => a.GetAll()).Returns(responseTask);
 
             // Act
             var result = await service.GetApothekenListAsync();
 
+
             // Assert
-            Assert.True(false);
+            Assert.Equal(4, result.Count);
             this.mockRepository.VerifyAll();
         }
+    
 
         [Fact]
         public async Task GetApothekeAsync_StateUnderTest_ExpectedBehavior()
@@ -55,35 +69,6 @@ namespace ArzTiServer.xUnit.Services
 
             // Assert
             Assert.True(false);
-            this.mockRepository.VerifyAll();
-        }
-        [Fact]
-        public async void TestMethod1()
-        {
-            // Arrange
-            var service = this.CreateService();
-            //arrange
-            var daten = new List<ErApotheke>
-            {
-                new ErApotheke{ ApoIkNr =1L, ApothekeName ="A1"},
-                new ErApotheke{ ApoIkNr =12L, ApothekeName ="A2"},
-                new ErApotheke{ ApoIkNr =123L, ApothekeName ="A3"},
-                new ErApotheke{ ApoIkNr =1234L, ApothekeName ="A4"}
-
-            };
-            IEnumerable<ErApotheke> ena = daten;
-            var responseTask = Task.FromResult(ena);
-            mockAsyncRepository.Setup(a => a.GetAll()).Returns(responseTask);
-            //mockAsyncRepository.Setup(a => a.GetApothekeDetails("")).Returns(daten[0]);
-            //mockVerwaltungRepository.Setup(a => a.GetApothekeQueryable()).Returns(daten);
-            //            mockVerwaltungRepository.Setup(a => a.GetApothekeQueryable()).Returns<IQueryable<ErApotheke>>(daten);
-
-            // Act
-            var result = await service.GetApothekenListAsync();
-
-
-            // Assert
-            Assert.Equal (4, result .Count );
             this.mockRepository.VerifyAll();
         }
     }

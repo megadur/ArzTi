@@ -57,7 +57,7 @@ namespace ArzTiServer.Controllers.Tests
 
             // Assert
             var items = Assert.IsType<List<Patient>>(okResult.Value);
-            Assert.Equal(2, items.Count());
+            Assert.Equal(3, items.Count());
         }
 
         private List<Patient> GetTestSessions()

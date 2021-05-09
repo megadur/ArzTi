@@ -9,7 +9,7 @@ using System.Linq;
 namespace ArzTiServer.Tests
 {
     [TestClass]
-    public class UnitTest_Blog
+    public class BlogServiceTest
     {
         [TestClass]
         public class NonQueryTests
@@ -17,7 +17,7 @@ namespace ArzTiServer.Tests
             [TestMethod]
             public void CreateBlog_saves_a_blog_via_context()
             {
-                var mockSet = new Mock<DbSet<BloggingDbContext>>();
+                var mockSet = new Mock<DbSet<Blog>>();
 
                 var mockContext = new Mock<BloggingDbContext>();
                 mockContext.Setup(m => m.Blogs).Returns(mockSet.Object);
@@ -25,7 +25,7 @@ namespace ArzTiServer.Tests
                 var service = new BlogService(mockContext.Object);
                 service.AddBlog("ADO.NET Blog", "http://blogs.msdn.com/adonet");
 
-                mockSet.Verify(m => m.Add(It.IsAny<BloggingDbContext>()), Times.Once());
+                mockSet.Verify(m => m.Add(It.IsAny<Blog>()), Times.Once());
                 mockContext.Verify(m => m.SaveChanges(), Times.Once());
             }
             [TestMethod]
@@ -33,17 +33,17 @@ namespace ArzTiServer.Tests
             {
                 Blog b = new Blog() { Name = "BBB" };
                 var data = new List<Blog>
-        {
-            new Blog {  Name = "BBB" } ,
-            new Blog { Name = "ZZZ" },
-            new Blog{ Name = "AAA" },
-        }.AsQueryable();
+                            {
+                                new Blog {  Name = "BBB" } ,
+                                new Blog { Name = "ZZZ" },
+                                new Blog{ Name = "AAA" },
+                            }.AsQueryable();
 
-                var mockSet = new Mock<DbSet<BloggingDbContext>>();
-                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.Provider).Returns(data.Provider);
-                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.Expression).Returns(data.Expression);
-                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.ElementType).Returns(data.ElementType);
-                mockSet.As<IQueryable<BloggingDbContext>>().Setup(m => m.GetEnumerator).Returns(data.GetEnumerator());
+                var mockSet = new Mock<DbSet<Blog>>();
+                mockSet.As<IQueryable<Blog>>().Setup(m => m.Provider).Returns(data.Provider);
+                mockSet.As<IQueryable<Blog>>().Setup(m => m.Expression).Returns(data.Expression);
+                mockSet.As<IQueryable<Blog>>().Setup(m => m.ElementType).Returns(data.ElementType);
+                mockSet.As<IQueryable<Blog>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
                 var mockContext = new Mock<BloggingDbContext>();
                 mockContext.Setup(c => c.Blogs).Returns(mockSet.Object);
@@ -57,6 +57,7 @@ namespace ArzTiServer.Tests
                 Assert.AreEqual("ZZZ", blogs[2].Name);
             }
         }
+
 
     }
 }

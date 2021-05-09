@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "v0SvS1bQ+DqXaR6D8ZS7Zqaytx0TSPCyoujytRtVXuGMYHeXFP0BtA2MXnS7R0BdCiO54edEIKXA80I7XXKx5g==",
+  "dgSpecHash": "KMTWZQYaAQCT/7zKT4dndwSvd7rGu1iDfGaXHPEK5VqP7hqcKowF4iVSsiENiy2PYL/ThXsHFFQEQdl5dHdCxQ==",
   "success": true,
   "projectFilePath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer.Tests\\ArzTiServer.MsTest.csproj",
   "expectedPackageFiles": [
@@ -140,6 +140,9 @@
     "C:\\Users\\DonTillo\\.nuget\\packages\\microsoft.visualstudio.web.codegenerators.mvc\\5.0.2\\microsoft.visualstudio.web.codegenerators.mvc.5.0.2.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\DonTillo\\.nuget\\packages\\mockqueryable.core\\5.0.0\\mockqueryable.core.5.0.0.nupkg.sha512",
+    "C:\\Users\\DonTillo\\.nuget\\packages\\mockqueryable.entityframeworkcore\\5.0.0\\mockqueryable.entityframeworkcore.5.0.0.nupkg.sha512",
+    "C:\\Users\\DonTillo\\.nuget\\packages\\mockqueryable.moq\\5.0.0\\mockqueryable.moq.5.0.0.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\moq\\4.16.1\\moq.4.16.1.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\mstest.testadapter\\2.2.3\\mstest.testadapter.2.2.3.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\mstest.testframework\\2.2.3\\mstest.testframework.2.2.3.nupkg.sha512",

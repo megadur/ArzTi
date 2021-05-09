@@ -11,13 +11,13 @@ using ArzTiServer.ArzTiService;
 
 namespace ArzTiServer.Controllers.Tests
 {
-    public class ArzTiControllerControllerTests
+    public class xArzTiControllerTests
     {
         ArzTiController _controller;
         IArzTiDatenService _arzTiDatenService;
         IArzTiVerwaltungService _arzTiVerwaltungService;
 
-        public ArzTiControllerControllerTests()
+        public xArzTiControllerTests()
         {
             _arzTiDatenService= new ArzTiDatenServiceFake();
              _arzTiVerwaltungService= new ArzTiVerwaltungService();
@@ -47,25 +47,25 @@ namespace ArzTiServer.Controllers.Tests
             var items = Assert.IsType<List<Patient>>(okResult.Value);
             Assert.Equal(3, items.Count);
         }
-        /*
         [Fact()]
-        public async Task<ICollection<Apotheke>> Index_ReturnsAViewResult_WithAListOfBrainstormSessions()
+        public async Task Index_ReturnsAViewResult_WithAListOfBrainstormSessions()
         {
             // Arrange
             var mockRepo = new Mock<IArzTiVerwaltungService>();
             mockRepo
-                .Setup(repo => repo.GetApothekenListAsync)
-                .ReturnsAsync(GetTestSessions())
+                .Setup(repo => repo.GetApothekenListAsync())
+                .Returns(GetTestSessions())
                 ;
             var controller = new ArzTiController(null, mockRepo.Object);
 
             // Act
-            var okResult = await controller.GetApothekenListAsync.Result as OkObjectResult;
+            var okResult = (await controller.GetApothekenListAsync());
 
             // Assert
-            var items = Assert.IsType<List<Patient>>(okResult.Value);
+            var items = Assert.IsType<List<Patient>>(okResult);
             Assert.Equal(2, items.Count());
         }
+        /*
         */
         private Task<ICollection<Apotheke>> GetTestSessions()
         {

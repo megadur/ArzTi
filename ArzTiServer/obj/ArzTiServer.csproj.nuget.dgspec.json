@@ -133,6 +133,10 @@
               "target": "Package",
               "version": "[5.0.2, )"
             },
+            "MockQueryable.Moq": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
             "Moq": {
               "target": "Package",
               "version": "[4.16.1, )"
