@@ -1,5 +1,4 @@
 using ArzTiServer.Controllers;
-using ArzTiServer.DataAccess;
 using ArzTiServer.Models;
 using ArzTiServer.Repositories;
 using ArzTiServer.Services;
@@ -63,14 +62,11 @@ namespace ArzTiServer
             });
 
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
-            services.AddDbContext<HospitalDbContext>(options => options.UseNpgsql(sqlConnectionString));
-            services.AddScoped<IHospitalAccessProvider, HospitalAccessProvider>();
             services.AddScoped<IArzTiController, ArzTiController>();
             services.AddScoped<IArzTiDatenService, ArzTiDatenService>();
             services.AddScoped<IArzTiVerwaltungService, ArzTiVerwaltungService>();
             services.AddScoped<IDatenRepository, DatenRepository>();
-            services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
-            //services.AddScoped<IAsyncRepository<ErSenderezepteEmuster16>, ErApothekeRepository<ErApotheke>>();
+            //services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
             
 
             services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["ApoDatenConnectionString"]));

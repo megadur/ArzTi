@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArzTiServer", "ArzTiServer\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArzTiClient", "ArzTiClient\ArzTiClient.csproj", "{5D4C9F32-198B-4DAF-B543-918908DB3EA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArzTiServer.MsTest", "ArzTiServer.Tests\ArzTiServer.MsTest.csproj", "{95EE06F6-8047-4889-BBA3-64D7F951931C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArzTiServer.xUnit", "ArzTiServer.xUnit\ArzTiServer.xUnit.csproj", "{70D2DFC6-305D-4290-AD0A-868EDFA28681}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{5D4C9F32-198B-4DAF-B543-918908DB3EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D4C9F32-198B-4DAF-B543-918908DB3EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D4C9F32-198B-4DAF-B543-918908DB3EA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95EE06F6-8047-4889-BBA3-64D7F951931C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95EE06F6-8047-4889-BBA3-64D7F951931C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95EE06F6-8047-4889-BBA3-64D7F951931C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95EE06F6-8047-4889-BBA3-64D7F951931C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70D2DFC6-305D-4290-AD0A-868EDFA28681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{70D2DFC6-305D-4290-AD0A-868EDFA28681}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70D2DFC6-305D-4290-AD0A-868EDFA28681}.Release|Any CPU.ActiveCfg = Release|Any CPU
