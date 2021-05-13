@@ -26,7 +26,7 @@ namespace ArzTiServer.Services
                 xml = item.ErSenderezepteErezeptDatens.First().XmlRequest;
             return new Rezept
             {
-                Typ = RezeptTyp.ERezept,
+                Id= new RezeptId(){ Id = item.ErezeptId, Typ = RezeptTyp.ERezept } ,
                 Data = xml
             };
 
@@ -41,35 +41,38 @@ namespace ArzTiServer.Services
             return resList;
 
         }
-        private RezeptStatus getERezeptStatus(ErSenderezepteErezept item)
+        private RezeptStatus getERezeptStatus(StatusResult item)
         {
-            ERezeptStatus status = getERezStatus(item.ErSenderezepteErezeptStatuses.Last().RezeptStatus);
-            return new RezeptStatus() { Id = Int32.Parse(item.ErezeptId), Typ = RezeptTyp.ERezept };
+            if (checkERezStatus(item.status ))
+            {
+                return new RezeptStatus() { Id = new RezeptId() { Id = item.id , Typ = RezeptTyp.ERezept }, Status = item.status };
+            }
+            return null;
         }
-        private ERezeptStatus getERezStatus(string rezeptStatus)
+        private bool checkERezStatus(string rezeptStatus)
         {
             if (rezeptStatus == "ABGERECHNET")
-                return ERezeptStatus.ABGERECHNET;
+                return true;
             if (rezeptStatus == "ABRECHENBAR")
-                return ERezeptStatus.ABRECHENBAR;
+                return true;
             if (rezeptStatus == "FEHLER")
-                return ERezeptStatus.FEHLER;
+                return true;
             if (rezeptStatus == "HINWEIS")
-                return ERezeptStatus.HINWEIS;
+                return true;
             if (rezeptStatus == "RUECKWEISUNG")
-                return ERezeptStatus.RUECKWEISUNG;
+                return true;
             if (rezeptStatus == "STORNIERT")
-                return ERezeptStatus.STORNIERT;
+                return true;
             if (rezeptStatus == "VERBESSERBAR")
-                return ERezeptStatus.VERBESSERBAR__;
+                return true;
             if (rezeptStatus == "VOR_ABRECHNUNG")
-                return ERezeptStatus.VOR_ABRECHNUNG;
+                return true;
             if (rezeptStatus == "VOR_PRUEFUNG")
-                return ERezeptStatus.VOR_PRUEFUNG;
-            return ERezeptStatus.FEHLER;
+                return true;
+            return false;
 
         }
-        private IEnumerable<RezeptStatus> getERezStatusList(List<ErSenderezepteErezept> list)
+        private IEnumerable<RezeptStatus> getERezStatusList(ICollection<StatusResult> list)
         {
             var resList = new List<RezeptStatus>();
             if (list != null)
@@ -90,7 +93,7 @@ namespace ArzTiServer.Services
 
             return new Rezept
             {
-                Typ = RezeptTyp.ERezept,
+                Id = new RezeptId() { Id = item.Muster16Id.ToString() , Typ = RezeptTyp.MRezept },
                 Data = item.ErSenderezepteEmuster16Datens.First().XmlRequest
             };
 
@@ -107,22 +110,25 @@ namespace ArzTiServer.Services
         }
         private RezeptStatus getMRezeptStatus(ErSenderezepteEmuster16 item)
         {
-            MRezeptStatus mRezeptStatus = getMRezStatus(item.ErSenderezepteEmuster16Statuses.Last().RezeptStatus);
-            return new RezeptStatus() { Id = (int)item.Muster16Id, Typ = RezeptTyp.MRezept, StatusM = mRezeptStatus };
+            if (checkMRezStatus(item.ErSenderezepteEmuster16Statuses.Last().RezeptStatus))
+            {
+                return new RezeptStatus() { Id = new RezeptId() { Id = item.Muster16Id.ToString() , Typ = RezeptTyp.ERezept }, Status = item.ErSenderezepteEmuster16Statuses.Last().RezeptStatus };
+            }
+            return null;
         }
-        private MRezeptStatus getMRezStatus(string abrechenStatus)
+        private bool checkMRezStatus(string abrechenStatus)
         {
             if (abrechenStatus == "ABRECHENBAR")
-                return MRezeptStatus.ABRECHENBAR;
+                return true;
             if (abrechenStatus == "FEHLER")
-                return MRezeptStatus.FEHLER;
+                return true;
             if (abrechenStatus == "HINWEIS")
-                return MRezeptStatus.HINWEIS;
+                return true;
             if (abrechenStatus == "VERBESSERBAR")
-                return MRezeptStatus.VERBESSERBAR;
+                return true;
             if (abrechenStatus == "VOR_PRUEFUNG")
-                return MRezeptStatus.VOR_PRUEFUNG;
-            return MRezeptStatus.FEHLER;
+                return true;
+            return false;
         }
         #endregion
 
@@ -161,98 +167,169 @@ namespace ArzTiServer.Services
             }
             return rezList;
         }
-        public async Task<ICollection<RezeptStatus>> GetRezeptIdListByStatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
+        public async Task<ICollection<Rezept>> GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
         {
-            List<RezeptStatus> resList = new List<RezeptStatus>();
+            var rezList = new List<Rezept>();
             if (reztyp == RezeptTyp.ERezept)
             {
-                var list = await _datenRepository.GetERezeptIdListByStatusAsync(apoik, zeitraum);
+                var list = await _datenRepository.GetERezeptIdListByTransferAsync(apoik, zeitraum);
+                rezList.AddRange(getERezList(list));
+            }
+            return rezList;
+        }
+        public async Task<ICollection<Rezept>> GetRezeptIdListByStatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum, IEnumerable<string> status)
+        {
+            List<Rezept> resList = new ();
+            if (reztyp == RezeptTyp.ERezept)
+            {
+                var list = await _datenRepository.GetERezeptIdListByStatusAsync(apoik, zeitraum, status);
+                resList.AddRange(getERezList(list));
+            }
+            return resList;
+        }
+        public async Task<ICollection<RezeptStatus>> GetRezeptIdStatusListAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
+        {
+            List<RezeptStatus> resList = new ();
+            if (reztyp == RezeptTyp.ERezept)
+            {
+                ICollection<StatusResult> list = await _datenRepository.GetERezeptIdStatusListAsync(apoik, zeitraum);
                 resList.AddRange(getERezStatusList(list));
             }
             return resList;
         }
-        public async Task<ICollection<RezeptStatus>> GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
+        public async Task<ICollection<RezeptPruefResult>> GetRezeptIdListPruefResAsync(string apoik, RezeptTyp? reztyp, string zeitraum, IEnumerable<string> status)
         {
-            var rezList = new List<RezeptStatus>();
+            List<RezeptPruefResult> resList = new ();
             if (reztyp == RezeptTyp.ERezept)
             {
-                var list = await _datenRepository.GetERezeptIdListByTransferAsync(apoik, zeitraum);
-                rezList.AddRange(getERezStatusList(list));
+                ICollection<ErezeptPruefResult> list = await _datenRepository.GetERezeptIdListPruefResAsync(apoik, zeitraum, status);
+                foreach(ErezeptPruefResult r in list)
+                {
+                    List<String> siList = new();
+
+                    foreach (var si in r.infos)
+                    {
+                        siList.Add(si.Fcode + si.Fkommentar + si.Fstatus);
+                    }
+                    resList.Add(new RezeptPruefResult() { Id =new RezeptId() { Id = r.id , Typ = RezeptTyp.ERezept }, Uid = new RezeptUId() { Ruid= r.uid }, Statusinfo = siList });
+                }
             }
-            return rezList;
+            return resList;
+        }
+        public Task<RezeptStatus> GetRezeptUIdStatusAsync(string ruid)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
         #region Put     
-        public async Task<ICollection<Abholstatus>> PutRezeptIdListAbholstatusAsync(string apoik, IEnumerable<Abholstatus> body)
+        public async Task<ICollection<Abholstatus>> PatchRezeptIdListAbholstatusAsync(string apoik, IEnumerable<RezeptId> body)
         {
-            List<Abholstatus> list = new List<Abholstatus>();
-            Dictionary<string, bool> rezeptlist = new Dictionary<string, bool>();
+            List<Abholstatus> list = new ();
+            List<string> rezeptlist = new ();
             foreach (var a in body)
             {
                 if (a.Typ == RezeptTyp.ERezept)
                 {
-                    rezeptlist.Add(a.Id, a.Abgeholt);
+                    rezeptlist.Add(a.Id);
                 }
             }
-            var res = await _datenRepository.PutERezeptIdListAbholstatusAsync(apoik, rezeptlist);
+            var res = await _datenRepository.PatchERezeptIdListAbholstatusAsync(apoik, rezeptlist);
             foreach (var r in res)
             {
-                list.Add(new Abholstatus() { Id = r.Key, Abgeholt = r.Value });
+                list.Add(new Abholstatus() { Id = new RezeptId() { Id = r.Key,Typ = RezeptTyp.ERezept }, Uid = new RezeptUId() { }, Abgeholt = r.Value });
             }
             return list;
         }
-        public async Task<ICollection<AbholstatusUID>> PutRezeptUIdListAbholstatusAsync(IEnumerable<AbholstatusUID> body)
+        public async Task<ICollection<Abholstatus>> PatchRezeptUIdListAbholstatusAsync(IEnumerable<RezeptUId> body)
         {
-            List<AbholstatusUID> list = new ();
-            Dictionary<string, bool> rezeptlist = new Dictionary<string, bool>();
+            List<Abholstatus> list = new();
+            List<string> rezeptlist = new();
             foreach (var a in body)
             {
-                rezeptlist.Add(a.Ruid, a.Abgeholt);
+                rezeptlist.Add(a.Ruid);
             }
-            var res = await _datenRepository.PutERezeptUIdListAbholstatusAsync(rezeptlist);
+            var res = await _datenRepository.PatchERezeptUIdListAbholstatusAsync(rezeptlist);
             foreach (var r in res)
             {
-                list.Add(new AbholstatusUID() { Ruid = r.Key , Abgeholt = r.Value});
+                list.Add(new Abholstatus() { Id = new RezeptId() { Id = r.Key, Typ = RezeptTyp.ERezept }, Uid = new RezeptUId() { }, Abgeholt = r.Value });
             }
             return list;
         }
-        public async Task<ICollection<RezeptPruefRes>> PutRezeptIdListPruefungAsync(string apoik, IEnumerable<RezeptId> body)
+        public async Task PutRezeptIdListPruefungAsync(string apoik, IEnumerable<RezeptId> body)
         {
-            List<RezeptPruefRes> list = new List<RezeptPruefRes>();
-            /*Dictionary<string, bool> rezeptlist = new Dictionary<string, bool>();
+            List<RezeptPruefResult> list = new List<RezeptPruefResult>();
+            List<string> rezeptlist = new ();
             foreach (var a in body)
             {
                 if (a.Typ == RezeptTyp.ERezept)
                 {
-                    rezeptlist.Add(a.Typ = RezeptTyp.ERezept, a.Data);
+                    rezeptlist.Add(a.Id);
                 }
             }
-            var res = await _datenRepository.PutERezeptUIdListAbholstatusAsync(rezeptlist);
-            foreach (var r in res)
-            {
-                RezeptStatus s = new RezeptStatus();
-                s.Id = r.Key;
-                s.Typ = RezeptTyp.ERezept;
-                s.StatusE = r.Value;
-                list.Add(new RezeptPruefRes() {  Status.  Id = r.Key, Abgeholt = r.Value });
-            }*/
-            return list;
+            await _datenRepository.PutERezeptIdListPruefungAsync(apoik, rezeptlist);
+            return ;
         }
-        public async Task<ICollection<RezeptPruefResUId>> PutRezeptUidListPruefungAsync(IEnumerable<RezeptUId> body)
+        public async Task PutRezeptUidListPruefungAsync(IEnumerable<RezeptUId> body)
         {
-            throw new NotImplementedException();
+            List<string> rezeptlist = new ();
+            foreach (var a in body)
+            {
+                rezeptlist.Add(a.Ruid);
+            }
+            await _datenRepository.PatchERezeptUIdListAbholstatusAsync(rezeptlist);
+            return;
         }
 
         #endregion
         #region Patch
-        public async Task<Rezept> PatchRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid, RezeptStatus body)
+        public async Task<RezeptStatus> PatchRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid, string status)
         {
-            throw new System.NotImplementedException();
+            if (reztyp == RezeptTyp.ERezept)
+            {
+                return await _datenRepository.PatchERezeptIdStatusAsync(apoik, rezid, status);
+            }
+            return null;
         }
-        public async Task<Rezept> PatchRezeptUIdStatusAsync(string ruid, RezeptStatusUId body)
+        public async Task<RezeptStatus> PatchRezeptUIdStatusAsync(string ruid, string status)
         {
-            throw new System.NotImplementedException();
+            RezeptStatus res = await _datenRepository.PatchERezeptUIdStatusAsync(ruid, status);
+            if (res != null)
+                return res;
+            else
+                return null;
+        }
+        public async Task<ICollection<RezeptStatus>> PatchRezeptIdListStatusAsync(string apoik, IEnumerable<RezeptStatus> body)
+        {
+            Dictionary<string, string> rezeptlist = new();
+            foreach (var a in body)
+            {
+                if (a.Id.Typ == RezeptTyp.ERezept)
+                  rezeptlist.Add(a.Id.Id, a.Status   );
+            }
+            Dictionary<string, string> rs = await _datenRepository.PatchERezeptIdListStatusAsync(apoik, rezeptlist);
+            List<RezeptStatus> rslist = new();
+            foreach (var r in rs)
+            {
+                rslist.Add(new RezeptStatus() { Id =new RezeptId() { Id =r.Key , Typ = RezeptTyp.ERezept }, Status =r.Value  });
+            }
+            return rslist;
+        }
+        public async Task<ICollection<RezeptStatus>> PatchRezeptUIdListStatusAsync(IEnumerable<RezeptStatus> body)
+        {
+            Dictionary<string, string> rezeptlist = new();
+            foreach (var a in body)
+            {
+                if (a.Id.Typ == RezeptTyp.ERezept)
+                    rezeptlist.Add(a.Id.Id, a.Status );
+            }
+            Dictionary<string, string> rs = await _datenRepository.PatchERezeptUIdListStatusAsync(rezeptlist);
+            List<RezeptStatus> rslist = new();
+            foreach (var r in rs)
+            {
+                rslist.Add(new RezeptStatus() { Uid =new RezeptUId(){ Ruid =r.Key  }, Status = r.Value });
+            }
+            return rslist;
         }
         #endregion
 

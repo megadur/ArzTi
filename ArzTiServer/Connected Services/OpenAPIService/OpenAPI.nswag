@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-05-11.yaml",
+      "url": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-05-12.yaml",
       "output": "OpenAPI.nswag.json",
       "newLineBehavior": "Auto"
     }

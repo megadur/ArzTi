@@ -23,7 +23,6 @@ namespace ArzTiServer.Controllers
         {
             return await _arzTiVerwaltungService.GetApothekeByIKAsync(apoik);
         }
-
         public async Task<ICollection<Apotheke>> GetApothekenListAsync()
         {
             return await _arzTiVerwaltungService.GetApothekenListAsync();
@@ -43,51 +42,66 @@ namespace ArzTiServer.Controllers
         {
             return await _arzTiDatenService.GetRezeptIdStatusAsync(apoik, reztyp, rezid);
         }
+        public async Task<RezeptStatus> GetRezeptUIdStatusAsync(string ruid)
+        {
+            return await _arzTiDatenService.GetRezeptUIdStatusAsync(ruid);
+        }
 
 
-        public async Task<ICollection<Rezept>> GetRezeptIdListAsync(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum)
+        public async Task<ICollection<Rezept>> GetRezeptIdListAsync(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum, IEnumerable<string> status)
         {
             return await _arzTiDatenService.GetRezeptIdListAsync(apoik, reztyp, maxnum, zeitraum);
         }
-        public async Task<ICollection<RezeptStatus>> GetRezeptIdListByStatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
-        {
-            return await _arzTiDatenService.GetRezeptIdListByStatusAsync(apoik, reztyp, zeitraum);
-        }
-        public async Task<ICollection<RezeptStatus>> GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
+        public async Task<ICollection<Rezept>> GetRezeptIdListAbholstatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
         {
             return await _arzTiDatenService.GetRezeptIdListByTransferAsync(apoik, reztyp, zeitraum);
         }
-
-  
+        public async Task<ICollection<RezeptStatus>> GetRezeptIdStatusListAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
+        {
+            return await _arzTiDatenService.GetRezeptIdStatusListAsync(apoik, reztyp, zeitraum);
+        }
+        public async Task<ICollection<RezeptPruefResult>> GetRezeptIdListPruefResAsync(string apoik, RezeptTyp? reztyp, string zeitraum, IEnumerable<string> status)
+        {
+            return await _arzTiDatenService.GetRezeptIdListPruefResAsync(apoik, reztyp, zeitraum, status);
+        }
+        
         #endregion
         #region PUT
 
-        public async Task<ICollection<Abholstatus>> PutRezeptIdListAbholstatusAsync(string apoik, IEnumerable<Abholstatus> body)
+          public async Task PutRezeptIdListPruefungAsync(string apoik, IEnumerable<RezeptId> body)
         {
-            return await _arzTiDatenService.PutRezeptIdListAbholstatusAsync(apoik, body);
+            await _arzTiDatenService.PutRezeptIdListPruefungAsync(apoik, body);
         }
-        public async Task<ICollection<AbholstatusUID>> PutRezeptUIdListAbholstatusAsync(IEnumerable<AbholstatusUID> body)
+        public async Task PutRezeptUidListPruefungAsync(IEnumerable<RezeptUId> body)
         {
-            return await _arzTiDatenService.PutRezeptUIdListAbholstatusAsync(body);
-        }
-        public async Task<ICollection<RezeptPruefRes>> PutRezeptIdListPruefungAsync(string apoik, IEnumerable<RezeptId> body)
-        {
-            return await _arzTiDatenService.PutRezeptIdListPruefungAsync(apoik, body);
-        }
-        public async Task<ICollection<RezeptPruefResUId>> PutRezeptUidListPruefungAsync(IEnumerable<RezeptUId> body)
-        {
-            return await _arzTiDatenService.PutRezeptUidListPruefungAsync(body);
+            await _arzTiDatenService.PutRezeptUidListPruefungAsync(body);
         }
 
         #endregion
         #region PATCH
-        public async Task<Rezept> PatchRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid, RezeptStatus body)
+        public async Task<RezeptStatus> PatchRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid, String status)
         {
-            return await _arzTiDatenService.PatchRezeptIdStatusAsync(apoik, reztyp, rezid, body);
+            return await _arzTiDatenService.PatchRezeptIdStatusAsync(apoik, reztyp, rezid, status);
         }
-        public async Task<Rezept> PatchRezeptUIdStatusAsync(string ruid, RezeptStatusUId body)
+        public async Task<RezeptStatus> PatchRezeptUIdStatusAsync(string ruid, string status)
         {
-            return await _arzTiDatenService.PatchRezeptUIdStatusAsync(ruid, body);
+            return await _arzTiDatenService.PatchRezeptUIdStatusAsync(ruid, status);
+        }
+        public async Task<ICollection<RezeptStatus>> PatchRezeptIdListStatusAsync(string apoik, IEnumerable<RezeptStatus> body)
+        {
+            return await _arzTiDatenService.PatchRezeptIdListStatusAsync(apoik, body);
+        }
+        public async Task<ICollection<RezeptStatus>> PatchRezeptUIdListStatusAsync(IEnumerable<RezeptStatus> body)
+        {
+            return await _arzTiDatenService.PatchRezeptUIdListStatusAsync(body);
+        }
+        public async Task<ICollection<Abholstatus>> PatchRezeptIdListAbholstatusAsync(string apoik, IEnumerable<RezeptId> body)
+        {
+            return await _arzTiDatenService.PatchRezeptIdListAbholstatusAsync(apoik, body);
+        }
+        public async Task<ICollection<Abholstatus>> PatchRezeptUIdListAbholstatusAsync(IEnumerable<RezeptUId> body)
+        {
+            return await _arzTiDatenService.PatchRezeptUIdListAbholstatusAsync(body);
         }
         #endregion
         #region DELETE
@@ -99,6 +113,12 @@ namespace ArzTiServer.Controllers
         {
             return await _arzTiDatenService.DeleteRezeptUIdAsync(ruid);
         }
+
+
+        #endregion
+
+        #region Neu
+
         #endregion
 
     }

@@ -8,7 +8,7 @@
     "ServiceName": "OpenAPIService",
     "AcceptAllUntrustedCertificates": true,
     "GeneratedFileName": "OpenAPI",
-    "Endpoint": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-05-11.yaml",
+    "Endpoint": "C:\\data\\src\\Apo\\Doku\\ArzTIAPI-swagger_2021-05-12.yaml",
     "GeneratedFileNamePrefix": null,
     "GenerateCSharpClient": false,
     "GenerateTypeScriptClient": false,

@@ -19,7 +19,7 @@
     "/apotheke/{apoik}/rezept": {
       "get": {
         "tags": [
-          "RezeptIDList"
+          "RezeptList"
         ],
         "summary": "liefert eine Liste von Rezepten  einer Apotheke",
         "description": "Für die angegebene ApoIK werden alle Rezepte zurückgegeben.\r\n\r\n Optional kann ein Rezepttyp angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Es werden solange neue Datensätze zurückgegenben, bis keine neuen mehr vorhanden sind.",
@@ -57,6 +57,19 @@
             "description": "Welcher Zeitraum im Format YYYY-MM",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "Status values that need to be considered for filter",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         ],
@@ -100,88 +113,13 @@
         ]
       }
     },
-    "/apotheke/{apoik}/rezept/neu": {
-      "get": {
-        "tags": [
-          "RezeptIDList"
-        ],
-        "summary": "Abfrage aller neuen Rezepte einer Apotheke",
-        "description": "Für die angegebene ApoIK werden alle Rezepte zurückgegeben, die noch nicht abgeholt wurden. \r\n\r\n Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Es werden solange neue Datensätze zurückgegenben, bis keine neuen mehr vorhanden sind.",
-        "operationId": "getRezeptIdListByTransfer",
-        "parameters": [
-          {
-            "name": "apoik",
-            "in": "path",
-            "required": true,
-            "description": "Die Apotheken IK.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "reztyp",
-            "in": "query",
-            "description": ".",
-            "schema": {
-              "$ref": "#/components/schemas/RezeptTyp"
-            }
-          },
-          {
-            "name": "zeitraum",
-            "in": "query",
-            "description": "Welcher Zeitraum im Format YYYY-MM",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Liefert eine Liste der Status aller Rezepte",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RezeptStatus"
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RezeptStatus"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized",
-            "description": ""
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound",
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "BasicAuth": [
-              "arz_read"
-            ]
-          }
-        ]
-      }
-    },
     "/apotheke/{apoik}/rezept/status": {
       "get": {
         "tags": [
-          "RezeptIDList"
+          "RezeptList"
         ],
         "summary": "Statusabfrage aller Rezepte einer Apotheke",
-        "operationId": "getRezeptIdListByStatus",
+        "operationId": "getRezeptIdStatusList",
         "parameters": [
           {
             "name": "apoik",
@@ -247,16 +185,14 @@
             ]
           }
         ]
-      }
-    },
-    "/apotheke/{apoik}/rezept/abholung": {
-      "put": {
+      },
+      "patch": {
         "tags": [
           "RezeptIDList"
         ],
-        "summary": "Änderung des Abholstatus einer Liste von Rezepten",
-        "description": "ändert Abholstatus einer Liste von Rezepten",
-        "operationId": "putRezeptIdListAbholstatus",
+        "summary": "Statusänderung einer Liste von Rezepten",
+        "description": "Statusänderung einer Liste von Rezepten",
+        "operationId": "patchRezeptIdListStatus",
         "parameters": [
           {
             "name": "apoik",
@@ -275,7 +211,161 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Abholstatus"
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Liefert den Status einer Liste von Rezepten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptStatus"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptStatus"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read",
+              "arz_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/apotheke/{apoik}/rezept/abholung": {
+      "get": {
+        "tags": [
+          "RezeptList"
+        ],
+        "summary": "Abfrage aller neuen Rezepte einer Apotheke",
+        "description": "Für die angegebene ApoIK werden alle Rezepte zurückgegeben, die noch nicht abgeholt wurden. \r\n\r\n Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Es werden solange neue Datensätze zurückgegenben, bis keine neuen mehr vorhanden sind.",
+        "operationId": "getRezeptIdListAbholstatus",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reztyp",
+            "in": "query",
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
+            }
+          },
+          {
+            "name": "zeitraum",
+            "in": "query",
+            "description": "Welcher Zeitraum im Format YYYY-MM",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert eine Liste der Status aller Rezepte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rezept"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rezept"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "RezeptIDList"
+        ],
+        "summary": "Änderung des Abholstatus einer Liste von Rezepten",
+        "description": "ändert Abholstatus einer Liste von Rezepten",
+        "operationId": "patchRezeptIdListAbholstatus",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptId"
                 }
               }
             },
@@ -283,7 +373,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Abholstatus"
+                  "$ref": "#/components/schemas/RezeptId"
                 }
               }
             }
@@ -334,6 +424,91 @@
       }
     },
     "/apotheke/{apoik}/rezept/pruefung": {
+      "get": {
+        "tags": [
+          "RezeptIDList"
+        ],
+        "summary": "Statusabfrage aller Rezepte einer Apotheke",
+        "operationId": "getRezeptIdListPruefRes",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reztyp",
+            "in": "query",
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
+            }
+          },
+          {
+            "name": "zeitraum",
+            "in": "query",
+            "description": "Welcher Zeitraum im Format YYYY-MM",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "Status values that need to be considered for filter",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert eine Liste der Status aller Rezepte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptPruefResult"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptPruefResult"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      },
       "put": {
         "tags": [
           "RezeptIDList"
@@ -383,26 +558,8 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Liefert das Rezept für die ID",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RezeptPruefRes"
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RezeptPruefRes"
-                  }
-                }
-              }
-            }
+          "202": {
+            "description": "die Liste wurde akzeptiert"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
@@ -595,35 +752,29 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RezeptStatus"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/RezeptStatus"
-              }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "description": "Status value",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Liefert den Status des Rezeptes für die ID",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Rezept"
+                  "$ref": "#/components/schemas/RezeptStatus"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Rezept"
+                  "$ref": "#/components/schemas/RezeptStatus"
                 }
               }
             }
@@ -819,6 +970,59 @@
             ]
           }
         ]
+      }
+    },
+    "/rezept/{ruid}/status": {
+      "get": {
+        "tags": [
+          "RezeptUID"
+        ],
+        "summary": "liefert den Status eines Rezepts",
+        "description": "",
+        "operationId": "getRezeptUIdStatus",
+        "parameters": [
+          {
+            "name": "ruid",
+            "in": "path",
+            "required": true,
+            "description": "Die Rezept UID.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert das gefundene Rezepte.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
       },
       "patch": {
         "tags": [
@@ -836,35 +1040,29 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RezeptStatusUId"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/RezeptStatusUId"
-              }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "description": "Status value",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Liefert den Status des Rezeptes für die ID",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Rezept"
+                  "$ref": "#/components/schemas/RezeptStatus"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Rezept"
+                  "$ref": "#/components/schemas/RezeptStatus"
                 }
               }
             }
@@ -888,13 +1086,13 @@
       }
     },
     "/rezept/abholung": {
-      "put": {
+      "patch": {
         "tags": [
           "RezeptUIDList"
         ],
         "summary": "Änderung des Abholstatus einer Liste von Rezepten",
         "description": "ändert Abholstatus einer Liste von Rezepten",
-        "operationId": "putRezeptUIdListAbholstatus",
+        "operationId": "patchRezeptUIdListAbholstatus",
         "requestBody": {
           "description": "",
           "content": {
@@ -902,7 +1100,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/AbholstatusUID"
+                  "$ref": "#/components/schemas/RezeptUId"
                 }
               }
             },
@@ -910,7 +1108,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/AbholstatusUID"
+                  "$ref": "#/components/schemas/RezeptUId"
                 }
               }
             }
@@ -925,7 +1123,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AbholstatusUID"
+                    "$ref": "#/components/schemas/Abholstatus"
                   }
                 }
               },
@@ -933,7 +1131,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AbholstatusUID"
+                    "$ref": "#/components/schemas/Abholstatus"
                   }
                 }
               }
@@ -990,22 +1188,73 @@
           }
         },
         "responses": {
+          "202": {
+            "description": "zur Prüfung angenommen"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/rezept/status": {
+      "patch": {
+        "tags": [
+          "RezeptUIDList"
+        ],
+        "summary": "Statusänderung einer Liste von Rezepten",
+        "description": "Statusänderung einer Liste von Rezepten",
+        "operationId": "patchRezeptUIdListStatus",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
           "200": {
-            "description": "Liefert die Liste der Prüfergebnisse",
+            "description": "Liefert den Status einer Liste von Rezepten",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RezeptPruefResUId"
+                    "$ref": "#/components/schemas/RezeptStatus"
                   }
                 }
               },
-              "application/xml": {
+              "application/*+json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RezeptPruefResUId"
+                    "$ref": "#/components/schemas/RezeptStatus"
                   }
                 }
               }
@@ -1023,7 +1272,8 @@
         "security": [
           {
             "BasicAuth": [
-              "arz_read"
+              "arz_read",
+              "arz_write"
             ]
           }
         ]
@@ -1133,87 +1383,20 @@
   },
   "components": {
     "schemas": {
-      "RezeptPruefRes": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "$ref": "#/components/schemas/RezeptStatus"
-          }
-        }
-      },
-      "RezeptPruefResUId": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "$ref": "#/components/schemas/RezeptStatusUId"
-          }
-        }
-      },
       "RezeptStatus": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "description": "ID des Rezepts",
-            "format": "int32",
-            "example": "1"
+            "$ref": "#/components/schemas/RezeptId"
           },
-          "typ": {
-            "$ref": "#/components/schemas/RezeptTyp"
+          "uid": {
+            "$ref": "#/components/schemas/RezeptUId"
           },
-          "statusM": {
-            "$ref": "#/components/schemas/MRezeptStatus"
-          },
-          "statusE": {
-            "$ref": "#/components/schemas/ERezeptStatus"
-          }
-        }
-      },
-      "RezeptStatusUId": {
-        "type": "object",
-        "properties": {
-          "id": {
+          "status": {
             "type": "string",
-            "description": "UUID des Rezepts"
-          },
-          "typ": {
-            "$ref": "#/components/schemas/RezeptTyp"
-          },
-          "statusM": {
-            "$ref": "#/components/schemas/MRezeptStatus"
-          },
-          "statusE": {
-            "$ref": "#/components/schemas/ERezeptStatus"
+            "description": "Status des Rezepts"
           }
         }
-      },
-      "MRezeptStatus": {
-        "title": "M-Status",
-        "type": "string",
-        "description": "Der Status des eMuster16",
-        "enum": [
-          "VOR_PRUEFUNG",
-          "FEHLER",
-          "VERBESSERBAR",
-          "ABRECHENBAR",
-          "HINWEIS"
-        ]
-      },
-      "ERezeptStatus": {
-        "title": "E-Status",
-        "type": "string",
-        "description": "Der Statuswert des E-Rezeptes",
-        "enum": [
-          "VOR_PRUEFUNG",
-          "VOR_ABRECHNUNG",
-          "FEHLER",
-          "VERBESSERBAR  ",
-          "RUECKWEISUNG",
-          "ABGERECHNET",
-          "STORNIERT",
-          "HINWEIS",
-          "ABRECHENBAR"
-        ]
       },
       "RezeptTyp": {
         "type": "string",
@@ -1228,8 +1411,11 @@
         "type": "object",
         "description": "base64 codierte Leistung",
         "properties": {
-          "typ": {
-            "$ref": "#/components/schemas/RezeptTyp"
+          "id": {
+            "$ref": "#/components/schemas/RezeptId"
+          },
+          "uid": {
+            "$ref": "#/components/schemas/RezeptUId"
           },
           "data": {
             "type": "string"
@@ -1259,34 +1445,34 @@
           }
         }
       },
+      "RezeptPruefResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/RezeptId"
+          },
+          "uid": {
+            "$ref": "#/components/schemas/RezeptUId"
+          },
+          "statusinfo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "Abholstatus": {
         "type": "object",
         "required": [
-          "id",
-          "typ",
           "abgeholt"
         ],
         "properties": {
           "id": {
-            "type": "string"
+            "$ref": "#/components/schemas/RezeptId"
           },
-          "typ": {
-            "$ref": "#/components/schemas/RezeptTyp"
-          },
-          "abgeholt": {
-            "type": "boolean"
-          }
-        }
-      },
-      "AbholstatusUID": {
-        "type": "object",
-        "required": [
-          "ruid",
-          "abgeholt"
-        ],
-        "properties": {
-          "ruid": {
-            "type": "string"
+          "uid": {
+            "$ref": "#/components/schemas/RezeptUId"
           },
           "abgeholt": {
             "type": "boolean"
