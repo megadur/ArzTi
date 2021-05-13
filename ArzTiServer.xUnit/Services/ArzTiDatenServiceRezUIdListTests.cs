@@ -1,4 +1,5 @@
-﻿using ArzTiServer.ArzTiService;
+﻿
+using ArzTiServer.OpenAPIService;
 using ArzTiServer.Repositories;
 using ArzTiServer.Services;
 using Moq;
@@ -51,8 +52,8 @@ namespace ArzTiServer.xUnit.Services
         {
             // Arrange
             var service = this.CreateService();
-            Rezept body = null;
 
+            IEnumerable<RezeptUId> body = null;
             // Act
             var result = await service.PutRezeptUidListPruefungAsync(
                 body);

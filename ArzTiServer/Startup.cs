@@ -61,14 +61,14 @@ namespace ArzTiServer
                         });
             });
 
-            var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
-            services.AddScoped<IArzTiController, ArzTiController>();
+             services.AddScoped<IArzTiController, ArzTiController>();
             services.AddScoped<IArzTiDatenService, ArzTiDatenService>();
             services.AddScoped<IArzTiVerwaltungService, ArzTiVerwaltungService>();
             services.AddScoped<IDatenRepository, DatenRepository>();
             //services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
-            
 
+
+            var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
             services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["ApoDatenConnectionString"]));
             services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["ApoVerwaltungConnectionString"]));
 
@@ -101,6 +101,14 @@ namespace ArzTiServer
             {
                 endpoints.MapControllers();
             });
+            /*
+            builder.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+            */
         }
     }
 }

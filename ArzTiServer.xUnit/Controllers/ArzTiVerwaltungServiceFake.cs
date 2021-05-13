@@ -1,9 +1,7 @@
-﻿using ArzTiServer.ArzTiService;
+﻿using ArzTiServer.OpenAPIService;
 using ArzTiServer.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ArzTiServer.xUnit
@@ -20,11 +18,9 @@ namespace ArzTiServer.xUnit
                 new Apotheke(){ Ik ="123", Name ="Apo3" }
             };
         }
-        public Task<ICollection<Apotheke>> GetApothekeByIKAsync(string apoik)
+        public Task<Apotheke> GetApothekeByIKAsync(string apoik)
         {
-            var apos = new List<Apotheke>();
-            apos.Add(_apos.Where(a => a.Ik == apoik).FirstOrDefault());
-            return Task.FromResult((ICollection < Apotheke > )apos);
+            return Task.FromResult(_apos.Where(a => a.Ik == apoik).FirstOrDefault());
         }
 
         public Task<ICollection<Apotheke>> GetApothekenListAsync()

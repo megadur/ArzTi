@@ -1,5 +1,6 @@
-﻿using ArzTiServer.ArzTiService;
+﻿
 using ArzTiServer.Models;
+using ArzTiServer.OpenAPIService;
 using ArzTiServer.Repositories;
 using ArzTiServer.Services;
 using MockQueryable.Moq;
@@ -18,14 +19,14 @@ namespace ArzTiServer.xUnit.Services
         private MockRepository mockRepository;
 
         private Mock<IDatenRepository> mockDatenRepository;
-        private IDatenRepository dr;
+        private IDatenRepository fake;
         public ArzTiDatenServiceRezIdListTests()
         {
 //            this.mockRepository = new MockRepository(MockBehavior.Strict);
             this.mockRepository = new MockRepository(MockBehavior.Default );
 
             this.mockDatenRepository = this.mockRepository.Create<IDatenRepository>();
-            this.dr = new DatenRepositoryFake();
+            this.fake = new DatenRepositoryFake();
         }
 
         private ArzTiDatenService CreateService()
@@ -44,7 +45,7 @@ namespace ArzTiServer.xUnit.Services
             int? maxnum = null;
             string zeitraum = null;
 
-            mockDatenRepository.Setup(d => d.GetERezeptIdListAsync(apoik, maxnum, zeitraum)).Returns(dr.GetERezeptList());
+            mockDatenRepository.Setup(d => d.GetERezeptIdListAsync(apoik, maxnum, zeitraum)).Returns(fake.GetERezeptIdListAsync(apoik, 0 , null));
 
             // Act
             var result = await service.GetRezeptIdListAsync(
@@ -66,7 +67,7 @@ namespace ArzTiServer.xUnit.Services
             string apoik = null;
             RezeptTyp? reztyp = null;
             string zeitraum = null;
-            mockDatenRepository.Setup(d => d.GetERezeptIdListByStatusAsync(apoik, zeitraum)).Returns(dr.GetERezeptList());
+            mockDatenRepository.Setup(d => d.GetERezeptIdListByStatusAsync(apoik, zeitraum)).Returns(fake.GetERezeptIdListAsync(apoik, 0 , null));
 
             // Act
             var result = await service.GetRezeptIdListByStatusAsync(
@@ -88,7 +89,7 @@ namespace ArzTiServer.xUnit.Services
             RezeptTyp? reztyp = RezeptTyp.ERezept;
             string zeitraum = null;
 
-            mockDatenRepository.Setup(d => d.GetERezeptIdListByTransferAsync(apoik, zeitraum)).Returns(dr.GetERezeptList());
+            mockDatenRepository.Setup(d => d.GetERezeptIdListByTransferAsync(apoik, zeitraum)).Returns(fake.GetERezeptIdListAsync(apoik, 0, null));
          
             // Act
             var result = await service.GetRezeptIdListByTransferAsync(
@@ -109,7 +110,7 @@ namespace ArzTiServer.xUnit.Services
             string apoik = null;
             RezeptTyp reztyp = RezeptTyp.ERezept ;
             string rezid = null;
-            ErSenderezepteErezept x = dr.GetERezeptList().Result[0] ;
+            ErSenderezepteErezept x = fake.GetERezeptIdListAsync(apoik, 0, null).Result[0] ;
             mockDatenRepository.Setup(d => d.GetERezeptIdStatusAsync(apoik, rezid)).ReturnsAsync(x);
 
             // Act
@@ -147,8 +148,7 @@ namespace ArzTiServer.xUnit.Services
             // Arrange
             var service = this.CreateService();
             string apoik = null;
-            Rezept body = null;
-
+            ICollection<Rezept> body = null;
             // Act
             var result = await service.PutRezeptIdListPruefungAsync(
                 apoik,

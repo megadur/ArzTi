@@ -1,10 +1,6 @@
-﻿using ArzTiServer.ArzTiService;
-using ArzTiServer.Repositories;
+﻿using ArzTiServer.Repositories;
 using ArzTiServer.Services;
 using Moq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -67,8 +63,8 @@ namespace ArzTiServer.xUnit.Services
             // Arrange
             var service = this.CreateService();
             string ruid = null;
-            RezeptStatus body = null;
 
+            OpenAPIService.RezeptStatusUId body = null;
             // Act
             var result = await service.PatchRezeptUIdStatusAsync(
                 ruid,

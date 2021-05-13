@@ -1,10 +1,7 @@
-﻿using ArzTiServer.ArzTiService;
+﻿using ArzTiServer.OpenAPIService;
 using ArzTiServer.Repositories;
 using ArzTiServer.Services;
 using Moq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -35,7 +32,7 @@ namespace ArzTiServer.xUnit.Services
             // Arrange
             var service = this.CreateService();
             string apoik = null;
-            RezeptTyp reztyp = default(global::ArzTiServer.ArzTiService.RezeptTyp);
+            RezeptTyp reztyp = default(RezeptTyp);
             string rezid = null;
 
             // Act
@@ -55,7 +52,7 @@ namespace ArzTiServer.xUnit.Services
             // Arrange
             var service = this.CreateService();
             string apoik = null;
-            RezeptTyp reztyp = default(global::ArzTiServer.ArzTiService.RezeptTyp);
+            RezeptTyp reztyp = default(RezeptTyp);
             string rezid = null;
 
             // Act
@@ -75,7 +72,7 @@ namespace ArzTiServer.xUnit.Services
             // Arrange
             var service = this.CreateService();
             string apoik = null;
-            RezeptTyp reztyp = default(global::ArzTiServer.ArzTiService.RezeptTyp);
+            RezeptTyp reztyp = default(RezeptTyp);
             string rezid = null;
 
             // Act
@@ -95,10 +92,10 @@ namespace ArzTiServer.xUnit.Services
             // Arrange
             var service = this.CreateService();
             string apoik = null;
-            Reztyp reztyp = default(global::ArzTiServer.ArzTiService.Reztyp);
             string rezid = null;
             RezeptStatus body = null;
 
+            RezeptTyp reztyp = default;
             // Act
             var result = await service.PatchRezeptIdStatusAsync(
                 apoik,

@@ -1,5 +1,5 @@
-﻿using ArzTiServer.ArzTiService;
-using ArzTiServer.Controllers;
+﻿using ArzTiServer.Controllers;
+using ArzTiServer.OpenAPIService;
 using ArzTiServer.Services;
 using Moq;
 using System;
@@ -42,7 +42,7 @@ namespace ArzTiServer.xUnit.Controllers
             // Arrange
             var arzTiController = this.CreateArzTiController();
             string apoik = null;
-            RezeptTyp reztyp = default(global::ArzTiServer.ArzTiService.RezeptTyp);
+            RezeptTyp reztyp = default(RezeptTyp);
             string rezid = null;
             
             // Act
@@ -81,11 +81,10 @@ namespace ArzTiServer.xUnit.Controllers
             mockArzTiVerwaltungService.Setup(x => x.GetApothekeByIKAsync(apoik)).Returns(arzTiVerwaltungServiceFake.GetApothekeByIKAsync(apoik));
 
             // Act
-            List<Apotheke> result = (List<Apotheke>)await arzTiController.GetApothekeByIKAsync(
-                apoik);
+            Apotheke result = await arzTiController.GetApothekeByIKAsync(apoik);
 
             // Assert
-            Assert.Single(result);
+            Assert.Equal("ik1",result.Ik );
             this.mockRepository.VerifyAll();
         }
 
@@ -94,7 +93,7 @@ namespace ArzTiServer.xUnit.Controllers
         {
             // Arrange
             var arzTiController = this.CreateArzTiController();
-            mockArzTiVerwaltungService.Setup(x => x.GetApothekenListAsync()).Returns(arzTiVerwaltungServiceFake.GetApothekenListAsync ());
+            mockArzTiVerwaltungService.Setup(x => x.GetApothekenListAsync()).Returns(arzTiVerwaltungServiceFake.GetApothekenListAsync());
 
             // Act
             var result = await arzTiController.GetApothekenListAsync();
@@ -110,7 +109,7 @@ namespace ArzTiServer.xUnit.Controllers
             // Arrange
             var arzTiController = this.CreateArzTiController();
             string apoik = null;
-            RezeptTyp reztyp = default(global::ArzTiServer.ArzTiService.RezeptTyp);
+            RezeptTyp reztyp = default(RezeptTyp);
             string rezid = null;
 
             // Act
@@ -192,7 +191,7 @@ namespace ArzTiServer.xUnit.Controllers
             // Arrange
             var arzTiController = this.CreateArzTiController();
             string apoik = null;
-            RezeptTyp reztyp = default(global::ArzTiServer.ArzTiService.RezeptTyp);
+            RezeptTyp reztyp = default(RezeptTyp);
             string rezid = null;
 
             // Act
@@ -228,7 +227,7 @@ namespace ArzTiServer.xUnit.Controllers
             // Arrange
             var arzTiController = this.CreateArzTiController();
             string apoik = null;
-            Reztyp reztyp = default(global::ArzTiServer.ArzTiService.Reztyp);
+            Reztyp reztyp = default(Reztyp);
             string rezid = null;
             RezeptStatus body = null;
 
@@ -250,8 +249,8 @@ namespace ArzTiServer.xUnit.Controllers
             // Arrange
             var arzTiController = this.CreateArzTiController();
             string ruid = null;
-            RezeptStatus body = null;
 
+            RezeptStatusUId body = null;
             // Act
             var result = await arzTiController.PatchRezeptUIdStatusAsync(
                 ruid,
@@ -286,8 +285,8 @@ namespace ArzTiServer.xUnit.Controllers
             // Arrange
             var arzTiController = this.CreateArzTiController();
             string apoik = null;
-            Rezept body = null;
 
+            IEnumerable<RezeptId> body = null;
             // Act
             var result = await arzTiController.PutRezeptIdListPruefungAsync(
                 apoik,
@@ -303,8 +302,8 @@ namespace ArzTiServer.xUnit.Controllers
         {
             // Arrange
             var arzTiController = this.CreateArzTiController();
-            IEnumerable<Abholstatus> body = null;
 
+            IEnumerable<AbholstatusUID> body = null;
             // Act
             var result = await arzTiController.PutRezeptUIdListAbholstatusAsync(
                 body);
@@ -319,8 +318,7 @@ namespace ArzTiServer.xUnit.Controllers
         {
             // Arrange
             var arzTiController = this.CreateArzTiController();
-            Rezept body = null;
-
+            IEnumerable<RezeptUId> body = null;
             // Act
             var result = await arzTiController.PutRezeptUidListPruefungAsync(
                 body);

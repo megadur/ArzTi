@@ -296,12 +296,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Abholstatus"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Abholstatus"
+                  }
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Abholstatus"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Abholstatus"
+                  }
                 }
               }
             }
@@ -347,19 +353,34 @@
           }
         ],
         "requestBody": {
-          "description": "optionaler eMuster16 Datensatz",
+          "description": "user to add to the system",
           "content": {
+            "text/plain": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptId"
+                }
+              }
+            },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Rezept"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptId"
+                }
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/Rezept"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptId"
+                }
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -367,12 +388,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RezeptPruefRes"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptPruefRes"
+                  }
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/RezeptPruefRes"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptPruefRes"
+                  }
                 }
               }
             }
@@ -557,12 +584,7 @@
             "required": true,
             "description": ".",
             "schema": {
-              "type": "string",
-              "enum": [
-                "ERezept",
-                "MRezept",
-                "PRezept"
-              ]
+              "$ref": "#/components/schemas/RezeptTyp"
             }
           },
           {
@@ -720,18 +742,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Rezept"
-                  }
+                  "$ref": "#/components/schemas/Rezept"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Rezept"
-                  }
+                  "$ref": "#/components/schemas/Rezept"
                 }
               }
             }
@@ -827,12 +843,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RezeptStatus"
+                "$ref": "#/components/schemas/RezeptStatusUId"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/RezeptStatus"
+                "$ref": "#/components/schemas/RezeptStatusUId"
               }
             }
           }
@@ -886,7 +902,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Abholstatus"
+                  "$ref": "#/components/schemas/AbholstatusUID"
                 }
               }
             },
@@ -894,7 +910,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Abholstatus"
+                  "$ref": "#/components/schemas/AbholstatusUID"
                 }
               }
             }
@@ -907,12 +923,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Abholstatus"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AbholstatusUID"
+                  }
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Abholstatus"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AbholstatusUID"
+                  }
                 }
               }
             }
@@ -932,7 +954,7 @@
         "security": [
           {
             "BasicAuth": [
-              "arz_read"
+              "arz_write"
             ]
           }
         ]
@@ -943,36 +965,48 @@
         "tags": [
           "RezeptUIDList"
         ],
-        "summary": "prüft eine Liste von Rezepten",
-        "description": "Vorprüfung einer Liste von Rezepten",
+        "summary": "prüft eine Liste von UUID Rezepten",
+        "description": "Vorprüfung einer Liste von UUID Rezepten",
         "operationId": "putRezeptUidListPruefung",
         "requestBody": {
-          "description": "optionaler eMuster16 Datensatz",
+          "description": "optionaler Datensatz",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Rezept"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptUId"
+                }
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/Rezept"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptUId"
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Liefert das Rezept für die ID",
+            "description": "Liefert die Liste der Prüfergebnisse",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RezeptPruefRes"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptPruefResUId"
+                  }
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/RezeptPruefRes"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptPruefResUId"
+                  }
                 }
               }
             }
@@ -1068,18 +1102,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Apotheke"
-                  }
+                  "$ref": "#/components/schemas/Apotheke"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Apotheke"
-                  }
+                  "$ref": "#/components/schemas/Apotheke"
                 }
               }
             }
@@ -1113,27 +1141,49 @@
           }
         }
       },
+      "RezeptPruefResUId": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/RezeptStatusUId"
+          }
+        }
+      },
       "RezeptStatus": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
-            "description": "Status des E-Rezepts",
+            "description": "ID des Rezepts",
             "format": "int32",
             "example": "1"
           },
           "typ": {
             "$ref": "#/components/schemas/RezeptTyp"
           },
-          "status": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/MRezeptStatus"
-              },
-              {
-                "$ref": "#/components/schemas/ERezeptStatus"
-              }
-            ]
+          "statusM": {
+            "$ref": "#/components/schemas/MRezeptStatus"
+          },
+          "statusE": {
+            "$ref": "#/components/schemas/ERezeptStatus"
+          }
+        }
+      },
+      "RezeptStatusUId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "UUID des Rezepts"
+          },
+          "typ": {
+            "$ref": "#/components/schemas/RezeptTyp"
+          },
+          "statusM": {
+            "$ref": "#/components/schemas/MRezeptStatus"
+          },
+          "statusE": {
+            "$ref": "#/components/schemas/ERezeptStatus"
           }
         }
       },
@@ -1186,6 +1236,29 @@
           }
         }
       },
+      "RezeptId": {
+        "title": "Rezept",
+        "type": "object",
+        "description": "die Rezept ID",
+        "properties": {
+          "typ": {
+            "$ref": "#/components/schemas/RezeptTyp"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "RezeptUId": {
+        "title": "Rezept",
+        "type": "object",
+        "description": "die Rezept RUID",
+        "properties": {
+          "ruid": {
+            "type": "string"
+          }
+        }
+      },
       "Abholstatus": {
         "type": "object",
         "required": [
@@ -1199,6 +1272,21 @@
           },
           "typ": {
             "$ref": "#/components/schemas/RezeptTyp"
+          },
+          "abgeholt": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AbholstatusUID": {
+        "type": "object",
+        "required": [
+          "ruid",
+          "abgeholt"
+        ],
+        "properties": {
+          "ruid": {
+            "type": "string"
           },
           "abgeholt": {
             "type": "boolean"
