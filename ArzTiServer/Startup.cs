@@ -10,17 +10,28 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using ArzTiServer.ArzTiService;
+using ArzTiServer.OpenAPIService;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
+using ArzTiServer.Security;
+using Microsoft.AspNetCore.Authentication;
+using ArzTiServer.Filters;
+using System.IO;
+using System;
 
 namespace ArzTiServer
 {
     public class Startup
     {
         private readonly ILogger<Startup> _logger;
+        
+        private readonly IWebHostEnvironment _hostingEnv;
 
-        public Startup(ILogger<Startup> logger, IConfiguration configuration)
+        public Startup(ILogger<Startup> logger, IWebHostEnvironment env, IConfiguration configuration)
         {
             _logger = logger;
+            _hostingEnv = env;
+
             Configuration = configuration;
         }
 
@@ -33,10 +44,41 @@ namespace ArzTiServer
             _logger.LogInformation($"{nameof(ConfigureServices)} starting...");
 
             services.AddControllers();
+            services.AddMvc(options =>
+            {
+                options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter>();
+                options.OutputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter>();
+            })
+            .AddNewtonsoftJson(opts =>
+            {
+                opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                opts.SerializerSettings.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
+            })
+            .AddXmlSerializerFormatters();
+            services.AddAuthentication(BasicAuthenticationHandler.SchemeName).AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(BasicAuthenticationHandler.SchemeName, null);
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArzTiServer", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "ArzTiServer", 
+                    Version = "v1" ,
+                    Description = "Webservice ArzTI API (ASP.NET Core 5.0)",
+                    Contact = new OpenApiContact()
+                    {
+                        Name = "Swagger Codegen Contributors",
+                        Url = new Uri("https://github.com/swagger-api/swagger-codegen"),
+                        Email = ""
+                    },
+                    TermsOfService = new Uri("http://localhost")
+                });
+                c.CustomSchemaIds(type => type.FullName);
+                c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
+
+                c.DocumentFilter<BasePathFilter>("/v1");
+                // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
+                // Use [ValidateModelState] on Actions to actually validate it in C# as well!
+                c.OperationFilter<GeneratePathParamsValidationFilter>();
+
                 c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -61,10 +103,10 @@ namespace ArzTiServer
                         });
             });
 
-             services.AddScoped<IArzTiController, ArzTiController>();
+            services.AddScoped<IController, ArzTiController>();
             services.AddScoped<IArzTiDatenService, ArzTiDatenService>();
             services.AddScoped<IArzTiVerwaltungService, ArzTiVerwaltungService>();
-            services.AddScoped<IDatenRepository, DatenRepository>();
+            services.AddScoped<IDatenERepository, DatenERepository>();
             //services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
 
 
@@ -82,6 +124,15 @@ namespace ArzTiServer
 
             logger.LogInformation($"{nameof(Configure)} starting...");
 
+            builder.UseRouting();
+
+            builder.UseAuthorization();
+
+  
+            builder.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             if (env.IsDevelopment())
             {
@@ -90,17 +141,16 @@ namespace ArzTiServer
                 builder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArzTiServer v1"));
 
             }
+            else
+            {
+                //TODO: Enable production exception handling (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/error-handling)
+                builder.UseExceptionHandler("/Error");
+
+                builder.UseHsts();
+            }
 
             //app.UseHttpsRedirection();
 
-            builder.UseRouting();
-
-            builder.UseAuthorization();
-
-            builder.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
             /*
             builder.UseMvc(routes =>
             {

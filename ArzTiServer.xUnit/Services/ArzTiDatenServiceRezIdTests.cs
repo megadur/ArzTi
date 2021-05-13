@@ -11,13 +11,13 @@ namespace ArzTiServer.xUnit.Services
     {
         private MockRepository mockRepository;
 
-        private Mock<IDatenRepository> mockDatenRepository;
+        private Mock<IDatenERepository> mockDatenRepository;
 
         public ArzTiDatenServiceRezIdTests()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-            this.mockDatenRepository = this.mockRepository.Create<IDatenRepository>();
+            this.mockDatenRepository = this.mockRepository.Create<IDatenERepository>();
         }
 
         private ArzTiDatenService CreateService()

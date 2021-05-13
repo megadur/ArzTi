@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ArzTiServer.xUnit
 {
-    public class DatenRepositoryFake : IDatenRepository
+    public class DatenRepositoryFake : IDatenERepository
     {
         private readonly List<ErSenderezepteErezept> _erSenderezepteErezept;
         private readonly List<ErSenderezeptePrezept> _erSenderezeptePrezept;
@@ -122,33 +122,33 @@ namespace ArzTiServer.xUnit
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezepteEmuster16>> IDatenRepository.GetMRezeptList()
+        Task<List<ErSenderezepteEmuster16>> IDatenERepository.GetMRezeptList()
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezepteEmuster16>> IDatenRepository.GetMRezeptListOffen(string apoik, int MaxNum)
+        Task<List<ErSenderezepteEmuster16>> IDatenERepository.GetMRezeptListOffen(string apoik, int MaxNum)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezeptePrezept>> IDatenRepository.GetPRezeptList()
+        Task<List<ErSenderezeptePrezept>> IDatenERepository.GetPRezeptList()
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezeptePrezept>> IDatenRepository.GetPRezeptListOffen(string apoik, int MaxNum)
+        Task<List<ErSenderezeptePrezept>> IDatenERepository.GetPRezeptListOffen(string apoik, int MaxNum)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezepteErezept>> IDatenRepository.GetERezeptListOffen(string apoik, int MaxNum)
+        Task<List<ErSenderezepteErezept>> IDatenERepository.GetERezeptListOffen(string apoik, int MaxNum)
         {
             throw new NotImplementedException();
         }
 
 
-        Task<List<ErSenderezepteErezept>> IDatenRepository.GetERezeptList()
+        Task<List<ErSenderezepteErezept>> IDatenERepository.GetERezeptList()
         {
             throw new NotImplementedException();
         }

@@ -1,1562 +1,1580 @@
 {
-  "openapi" : "3.0.0",
-  "info" : {
-    "title" : "Webservice ArzTI API",
-    "description" : "Kommunikation des Webservers mit den jeweiligen Rechenzentren\n* UC: Abruf der eRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum\n* UC: Abruf der eMuster16-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum\n* UC: Abruf der pRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum\n* UC: Aktualisierung des eRezept-Status - eRezept-ID\n* UC: Löschen eines eRezepts - eRezept-ID\n* UC: Aktualisierung von Kundendaten (Apotheke -> Rechenzentrum Zuordnung) - Apotheke-IK\n* UC: ... ",
-    "version" : "V1"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Webservice ArzTI API",
+    "description": "Kommunikation des Webservers mit den jeweiligen Rechenzentren\n* UC: Abruf der eRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum\n* UC: Abruf der eMuster16-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum\n* UC: Abruf der pRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum\n* UC: Aktualisierung des eRezept-Status - eRezept-ID\n* UC: Löschen eines eRezepts - eRezept-ID\n* UC: Aktualisierung von Kundendaten (Apotheke -> Rechenzentrum Zuordnung) - Apotheke-IK\n* UC: ... ",
+    "version": "V1"
   },
-  "servers" : [ {
-    "url" : "http://arzsoftware.de/v1",
-    "description" : "Main (production) server"
-  }, {
-    "url" : "http://staging-api.arzsoftware.de",
-    "description" : "Internal staging server for testing"
-  } ],
-  "tags" : [ {
-    "name" : "RezeptID",
-    "description" : "Alle Operationen für ein Rezept per Rezept-ID"
-  }, {
-    "name" : "RezeptUID",
-    "description" : "Alle Operationen für ein Rezept per Rezept-UID"
-  }, {
-    "name" : "RezeptIDList",
-    "description" : "Alle Operationen für RezeptListen per Rezept-ID"
-  }, {
-    "name" : "RezeptUIDList",
-    "description" : "Alle Operationen für RezeptListen per Rezept-UID"
-  } ],
-  "paths" : {
-    "/apotheke/{apoik}/rezept" : {
-      "get" : {
-        "tags" : [ "RezeptIDList" ],
-        "summary" : "liefert eine Liste von Rezepten  einer Apotheke",
-        "description" : "Für die angegebene ApoIK werden alle Rezepte zurückgegeben.\r\n\r\n Optional kann ein Rezepttyp angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Es werden solange neue Datensätze zurückgegenben, bis keine neuen mehr vorhanden sind.",
-        "operationId" : "getRezeptIdList",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
+  "servers": [
+    {
+      "url": "http://arzsoftware.de/v1",
+      "description": "Main (production) server"
+    },
+    {
+      "url": "http://staging-api.arzsoftware.de",
+      "description": "Internal staging server for testing"
+    }
+  ],
+  "paths": {
+    "/apotheke/{apoik}/rezept": {
+      "get": {
+        "tags": [
+          "RezeptList"
+        ],
+        "summary": "liefert eine Liste von Rezepten  einer Apotheke",
+        "description": "Für die angegebene ApoIK werden alle Rezepte zurückgegeben.\r\n\r\n Optional kann ein Rezepttyp angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Es werden solange neue Datensätze zurückgegenben, bis keine neuen mehr vorhanden sind.",
+        "operationId": "getRezeptIdList",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reztyp",
+            "in": "query",
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
+            }
+          },
+          {
+            "name": "maxnum",
+            "in": "query",
+            "description": "maximale Anzahl der Rezepte, die zurückgegeben werden",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "zeitraum",
+            "in": "query",
+            "description": "Welcher Zeitraum im Format YYYY-MM",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "Status values that need to be considered for filter",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
-        }, {
-          "name" : "reztyp",
-          "in" : "query",
-          "description" : ".",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "$ref" : "#/components/schemas/RezeptTyp"
-          }
-        }, {
-          "name" : "maxnum",
-          "in" : "query",
-          "description" : "maximale Anzahl der Rezepte, die zurückgegeben werden",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "integer",
-            "format" : "int32"
-          }
-        }, {
-          "name" : "zeitraum",
-          "in" : "query",
-          "description" : "Welcher Zeitraum im Format YYYY-MM",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Liefert eine Liste mit den gefundenen Rezepten.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Rezept"
-                  },
-                  "x-content-type" : "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert eine Liste mit den gefundenen Rezepten.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rezept"
+                  }
                 }
               },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Rezept"
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rezept"
                   }
                 }
               }
             }
           },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
           },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
           }
         },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
       }
     },
-    "/apotheke/{apoik}/rezept/neu" : {
-      "get" : {
-        "tags" : [ "RezeptIDList" ],
-        "summary" : "Abfrage aller neuen Rezepte einer Apotheke",
-        "description" : "Für die angegebene ApoIK werden alle Rezepte zurückgegeben, die noch nicht abgeholt wurden. \r\n\r\n Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Es werden solange neue Datensätze zurückgegenben, bis keine neuen mehr vorhanden sind.",
-        "operationId" : "getRezeptIdListByTransfer",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
+    "/apotheke/{apoik}/rezept/status": {
+      "get": {
+        "tags": [
+          "RezeptList"
+        ],
+        "summary": "Statusabfrage aller Rezepte einer Apotheke",
+        "operationId": "getRezeptIdStatusList",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reztyp",
+            "in": "query",
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
+            }
+          },
+          {
+            "name": "zeitraum",
+            "in": "query",
+            "description": "Welcher Zeitraum im Format YYYY-MM",
+            "schema": {
+              "type": "string"
+            }
           }
-        }, {
-          "name" : "reztyp",
-          "in" : "query",
-          "description" : ".",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "$ref" : "#/components/schemas/RezeptTyp"
-          }
-        }, {
-          "name" : "zeitraum",
-          "in" : "query",
-          "description" : "Welcher Zeitraum im Format YYYY-MM",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Liefert eine Liste der Status aller Rezepte",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/RezeptStatus"
-                  },
-                  "x-content-type" : "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert eine Liste der Status aller Rezepte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptStatus"
+                  }
                 }
               },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/RezeptStatus"
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptStatus"
                   }
                 }
               }
             }
           },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
           },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
           }
         },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      }
-    },
-    "/apotheke/{apoik}/rezept/status" : {
-      "get" : {
-        "tags" : [ "RezeptIDList" ],
-        "summary" : "Statusabfrage aller Rezepte einer Apotheke",
-        "operationId" : "getRezeptIdListByStatus",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
           }
-        }, {
-          "name" : "reztyp",
-          "in" : "query",
-          "description" : ".",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "$ref" : "#/components/schemas/RezeptTyp"
-          }
-        }, {
-          "name" : "zeitraum",
-          "in" : "query",
-          "description" : "Welcher Zeitraum im Format YYYY-MM",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Liefert eine Liste der Status aller Rezepte",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/RezeptStatus"
-                  },
-                  "x-content-type" : "application/json"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/RezeptStatus"
-                  }
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      }
-    },
-    "/apotheke/{apoik}/rezept/abholung" : {
-      "put" : {
-        "tags" : [ "RezeptIDList" ],
-        "summary" : "Änderung des Abholstatus einer Liste von Rezepten",
-        "description" : "ändert Abholstatus einer Liste von Rezepten",
-        "operationId" : "putRezeptIdListAbholstatus",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/Abholstatus"
-                }
-              }
-            },
-            "application/*+json" : {
-              "schema" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/Abholstatus"
-                }
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Returns the newly created item",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Abholstatus"
-                }
-              },
-              "text/plain" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Abholstatus"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "405" : {
-            "description" : "Validation exception"
-          }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      }
-    },
-    "/apotheke/{apoik}/rezept/pruefung" : {
-      "put" : {
-        "tags" : [ "RezeptIDList" ],
-        "summary" : "prüft eine Liste von Rezepten",
-        "description" : "Vorprüfung einer Liste von Rezepten",
-        "operationId" : "putRezeptIdListPruefung",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "description" : "optionaler eMuster16 Datensatz",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Rezept"
-              }
-            },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Rezept"
-              }
-            }
-          }
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Liefert das Rezept für die ID",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/RezeptPruefRes"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/RezeptPruefRes"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      }
-    },
-    "/apotheke/{apoik}/rezept/{reztyp}/{rezid}" : {
-      "get" : {
-        "tags" : [ "RezeptID" ],
-        "summary" : "liefert ein Rezept",
-        "operationId" : "getRezeptId",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "reztyp",
-          "in" : "path",
-          "description" : ".",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "$ref" : "#/components/schemas/RezeptTyp"
-          }
-        }, {
-          "name" : "rezid",
-          "in" : "path",
-          "description" : "Die RezeptID.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Liefert das Rezept für die ID",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
+        ]
       },
-      "delete" : {
-        "tags" : [ "RezeptID" ],
-        "summary" : "löscht ein Rezept",
-        "operationId" : "deleteRezeptId",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "reztyp",
-          "in" : "path",
-          "description" : ".",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "$ref" : "#/components/schemas/RezeptTyp"
-          }
-        }, {
-          "name" : "rezid",
-          "in" : "path",
-          "description" : "Die RezeptID.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Liefert das Rezept für die ID",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
+      "patch": {
+        "tags": [
+          "RezeptIDList"
+        ],
+        "summary": "Statusänderung einer Liste von Rezepten",
+        "description": "Statusänderung einer Liste von Rezepten",
+        "operationId": "patchRezeptIdListStatus",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
             }
           }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_write" ]
-        } ]
-      },
-      "patch" : {
-        "tags" : [ "RezeptID" ],
-        "summary" : "Statusänderung eines Rezeptes",
-        "description" : "Statusänderung eines Rezeptes",
-        "operationId" : "patchRezeptIdStatus",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "reztyp",
-          "in" : "path",
-          "description" : ".",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "ERezept", "MRezept", "PRezept" ]
-          }
-        }, {
-          "name" : "rezid",
-          "in" : "path",
-          "description" : "Die Rezept-ID.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/RezeptStatus"
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
               }
             },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/RezeptStatus"
-              }
-            }
-          },
-          "required" : false
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Liefert den Status des Rezeptes für die ID",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptStatus"
                 }
               }
             }
           }
         },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      }
-    },
-    "/apotheke/{apoik}/rezept/{reztyp}/{rezid}/status" : {
-      "get" : {
-        "tags" : [ "RezeptID" ],
-        "summary" : "Statusabfrage eines Rezeptes",
-        "description" : "Statusabfrage eines Rezeptes",
-        "operationId" : "getRezeptIdStatus",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "reztyp",
-          "in" : "path",
-          "description" : ".",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "$ref" : "#/components/schemas/RezeptTyp"
-          }
-        }, {
-          "name" : "rezid",
-          "in" : "path",
-          "description" : "Die Rezept-ID.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Liefert den Status des Rezeptes für die ID",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
+        "responses": {
+          "200": {
+            "description": "Liefert den Status einer Liste von Rezepten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptStatus"
+                  }
                 }
               },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      }
-    },
-    "/rezept/{ruid}" : {
-      "get" : {
-        "tags" : [ "RezeptUID" ],
-        "summary" : "liefert ein Rezept",
-        "operationId" : "getRezeptUId",
-        "parameters" : [ {
-          "name" : "ruid",
-          "in" : "path",
-          "description" : "Die Rezept UID.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Liefert das gefundene Rezepte.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Rezept"
-                  },
-                  "x-content-type" : "application/json"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Rezept"
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptStatus"
                   }
                 }
               }
             }
           },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
           },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
           }
         },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      },
-      "delete" : {
-        "tags" : [ "RezeptUID" ],
-        "summary" : "löscht ein Rezept",
-        "operationId" : "deleteRezeptUId",
-        "parameters" : [ {
-          "name" : "ruid",
-          "in" : "path",
-          "description" : "Die Rezept UID.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read",
+              "arz_write"
+            ]
           }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Liefert das Rezept für die ID",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_write" ]
-        } ]
-      },
-      "patch" : {
-        "tags" : [ "RezeptUID" ],
-        "summary" : "Statusänderung eines Rezeptes",
-        "description" : "Statusänderung eines Rezeptes",
-        "operationId" : "patchRezeptUIdStatus",
-        "parameters" : [ {
-          "name" : "ruid",
-          "in" : "path",
-          "description" : "Die Rezept UID.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/RezeptStatus"
-              }
-            },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/RezeptStatus"
-              }
-            }
-          },
-          "required" : false
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Liefert den Status des Rezeptes für die ID",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Rezept"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
+        ]
       }
     },
-    "/rezept/abholung" : {
-      "put" : {
-        "tags" : [ "RezeptUIDList" ],
-        "summary" : "Änderung des Abholstatus einer Liste von Rezepten",
-        "description" : "ändert Abholstatus einer Liste von Rezepten",
-        "operationId" : "putRezeptUIdListAbholstatus",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/Abholstatus"
-                }
-              }
-            },
-            "application/*+json" : {
-              "schema" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/Abholstatus"
-                }
-              }
+    "/apotheke/{apoik}/rezept/abholung": {
+      "get": {
+        "tags": [
+          "RezeptList"
+        ],
+        "summary": "Abfrage aller neuen Rezepte einer Apotheke",
+        "description": "Für die angegebene ApoIK werden alle Rezepte zurückgegeben, die noch nicht abgeholt wurden. \r\n\r\n Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n Es werden solange neue Datensätze zurückgegenben, bis keine neuen mehr vorhanden sind.",
+        "operationId": "getRezeptIdListAbholstatus",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
             }
           },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Returns the newly created item",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Abholstatus"
-                }
-              },
-              "text/plain" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Abholstatus"
-                }
-              }
+          {
+            "name": "reztyp",
+            "in": "query",
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
             }
           },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "405" : {
-            "description" : "Validation exception"
-          }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      }
-    },
-    "/rezept/pruefung" : {
-      "put" : {
-        "tags" : [ "RezeptUIDList" ],
-        "summary" : "prüft eine Liste von Rezepten",
-        "description" : "Vorprüfung einer Liste von Rezepten",
-        "operationId" : "putRezeptUidListPruefung",
-        "requestBody" : {
-          "description" : "optionaler eMuster16 Datensatz",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Rezept"
-              }
-            },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Rezept"
-              }
+          {
+            "name": "zeitraum",
+            "in": "query",
+            "description": "Welcher Zeitraum im Format YYYY-MM",
+            "schema": {
+              "type": "string"
             }
           }
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Liefert das Rezept für die ID",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/RezeptPruefRes"
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert eine Liste der Status aller Rezepte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rezept"
+                  }
                 }
               },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/RezeptPruefRes"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      }
-    },
-    "/apotheke" : {
-      "get" : {
-        "tags" : [ "Apotheke" ],
-        "summary" : "liefert eine Liste aller Apotheken",
-        "operationId" : "getApothekenList",
-        "responses" : {
-          "200" : {
-            "description" : "Liefert eine Liste mit den gefundenen Rezepten.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Apotheke"
-                  },
-                  "x-content-type" : "application/json"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Apotheke"
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rezept"
                   }
                 }
               }
             }
           },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "RezeptIDList"
+        ],
+        "summary": "Änderung des Abholstatus einer Liste von Rezepten",
+        "description": "ändert Abholstatus einer Liste von Rezepten",
+        "operationId": "patchRezeptIdListAbholstatus",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptId"
                 }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptId"
                 }
               }
             }
           },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          }
+          "required": true
         },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
-      }
-    },
-    "/apotheke/{apoik}" : {
-      "get" : {
-        "tags" : [ "Apotheke" ],
-        "summary" : "liefert Details einer Apotheke",
-        "operationId" : "getApothekeByIK",
-        "parameters" : [ {
-          "name" : "apoik",
-          "in" : "path",
-          "description" : "Die Apotheken IK.",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "liefert Details einer Apotheke.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Apotheke"
-                  },
-                  "x-content-type" : "application/json"
+        "responses": {
+          "200": {
+            "description": "Returns the newly created item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Abholstatus"
+                  }
                 }
               },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/Apotheke"
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Abholstatus"
                   }
                 }
               }
             }
           },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/apotheke/{apoik}/rezept/pruefung": {
+      "get": {
+        "tags": [
+          "RezeptIDList"
+        ],
+        "summary": "Statusabfrage aller Rezepte einer Apotheke",
+        "operationId": "getRezeptIdListPruefRes",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reztyp",
+            "in": "query",
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
+            }
+          },
+          {
+            "name": "zeitraum",
+            "in": "query",
+            "description": "Welcher Zeitraum im Format YYYY-MM",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "description": "Status values that need to be considered for filter",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert eine Liste der Status aller Rezepte",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptPruefResult"
+                  }
                 }
               },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptPruefResult"
+                  }
                 }
               }
             }
           },
-          "404" : {
-            "description" : "The specified resource was not found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "RezeptIDList"
+        ],
+        "summary": "prüft eine Liste von Rezepten",
+        "description": "Vorprüfung einer Liste von Rezepten",
+        "operationId": "putRezeptIdListPruefung",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "user to add to the system",
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptId"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptId"
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptId"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "die Liste wurde akzeptiert"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/apotheke/{apoik}/rezept/{reztyp}/{rezid}": {
+      "get": {
+        "tags": [
+          "RezeptID"
+        ],
+        "summary": "liefert ein Rezept",
+        "description": "",
+        "operationId": "getRezeptId",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reztyp",
+            "in": "path",
+            "required": true,
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
+            }
+          },
+          {
+            "name": "rezid",
+            "in": "path",
+            "required": true,
+            "description": "Die RezeptID.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert das Rezept für die ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
                 }
               },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "RezeptID"
+        ],
+        "summary": "löscht ein Rezept",
+        "description": "",
+        "operationId": "deleteRezeptId",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reztyp",
+            "in": "path",
+            "required": true,
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
+            }
+          },
+          {
+            "name": "rezid",
+            "in": "path",
+            "required": true,
+            "description": "Die RezeptID.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert das Rezept für die ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_write"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "RezeptID"
+        ],
+        "summary": "Statusänderung eines Rezeptes",
+        "description": "Statusänderung eines Rezeptes",
+        "operationId": "patchRezeptIdStatus",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reztyp",
+            "in": "path",
+            "required": true,
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
+            }
+          },
+          {
+            "name": "rezid",
+            "in": "path",
+            "required": true,
+            "description": "Die Rezept-ID.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "description": "Status value",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert den Status des Rezeptes für die ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/apotheke/{apoik}/rezept/{reztyp}/{rezid}/status": {
+      "get": {
+        "tags": [
+          "RezeptID"
+        ],
+        "summary": "Statusabfrage eines Rezeptes",
+        "description": "Statusabfrage eines Rezeptes",
+        "operationId": "getRezeptIdStatus",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reztyp",
+            "in": "path",
+            "required": true,
+            "description": ".",
+            "schema": {
+              "$ref": "#/components/schemas/RezeptTyp"
+            }
+          },
+          {
+            "name": "rezid",
+            "in": "path",
+            "required": true,
+            "description": "Die Rezept-ID.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert den Status des Rezeptes für die ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/rezept/{ruid}": {
+      "get": {
+        "tags": [
+          "RezeptUID"
+        ],
+        "summary": "liefert ein Rezept",
+        "description": "",
+        "operationId": "getRezeptUId",
+        "parameters": [
+          {
+            "name": "ruid",
+            "in": "path",
+            "required": true,
+            "description": "Die Rezept UID.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert das gefundene Rezepte.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "RezeptUID"
+        ],
+        "summary": "löscht ein Rezept",
+        "description": "",
+        "operationId": "deleteRezeptUId",
+        "parameters": [
+          {
+            "name": "ruid",
+            "in": "path",
+            "required": true,
+            "description": "Die Rezept UID.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert das Rezept für die ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rezept"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/rezept/{ruid}/status": {
+      "get": {
+        "tags": [
+          "RezeptUID"
+        ],
+        "summary": "liefert den Status eines Rezepts",
+        "description": "",
+        "operationId": "getRezeptUIdStatus",
+        "parameters": [
+          {
+            "name": "ruid",
+            "in": "path",
+            "required": true,
+            "description": "Die Rezept UID.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert das gefundene Rezepte.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "RezeptUID"
+        ],
+        "summary": "Statusänderung eines Rezeptes",
+        "description": "Statusänderung eines Rezeptes",
+        "operationId": "patchRezeptUIdStatus",
+        "parameters": [
+          {
+            "name": "ruid",
+            "in": "path",
+            "required": true,
+            "description": "Die Rezept UID.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "description": "Status value",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liefert den Status des Rezeptes für die ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/rezept/abholung": {
+      "patch": {
+        "tags": [
+          "RezeptUIDList"
+        ],
+        "summary": "Änderung des Abholstatus einer Liste von Rezepten",
+        "description": "ändert Abholstatus einer Liste von Rezepten",
+        "operationId": "patchRezeptUIdListAbholstatus",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptUId"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptUId"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the newly created item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Abholstatus"
+                  }
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Abholstatus"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/rezept/pruefung": {
+      "put": {
+        "tags": [
+          "RezeptUIDList"
+        ],
+        "summary": "prüft eine Liste von UUID Rezepten",
+        "description": "Vorprüfung einer Liste von UUID Rezepten",
+        "operationId": "putRezeptUidListPruefung",
+        "requestBody": {
+          "description": "optionaler Datensatz",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptUId"
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptUId"
                 }
               }
             }
           }
         },
-        "security" : [ {
-          "BasicAuth" : [ "arz_read" ]
-        } ]
+        "responses": {
+          "202": {
+            "description": "zur Prüfung angenommen"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/rezept/status": {
+      "patch": {
+        "tags": [
+          "RezeptUIDList"
+        ],
+        "summary": "Statusänderung einer Liste von Rezepten",
+        "description": "Statusänderung einer Liste von Rezepten",
+        "operationId": "patchRezeptUIdListStatus",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RezeptStatus"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Liefert den Status einer Liste von Rezepten",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptStatus"
+                  }
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RezeptStatus"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read",
+              "arz_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/apotheke": {
+      "get": {
+        "tags": [
+          "Apotheke"
+        ],
+        "summary": "liefert eine Liste aller Apotheken",
+        "description": "",
+        "operationId": "getApothekenList",
+        "responses": {
+          "200": {
+            "description": "Liefert eine Liste mit den gefundenen Rezepten.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Apotheke"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Apotheke"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/apotheke/{apoik}": {
+      "get": {
+        "tags": [
+          "Apotheke"
+        ],
+        "summary": "liefert Details einer Apotheke",
+        "description": "",
+        "operationId": "getApothekeByIK",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "liefert Details einer Apotheke.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apotheke"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apotheke"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
       }
     }
   },
-  "components" : {
-    "schemas" : {
-      "RezeptPruefRes" : {
-        "type" : "object",
-        "properties" : {
-          "status" : {
-            "$ref" : "#/components/schemas/RezeptStatus"
-          }
-        },
-        "example" : {
-          "status" : {
-            "typ" : "ERezept",
-            "id" : 1,
-            "status" : ""
+  "components": {
+    "schemas": {
+      "RezeptStatus": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/RezeptId"
+          },
+          "uid": {
+            "$ref": "#/components/schemas/RezeptUId"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status des Rezepts"
           }
         }
       },
-      "RezeptStatus" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "integer",
-            "description" : "Status des E-Rezepts",
-            "format" : "int32",
-            "example" : 1
+      "RezeptTyp": {
+        "type": "string",
+        "enum": [
+          "ERezept",
+          "MRezept",
+          "PRezept"
+        ]
+      },
+      "Rezept": {
+        "title": "Rezept",
+        "type": "object",
+        "description": "base64 codierte Leistung",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/RezeptId"
           },
-          "typ" : {
-            "$ref" : "#/components/schemas/RezeptTyp"
+          "uid": {
+            "$ref": "#/components/schemas/RezeptUId"
           },
-          "status" : {
-            "oneOf" : [ {
-              "$ref" : "#/components/schemas/MRezeptStatus"
-            }, {
-              "$ref" : "#/components/schemas/ERezeptStatus"
-            } ]
+          "data": {
+            "type": "string"
           }
-        },
-        "example" : {
-          "typ" : "ERezept",
-          "id" : 1,
-          "status" : ""
         }
       },
-      "MRezeptStatus" : {
-        "title" : "M-Status",
-        "type" : "string",
-        "description" : "Der Status des eMuster16",
-        "enum" : [ "VOR_PRUEFUNG", "FEHLER", "VERBESSERBAR", "ABRECHENBAR", "HINWEIS" ]
-      },
-      "ERezeptStatus" : {
-        "title" : "E-Status",
-        "type" : "string",
-        "description" : "Der Statuswert des E-Rezeptes",
-        "enum" : [ "VOR_PRUEFUNG", "VOR_ABRECHNUNG", "FEHLER", "VERBESSERBAR  ", "RUECKWEISUNG", "ABGERECHNET", "STORNIERT", "HINWEIS", "ABRECHENBAR" ]
-      },
-      "RezeptTyp" : {
-        "type" : "string",
-        "enum" : [ "ERezept", "MRezept", "PRezept" ]
-      },
-      "Rezept" : {
-        "title" : "Rezept",
-        "type" : "object",
-        "properties" : {
-          "typ" : {
-            "$ref" : "#/components/schemas/RezeptTyp"
+      "RezeptId": {
+        "title": "Rezept",
+        "type": "object",
+        "description": "die Rezept ID",
+        "properties": {
+          "typ": {
+            "$ref": "#/components/schemas/RezeptTyp"
           },
-          "data" : {
-            "type" : "string"
+          "id": {
+            "type": "string"
           }
-        },
-        "description" : "base64 codierte Leistung",
-        "example" : {
-          "data" : "data",
-          "typ" : "ERezept"
         }
       },
-      "Abholstatus" : {
-        "required" : [ "abgeholt", "id", "typ" ],
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string"
-          },
-          "typ" : {
-            "$ref" : "#/components/schemas/RezeptTyp"
-          },
-          "abgeholt" : {
-            "type" : "boolean"
+      "RezeptUId": {
+        "title": "Rezept",
+        "type": "object",
+        "description": "die Rezept RUID",
+        "properties": {
+          "ruid": {
+            "type": "string"
           }
-        },
-        "example" : {
-          "abgeholt" : true,
-          "typ" : "ERezept",
-          "id" : "id"
         }
       },
-      "Apotheke" : {
-        "required" : [ "ik", "name" ],
-        "type" : "object",
-        "properties" : {
-          "ik" : {
-            "type" : "string"
+      "RezeptPruefResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/RezeptId"
           },
-          "name" : {
-            "type" : "string"
+          "uid": {
+            "$ref": "#/components/schemas/RezeptUId"
+          },
+          "statusinfo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
-        },
-        "example" : {
-          "ik" : "ik",
-          "name" : "name"
         }
       },
-      "Error" : {
-        "required" : [ "code", "message" ],
-        "type" : "object",
-        "properties" : {
-          "code" : {
-            "type" : "string"
+      "Abholstatus": {
+        "type": "object",
+        "required": [
+          "abgeholt"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/RezeptId"
           },
-          "message" : {
-            "type" : "string"
+          "uid": {
+            "$ref": "#/components/schemas/RezeptUId"
+          },
+          "abgeholt": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Apotheke": {
+        "type": "object",
+        "required": [
+          "ik",
+          "name"
+        ],
+        "properties": {
+          "ik": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
           }
         }
       }
     },
-    "responses" : {
-      "NotFound" : {
-        "description" : "The specified resource was not found",
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/Error"
+    "responses": {
+      "NotFound": {
+        "description": "The specified resource was not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
             }
           },
-          "application/xml" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/Error"
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
             }
           }
         }
       },
-      "Unauthorized" : {
-        "description" : "Unauthorized",
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/Error"
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
             }
           },
-          "application/xml" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/Error"
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
             }
           }
         }
       },
-      "default" : {
-        "description" : "Unexpected error",
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/Error"
+      "default": {
+        "description": "Unexpected error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
             }
           }
         }
       }
     },
-    "securitySchemes" : {
-      "BasicAuth" : {
-        "type" : "http",
-        "scheme" : "basic"
+    "securitySchemes": {
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "RezeptID",
+      "description": "Alle Operationen für ein Rezept per Rezept-ID"
+    },
+    {
+      "name": "RezeptUID",
+      "description": "Alle Operationen für ein Rezept per Rezept-UID"
+    },
+    {
+      "name": "RezeptIDList",
+      "description": "Alle Operationen für RezeptListen per Rezept-ID"
+    },
+    {
+      "name": "RezeptUIDList",
+      "description": "Alle Operationen für RezeptListen per Rezept-UID"
+    }
+  ]
 }

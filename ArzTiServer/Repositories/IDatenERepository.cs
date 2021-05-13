@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArzTiServer.Repositories
 {
-    public interface IDatenRepository
+    public interface IDatenERepository
     {
 
         #region ERezept

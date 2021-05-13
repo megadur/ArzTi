@@ -21,10 +21,13 @@ namespace ArzTiServer.Services
         {
         }
 
-        public async Task<ICollection<Apotheke>> GetApothekeByIKAsync(string apoik)
+        public async Task<Apotheke> GetApothekeByIKAsync(string apoik)
         {
             var res = await _repository.GetWhere(a => a.ApoIkNr.ToString() == apoik);
-            return getList(res);
+            Apotheke apo = new();
+            apo.Ik = res.First().ApoIkNr.ToString ();
+            apo.Name = res.First().ApothekeName;
+            return apo;
         }
 
         public async Task<ICollection<Apotheke>> GetApothekenListAsync()
@@ -54,5 +57,6 @@ namespace ArzTiServer.Services
                 Name = item.ApothekeName
             };
         }
+
     }
 }

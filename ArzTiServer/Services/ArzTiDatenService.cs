@@ -12,8 +12,8 @@ namespace ArzTiServer.Services
 {
     public class ArzTiDatenService : IArzTiDatenService
     {
-        IDatenRepository _datenRepository;
-        public ArzTiDatenService(IDatenRepository datenRepository)
+        IDatenERepository _datenRepository;
+        public ArzTiDatenService(IDatenERepository datenRepository)
         {
             _datenRepository = datenRepository;
         }

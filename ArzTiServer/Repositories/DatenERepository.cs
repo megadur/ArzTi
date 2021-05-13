@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ArzTiServer.Repositories
 {
-    public class DatenRepository : IDatenRepository
+    public class DatenERepository : IDatenERepository
     {
          private readonly ArzDBContext _context;
      
-        public DatenRepository(ArzDBContext context)
+        public DatenERepository(ArzDBContext context)
         {
             _context = context;
         }
@@ -341,8 +341,6 @@ namespace ArzTiServer.Repositories
             return resList;
         }
 
-
-
         #endregion
         #region ERezept Delete
         public async Task<ErSenderezepteErezept> DeleteERezeptIdAsync(string apoik, string rezid)
@@ -379,8 +377,6 @@ namespace ArzTiServer.Repositories
             return res;
         }
         #endregion
-
-
 
         public async Task<List<ErSenderezepteEmuster16>> GetMRezeptList()
         {

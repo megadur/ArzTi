@@ -1,0 +1,309 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ArzTiServer</name>
+    </assembly>
+    <members>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetRezeptIdListAsync(System.String,System.Nullable{ArzTiServer.OpenAPIService.RezeptTyp},System.Nullable{System.Int32},System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>liefert eine Liste von Rezepten  einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="maxnum">maximale Anzahl der Rezepte, die zurückgegeben werden</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <param name="status">Status values that need to be considered for filter</param>
+            <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetRezeptIdStatusListAsync(System.String,System.Nullable{ArzTiServer.OpenAPIService.RezeptTyp},System.String)">
+            <summary>Statusabfrage aller Rezepte einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <returns>Liefert eine Liste der Status aller Rezepte</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.PatchRezeptIdListStatusAsync(System.String,System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptStatus})">
+            <summary>Statusänderung einer Liste von Rezepten</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <returns>Liefert den Status einer Liste von Rezepten</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetRezeptIdListAbholstatusAsync(System.String,System.Nullable{ArzTiServer.OpenAPIService.RezeptTyp},System.String)">
+            <summary>Abfrage aller neuen Rezepte einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <returns>Liefert eine Liste der Status aller Rezepte</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.PatchRezeptIdListAbholstatusAsync(System.String,System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptId})">
+            <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <returns>Returns the newly created item</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetRezeptIdListPruefResAsync(System.String,System.Nullable{ArzTiServer.OpenAPIService.RezeptTyp},System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>Statusabfrage aller Rezepte einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <param name="status">Status values that need to be considered for filter</param>
+            <returns>Liefert eine Liste der Status aller Rezepte</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.PutRezeptIdListPruefungAsync(System.String,System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptId})">
+            <summary>prüft eine Liste von Rezepten</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="body">user to add to the system</param>
+            <returns>die Liste wurde akzeptiert</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetRezeptIdAsync(System.String,ArzTiServer.OpenAPIService.RezeptTyp,System.String)">
+            <summary>liefert ein Rezept</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die RezeptID.</param>
+            <returns>Liefert das Rezept für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.DeleteRezeptIdAsync(System.String,ArzTiServer.OpenAPIService.RezeptTyp,System.String)">
+            <summary>löscht ein Rezept</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die RezeptID.</param>
+            <returns>Liefert das Rezept für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.PatchRezeptIdStatusAsync(System.String,ArzTiServer.OpenAPIService.RezeptTyp,System.String,System.String)">
+            <summary>Statusänderung eines Rezeptes</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die Rezept-ID.</param>
+            <param name="status">Status value</param>
+            <returns>Liefert den Status des Rezeptes für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetRezeptIdStatusAsync(System.String,ArzTiServer.OpenAPIService.RezeptTyp,System.String)">
+            <summary>Statusabfrage eines Rezeptes</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die Rezept-ID.</param>
+            <returns>Liefert den Status des Rezeptes für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetRezeptUIdAsync(System.String)">
+            <summary>liefert ein Rezept</summary>
+            <param name="ruid">Die Rezept UID.</param>
+            <returns>Liefert das gefundene Rezepte.</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.DeleteRezeptUIdAsync(System.String)">
+            <summary>löscht ein Rezept</summary>
+            <param name="ruid">Die Rezept UID.</param>
+            <returns>Liefert das Rezept für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetRezeptUIdStatusAsync(System.String)">
+            <summary>liefert den Status eines Rezepts</summary>
+            <param name="ruid">Die Rezept UID.</param>
+            <returns>Liefert das gefundene Rezepte.</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.PatchRezeptUIdStatusAsync(System.String,System.String)">
+            <summary>Statusänderung eines Rezeptes</summary>
+            <param name="ruid">Die Rezept UID.</param>
+            <param name="status">Status value</param>
+            <returns>Liefert den Status des Rezeptes für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.PatchRezeptUIdListAbholstatusAsync(System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptUId})">
+            <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
+            <returns>Returns the newly created item</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.PutRezeptUidListPruefungAsync(System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptUId})">
+            <summary>prüft eine Liste von UUID Rezepten</summary>
+            <param name="body">optionaler Datensatz</param>
+            <returns>zur Prüfung angenommen</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.PatchRezeptUIdListStatusAsync(System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptStatus})">
+            <summary>Statusänderung einer Liste von Rezepten</summary>
+            <returns>Liefert den Status einer Liste von Rezepten</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetApothekenListAsync">
+            <summary>liefert eine Liste aller Apotheken</summary>
+            <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.IController.GetApothekeByIKAsync(System.String)">
+            <summary>liefert Details einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <returns>liefert Details einer Apotheke.</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetRezeptIdList(System.String,System.Nullable{ArzTiServer.OpenAPIService.RezeptTyp},System.Nullable{System.Int32},System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>liefert eine Liste von Rezepten  einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="maxnum">maximale Anzahl der Rezepte, die zurückgegeben werden</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <param name="status">Status values that need to be considered for filter</param>
+            <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetRezeptIdStatusList(System.String,System.Nullable{ArzTiServer.OpenAPIService.RezeptTyp},System.String)">
+            <summary>Statusabfrage aller Rezepte einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <returns>Liefert eine Liste der Status aller Rezepte</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.PatchRezeptIdListStatus(System.String,System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptStatus})">
+            <summary>Statusänderung einer Liste von Rezepten</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <returns>Liefert den Status einer Liste von Rezepten</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetRezeptIdListAbholstatus(System.String,System.Nullable{ArzTiServer.OpenAPIService.RezeptTyp},System.String)">
+            <summary>Abfrage aller neuen Rezepte einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <returns>Liefert eine Liste der Status aller Rezepte</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.PatchRezeptIdListAbholstatus(System.String,System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptId})">
+            <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <returns>Returns the newly created item</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetRezeptIdListPruefRes(System.String,System.Nullable{ArzTiServer.OpenAPIService.RezeptTyp},System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>Statusabfrage aller Rezepte einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <param name="status">Status values that need to be considered for filter</param>
+            <returns>Liefert eine Liste der Status aller Rezepte</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.PutRezeptIdListPruefung(System.String,System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptId})">
+            <summary>prüft eine Liste von Rezepten</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="body">user to add to the system</param>
+            <returns>die Liste wurde akzeptiert</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetRezeptId(System.String,ArzTiServer.OpenAPIService.RezeptTyp,System.String)">
+            <summary>liefert ein Rezept</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die RezeptID.</param>
+            <returns>Liefert das Rezept für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.DeleteRezeptId(System.String,ArzTiServer.OpenAPIService.RezeptTyp,System.String)">
+            <summary>löscht ein Rezept</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die RezeptID.</param>
+            <returns>Liefert das Rezept für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.PatchRezeptIdStatus(System.String,ArzTiServer.OpenAPIService.RezeptTyp,System.String,System.String)">
+            <summary>Statusänderung eines Rezeptes</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die Rezept-ID.</param>
+            <param name="status">Status value</param>
+            <returns>Liefert den Status des Rezeptes für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetRezeptIdStatus(System.String,ArzTiServer.OpenAPIService.RezeptTyp,System.String)">
+            <summary>Statusabfrage eines Rezeptes</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die Rezept-ID.</param>
+            <returns>Liefert den Status des Rezeptes für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetRezeptUId(System.String)">
+            <summary>liefert ein Rezept</summary>
+            <param name="ruid">Die Rezept UID.</param>
+            <returns>Liefert das gefundene Rezepte.</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.DeleteRezeptUId(System.String)">
+            <summary>löscht ein Rezept</summary>
+            <param name="ruid">Die Rezept UID.</param>
+            <returns>Liefert das Rezept für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetRezeptUIdStatus(System.String)">
+            <summary>liefert den Status eines Rezepts</summary>
+            <param name="ruid">Die Rezept UID.</param>
+            <returns>Liefert das gefundene Rezepte.</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.PatchRezeptUIdStatus(System.String,System.String)">
+            <summary>Statusänderung eines Rezeptes</summary>
+            <param name="ruid">Die Rezept UID.</param>
+            <param name="status">Status value</param>
+            <returns>Liefert den Status des Rezeptes für die ID</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.PatchRezeptUIdListAbholstatus(System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptUId})">
+            <summary>Änderung des Abholstatus einer Liste von Rezepten</summary>
+            <returns>Returns the newly created item</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.PutRezeptUidListPruefung(System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptUId})">
+            <summary>prüft eine Liste von UUID Rezepten</summary>
+            <param name="body">optionaler Datensatz</param>
+            <returns>zur Prüfung angenommen</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.PatchRezeptUIdListStatus(System.Collections.Generic.IEnumerable{ArzTiServer.OpenAPIService.RezeptStatus})">
+            <summary>Statusänderung einer Liste von Rezepten</summary>
+            <returns>Liefert den Status einer Liste von Rezepten</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetApothekenList">
+            <summary>liefert eine Liste aller Apotheken</summary>
+            <returns>Liefert eine Liste mit den gefundenen Rezepten.</returns>
+        </member>
+        <member name="M:ArzTiServer.OpenAPIService.Controller.GetApothekeByIK(System.String)">
+            <summary>liefert Details einer Apotheke</summary>
+            <param name="apoik">Die Apotheken IK.</param>
+            <returns>liefert Details einer Apotheke.</returns>
+        </member>
+        <member name="P:ArzTiServer.OpenAPIService.RezeptStatus.Status">
+            <summary>Status des Rezepts</summary>
+        </member>
+        <member name="T:ArzTiServer.OpenAPIService.Rezept">
+            <summary>base64 codierte Leistung</summary>
+        </member>
+        <member name="T:ArzTiServer.OpenAPIService.RezeptId">
+            <summary>die Rezept ID</summary>
+        </member>
+        <member name="T:ArzTiServer.OpenAPIService.RezeptUId">
+            <summary>die Rezept RUID</summary>
+        </member>
+        <member name="T:ArzTiServer.Filters.BasePathFilter">
+            <summary>
+            BasePath Document Filter sets BasePath property of Swagger and removes it from the individual URL paths
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Filters.BasePathFilter.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="basePath">BasePath to remove from Operations</param>
+        </member>
+        <member name="P:ArzTiServer.Filters.BasePathFilter.BasePath">
+            <summary>
+            Gets the BasePath of the Swagger Doc
+            </summary>
+            <returns>The BasePath of the Swagger Doc</returns>
+        </member>
+        <member name="M:ArzTiServer.Filters.BasePathFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            Apply the filter
+            </summary>
+            <param name="swaggerDoc">OpenApiDocument</param>
+            <param name="context">FilterContext</param>
+        </member>
+        <member name="T:ArzTiServer.Filters.GeneratePathParamsValidationFilter">
+            <summary>
+            Path Parameter Validation Rules Filter
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Filters.GeneratePathParamsValidationFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="operation">Operation</param>
+            <param name="context">OperationFilterContext</param>
+        </member>
+        <member name="T:ArzTiServer.Security.BasicAuthenticationHandler">
+            <summary>
+            class to handle basic authentication.
+            </summary>
+        </member>
+        <member name="F:ArzTiServer.Security.BasicAuthenticationHandler.SchemeName">
+            <summary>
+            scheme name for authentication handler.
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Security.BasicAuthenticationHandler.HandleAuthenticateAsync">
+            <summary>
+            verify that require authorization header exists and handle decode data.
+            </summary>
+        </member>
+    </members>
+</doc>
