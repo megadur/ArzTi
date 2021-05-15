@@ -36,10 +36,10 @@ namespace ArzTiServer.xUnit.Services
         {
             // Arrange
             var service = this.CreateService();
-            IEnumerable<Abholstatus> body = null;
+            IEnumerable<RezeptUId> body = null;
 
             // Act
-            var result = await service.PutRezeptUIdListAbholstatusAsync(
+            var result = await service.PatchRezeptUIdListAbholstatusAsync(
                 body);
 
             // Assert
@@ -53,9 +53,9 @@ namespace ArzTiServer.xUnit.Services
             // Arrange
             var service = this.CreateService();
 
-            IEnumerable<RezeptUId> body = null;
+            List<RezeptUId> body = null;
             // Act
-            var result = await service.PutRezeptUidListPruefungAsync(
+            await service.PutRezeptUidListPruefungAsync (
                 body);
 
             // Assert

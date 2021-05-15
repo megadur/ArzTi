@@ -1,12 +1,22 @@
-﻿using System;
+﻿using ArzTiClient.OpenAPIService;
+using System;
+using System.Net.Http;
 
 namespace ArzTiClient
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        static async System.Threading.Tasks.Task Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            using var httpClient = new HttpClient();
+
+            var c= new Client(httpClient);
+
+            //Act
+            var result = await c.ApothekeGetAsync();
+
+
         }
     }
 }

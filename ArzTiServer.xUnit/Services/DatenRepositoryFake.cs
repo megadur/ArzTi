@@ -1,5 +1,6 @@
-using ArzTiServer.ArzTiService;
+
 using ArzTiServer.Models;
+using ArzTiServer.OpenAPIService;
 using ArzTiServer.Repositories;
 using System;
 using System.Collections.Generic;
@@ -47,56 +48,6 @@ namespace ArzTiServer.xUnit
             throw new NotImplementedException();
         }
 
-        public List<ErSenderezepteErezept> GetERezeptList()
-        {
-            return _erSenderezepteErezept;
-        }
-        public ErSenderezepteErezept GetERezept()
-        {
-            return _erSenderezepteErezept[0];
-        }
-
-        public IQueryable<ErSenderezepteErezept> GetERezeptQueryable()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<ErSenderezepteEmuster16> GetMRezeptList()
-        {
-            return _erSenderezepteMrezept;
-        }
-
-        public IQueryable<ErSenderezepteEmuster16> GetMRezeptQueryable()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<ErSenderezepteErezept> GetOffeneERezeptList(string apoik, int MaxNum)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<ErSenderezepteEmuster16> GetOffeneMRezeptList(string apoik, int MaxNum)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<ErSenderezeptePrezept> GetOffenePRezeptList(string apoik, int MaxNum)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public List<ErSenderezeptePrezept> GetPRezeptList()
-        {
-            return _erSenderezeptePrezept;
-        }
-
-        public IQueryable<ErSenderezeptePrezept> GetPRezeptQueryable()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<ErSenderezepteErezept> GetERezeptIdAsync(string apoik, string rezid)
         {
             throw new NotImplementedException();
@@ -107,7 +58,7 @@ namespace ArzTiServer.xUnit
             throw new NotImplementedException();
         }
 
-        public Task<List<ErSenderezepteErezept>> GetERezeptIdListByStatusAsync(string apoik, string zeitraum)
+        public Task<List<ErSenderezepteErezept>> GetERezeptIdListByStatusAsync(string apoik, string zeitraum, IEnumerable<string> status)
         {
             throw new NotImplementedException();
         }
@@ -117,38 +68,87 @@ namespace ArzTiServer.xUnit
             throw new NotImplementedException();
         }
 
-        public Task<ErSenderezepteErezept> GetERezeptIdStatusAsync(string apoik, string rezid)
+        public Task<ICollection<ErezeptPruefResult>> GetERezeptIdListPruefResAsync(string apoik, string zeitraum, IEnumerable<string> status)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezepteEmuster16>> IDatenERepository.GetMRezeptList()
+        public Task<ErSenderezepteErezept> GetERezeptIdStatusAsync(string apoik, string status)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezepteEmuster16>> IDatenERepository.GetMRezeptListOffen(string apoik, int MaxNum)
+        public Task<ICollection<StatusResult>> GetERezeptIdStatusListAsync(string apoik, string zeitraum)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezeptePrezept>> IDatenERepository.GetPRezeptList()
+        public Task<List<ErSenderezepteErezept>> GetERezeptListOffen(string apoik, int MaxNum)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezeptePrezept>> IDatenERepository.GetPRezeptListOffen(string apoik, int MaxNum)
+        public Task<ErSenderezepteErezept> GetERezeptUIdAsync(string ruid)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<ErSenderezepteErezept>> IDatenERepository.GetERezeptListOffen(string apoik, int MaxNum)
+        public Task<List<ErSenderezepteEmuster16>> GetMRezeptList()
         {
             throw new NotImplementedException();
         }
 
+        public Task<List<ErSenderezepteEmuster16>> GetMRezeptListOffen(string apoik, int MaxNum)
+        {
+            throw new NotImplementedException();
+        }
 
-        Task<List<ErSenderezepteErezept>> IDatenERepository.GetERezeptList()
+        public Task<List<ErSenderezeptePrezept>> GetPRezeptList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<ErSenderezeptePrezept>> GetPRezeptListOffen(string apoik, int MaxNum)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<string, bool>> PatchERezeptIdListAbholstatusAsync(string apoik, List<string> rezeptlist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<string, string>> PatchERezeptIdListStatusAsync(string apoik, Dictionary<string, string> rezeptlist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RezeptStatus> PatchERezeptIdStatusAsync(string apoik, string rezid, string status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<string, bool>> PatchERezeptUIdListAbholstatusAsync(List<string> rezeptlist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<string, string>> PatchERezeptUIdListStatusAsync(Dictionary<string, string> rezeptlist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RezeptStatus> PatchERezeptUIdStatusAsync(string ruid, string status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<string, bool>> PutERezeptIdListPruefungAsync(string apoik, List<string> rezeptlist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<string, bool>> PutERezeptUidListPruefungAsync(List<string> rezeptlist)
         {
             throw new NotImplementedException();
         }

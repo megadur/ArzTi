@@ -67,13 +67,14 @@ namespace ArzTiServer.xUnit.Services
             string apoik = null;
             RezeptTyp? reztyp = null;
             string zeitraum = null;
-            mockDatenRepository.Setup(d => d.GetERezeptIdListByStatusAsync(apoik, zeitraum)).Returns(fake.GetERezeptIdListAsync(apoik, 0 , null));
+            List<string> status = null;
+            mockDatenRepository.Setup(d => d.GetERezeptIdListByStatusAsync(apoik, zeitraum, status)).Returns(fake.GetERezeptIdListAsync(apoik, 0 , null));
 
             // Act
             var result = await service.GetRezeptIdListByStatusAsync(
                 apoik,
                 reztyp,
-                zeitraum);
+                zeitraum, status);
 
             // Assert
             Assert.Equal(3, result.Count());
@@ -130,10 +131,10 @@ namespace ArzTiServer.xUnit.Services
             // Arrange
             var service = this.CreateService();
             string apoik = null;
-            IEnumerable<Abholstatus> body = null;
+            IEnumerable<RezeptId> body = null;
 
             // Act
-            var result = await service.PutRezeptIdListAbholstatusAsync(
+            await service.PatchRezeptIdListAbholstatusAsync(
                 apoik,
                 body);
 
@@ -148,9 +149,9 @@ namespace ArzTiServer.xUnit.Services
             // Arrange
             var service = this.CreateService();
             string apoik = null;
-            ICollection<Rezept> body = null;
+            List<RezeptId> body = null;
             // Act
-            var result = await service.PutRezeptIdListPruefungAsync(
+            await service.PutRezeptIdListPruefungAsync(
                 apoik,
                 body);
 

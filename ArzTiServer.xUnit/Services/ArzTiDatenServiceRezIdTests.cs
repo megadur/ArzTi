@@ -93,7 +93,7 @@ namespace ArzTiServer.xUnit.Services
             var service = this.CreateService();
             string apoik = null;
             string rezid = null;
-            RezeptStatus body = null;
+            string body = null;
 
             RezeptTyp reztyp = default;
             // Act

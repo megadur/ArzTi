@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Authentication;
 using ArzTiServer.Filters;
 using System.IO;
 using System;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace ArzTiServer
 {
@@ -73,12 +75,13 @@ namespace ArzTiServer
                 });
                 c.CustomSchemaIds(type => type.FullName);
                 c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
+                //c.TagActionsBy(p => p.HttpMethod); //Group and order by httpMethod.
 
+                c.DocInclusionPredicate((name, api) => true);
                 c.DocumentFilter<BasePathFilter>("/v1");
                 // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
                 // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                 c.OperationFilter<GeneratePathParamsValidationFilter>();
-
                 c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -107,12 +110,14 @@ namespace ArzTiServer
             services.AddScoped<IArzTiDatenService, ArzTiDatenService>();
             services.AddScoped<IArzTiVerwaltungService, ArzTiVerwaltungService>();
             services.AddScoped<IDatenERepository, DatenERepository>();
-            //services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
+            services.AddScoped<IVerwaltungRepository, VerwaltungRepository>();
+            services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
 
 
-            var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
-            services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["ApoDatenConnectionString"]));
-            services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["ApoVerwaltungConnectionString"]));
+            //var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
+            //services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["PostgreSqlConnectionString"]));
+            services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["OpiPcConnectionString"]));
+            //services.AddDbContext<ArzDBContext>(options => options.UseSqlite("Filename=TestDatabase.db"));
 
             _logger.LogInformation($"{nameof(ConfigureServices)} complete...");
         }
@@ -160,5 +165,36 @@ namespace ArzTiServer
             });
             */
         }
+
+        /*void fillDb()
+        {
+            string dbName = "TestDatabase.db";
+            if (File.Exists(dbName))
+            {
+                File.Delete(dbName);
+            }
+            using (var dbContext = new    ArzDBContext())
+            {
+                //Ensure database is created
+                dbContext.Database.EnsureCreated();
+                if (!dbContext.ErApotheke.Any())
+                {
+                    dbContext.ErApotheke.AddRange(new ErApotheke[]
+                        {
+                             new ErApotheke{ ApoIkNr =1L, ApothekeName="A1" },
+                             new ErApotheke{ ApoIkNr =2L, ApothekeName="A2" },
+                             new ErApotheke{ ApoIkNr =2L, ApothekeName="A3" }
+                        });
+                    dbContext.SaveChanges();
+                }
+                foreach (var blog in dbContext.ErApotheke)
+                {
+                    Console.WriteLine($"BlogID={blog.BlogId}\tTitle={blog.Title}\t{blog.SubTitle}\tDateTimeAdd={blog.DateTimeAdd}");
+                }
+            }
+            Console.ReadLine();
+        }
+    }
+        */
     }
 }

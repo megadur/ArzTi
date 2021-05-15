@@ -1,4 +1,5 @@
-﻿using ArzTiServer.ArzTiService;
+﻿
+using ArzTiServer.OpenAPIService;
 using ArzTiServer.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,52 +28,72 @@ namespace ArzTiServer.Controllers.Tests
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<RezeptStatus>> GetRezeptIdListByStatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
+        public Task<ICollection<Rezept>> GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<RezeptStatus>> GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
+        public Task<ICollection<RezeptPruefResult>> GetRezeptIdListPruefResAsync(string apoik, RezeptTyp? reztyp, string zeitraum, IEnumerable<string> status)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Rezept> GetRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid)
+        public Task<Rezept> GetRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string status)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<Rezept>> GetRezeptUIdAsync(string ruid)
+        public Task<ICollection<RezeptStatus>> GetRezeptIdStatusListAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Rezept> PatchRezeptIdStatusAsync(string apoik, Reztyp reztyp, string rezid, RezeptStatus body)
+        public Task<Rezept> GetRezeptUIdAsync(string ruid)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Rezept> PatchRezeptUIdStatusAsync(string ruid, RezeptStatus body)
+        public Task<RezeptStatus> GetRezeptUIdStatusAsync(string ruid)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Abholstatus> PutRezeptIdListAbholstatusAsync(string apoik, IEnumerable<Abholstatus> body)
+        public Task<ICollection<Abholstatus>> PatchRezeptIdListAbholstatusAsync(string apoik, IEnumerable<RezeptId> body)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<RezeptPruefRes> PutRezeptIdListPruefungAsync(string apoik, Rezept body)
+        public Task<ICollection<RezeptStatus>> PatchRezeptIdListStatusAsync(string apoik, IEnumerable<RezeptStatus> body)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Abholstatus> PutRezeptUIdListAbholstatusAsync(IEnumerable<Abholstatus> body)
+        public Task<RezeptStatus> PatchRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid, string body)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<RezeptPruefRes> PutRezeptUidListPruefungAsync(Rezept body)
+        public Task<ICollection<Abholstatus>> PatchRezeptUIdListAbholstatusAsync(IEnumerable<RezeptUId> body)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<ICollection<RezeptStatus>> PatchRezeptUIdListStatusAsync(IEnumerable<RezeptStatus> body)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<RezeptStatus> PatchRezeptUIdStatusAsync(string ruid, string body)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task PutRezeptIdListPruefungAsync(string apoik, IEnumerable<RezeptId> body)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task PutRezeptUidListPruefungAsync(IEnumerable<RezeptUId> body)
         {
             throw new System.NotImplementedException();
         }

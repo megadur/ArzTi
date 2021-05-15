@@ -64,7 +64,7 @@ namespace ArzTiServer.xUnit.Services
             var service = this.CreateService();
             string ruid = null;
 
-            OpenAPIService.RezeptStatusUId body = null;
+            string body = null;
             // Act
             var result = await service.PatchRezeptUIdStatusAsync(
                 ruid,
