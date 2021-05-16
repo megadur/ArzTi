@@ -19,7 +19,10 @@ namespace ArzTiServer.Repositories
         Task<ErSenderezepteErezept> GetERezeptIdStatusAsync(string apoik, string status);
 
         Task<ICollection<ErezeptPruefResult>>   GetERezeptIdListPruefResAsync(string apoik, string zeitraum, IEnumerable<string> status);
-        Task<ICollection<StatusResult>>         GetERezeptIdStatusListAsync(string apoik, string zeitraum);
+        Task<List<ErSenderezepteErezept>>       GetERezeptIdStatusListAsync(string apoik, string zeitraum);
+        Task<ErSenderezepteErezeptDaten>        GetERezeptDatenAsync(int id);
+        Task<ErSenderezepteErezeptStatus>       GetERezeptStatusAsync(int id);
+        Task<List<ErSenderezepteErezeptStatusinfo>> GetERezeptStatusinfoListAsync(int id);
 
         Task<List<ErSenderezepteErezept>> GetERezeptIdListAsync(string apoik, int? maxnum, string zeitraum);
         Task<List<ErSenderezepteErezept>> GetERezeptIdListByStatusAsync(string apoik, string zeitraum, IEnumerable<string> status);
@@ -32,8 +35,7 @@ namespace ArzTiServer.Repositories
         Task<Dictionary<string, bool>> PatchERezeptIdListAbholstatusAsync(string apoik, List<string> rezeptlist);
         Task<Dictionary<string, bool>> PatchERezeptUIdListAbholstatusAsync(List<string> rezeptlist);
 
-        Task<RezeptStatus> PatchERezeptIdStatusAsync(string apoik, string rezid, string  status);
-        Task<RezeptStatus> PatchERezeptUIdStatusAsync(string ruid, string status);
+        Task<ErSenderezepteErezeptStatus> PatchERezeptStatusAsync(int id, string status);
 
 
         #endregion

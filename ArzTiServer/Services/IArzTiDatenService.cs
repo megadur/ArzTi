@@ -10,10 +10,10 @@ namespace ArzTiServer.Services
         Task<Rezept> GetRezeptIdAsync(string apoik, RezeptTyp reztyp, string rezid);
         Task<Rezept> GetRezeptUIdAsync(string ruid);
         Task<Rezept> GetRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string status);
-        Task<ICollection<Rezept>> GetRezeptIdListAsync(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum);
-        Task<ICollection<Rezept>> GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum);
-        Task<ICollection<RezeptStatus>> GetRezeptIdStatusListAsync(string apoik, RezeptTyp? reztyp, string zeitraum);
-        Task<ICollection<RezeptPruefResult>> GetRezeptIdListPruefResAsync(string apoik, RezeptTyp? reztyp, string zeitraum, IEnumerable<string> status);
+        Task<ICollection<Rezept>>               GetRezeptIdListAsync(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum);
+        Task<ICollection<Rezept>>               GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum);
+        Task<ICollection<RezeptStatus>>         GetRezeptIdStatusListAsync(string apoik, RezeptTyp? reztyp, string zeitraum);
+        Task<ICollection<RezeptPruefResult>>    GetRezeptIdListPruefResAsync(string apoik, RezeptTyp? reztyp, string zeitraum, IEnumerable<string> status);
 
         Task<RezeptStatus>              GetRezeptUIdStatusAsync(string ruid);
         Task<RezeptStatus>              PatchRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid, string body);

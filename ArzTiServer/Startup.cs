@@ -75,7 +75,7 @@ namespace ArzTiServer
                 });
                 c.CustomSchemaIds(type => type.FullName);
                 c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
-                //c.TagActionsBy(p => p.HttpMethod); //Group and order by httpMethod.
+                c.TagActionsBy(p => p.HttpMethod); //Group and order by httpMethod.
 
                 c.DocInclusionPredicate((name, api) => true);
                 c.DocumentFilter<BasePathFilter>("/v1");
@@ -114,10 +114,14 @@ namespace ArzTiServer
             services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
 
 
-            //var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
+            var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
             //services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["PostgreSqlConnectionString"]));
             services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["OpiPcConnectionString"]));
             //services.AddDbContext<ArzDBContext>(options => options.UseSqlite("Filename=TestDatabase.db"));
+            //var connectionString = new ConnectionString(Configuration.GetConnectionString("DefaultConnection"));
+   
+            //services.AddHealthChecks().AddNpgSql(sqlConnectionString);
+            //services.AddHealthChecksUI().AddInMemoryStorage();
 
             _logger.LogInformation($"{nameof(ConfigureServices)} complete...");
         }
@@ -133,10 +137,12 @@ namespace ArzTiServer
 
             builder.UseAuthorization();
 
-  
+ 
             builder.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+ //               endpoints.MapHealthChecks("/health");
+ //               endpoints.MapHealthChecksUI();
             });
 
             if (env.IsDevelopment())

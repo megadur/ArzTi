@@ -245,8 +245,14 @@
         <member name="P:ArzTiServer.OpenAPIService.RezeptStatus.Status">
             <summary>Status des Rezepts</summary>
         </member>
+        <member name="T:ArzTiServer.OpenAPIService.RezeptTyp">
+            <summary>E-, M-, oder P-Rezept</summary>
+        </member>
         <member name="T:ArzTiServer.OpenAPIService.Rezept">
             <summary>base64 codierte Leistung</summary>
+        </member>
+        <member name="P:ArzTiServer.OpenAPIService.Rezept.Status">
+            <summary>Status des Rezepts</summary>
         </member>
         <member name="T:ArzTiServer.OpenAPIService.RezeptId">
             <summary>die Rezept ID</summary>

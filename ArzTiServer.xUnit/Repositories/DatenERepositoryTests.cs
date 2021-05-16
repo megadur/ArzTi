@@ -20,7 +20,7 @@ namespace ArzTiServer.xUnit.Repositories
 
         public DatenERepositoryTests()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
+            this.mockRepository = new MockRepository(MockBehavior.Default);
 
             this.mockArzDBContext = this.mockRepository.Create<ArzDBContext>();
         }
@@ -87,15 +87,22 @@ namespace ArzTiServer.xUnit.Repositories
         public async Task GetERezeptIdListAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            string apoik = null;
+            string apoik = "1";
             int? maxnum = null;
             string zeitraum = null;
-
+            var datens = new List<ErSenderezepteErezeptDaten>
+            {
+                new ErSenderezepteErezeptDaten{ RezeptUuid ="UUID1", TransferArz =false, XmlRequest="XML1"}
+            };
+            var statuses = new List<ErSenderezepteErezeptStatus>
+            {
+                new ErSenderezepteErezeptStatus{ ErezeptId ="Id1", RezeptStatus="Status1"}
+            };
             var data = new List<ErSenderezepteErezept>
                             {
-                                new ErSenderezepteErezept { ErezeptId =  "BBB", ApoIkNr= 1L} ,
-                                new ErSenderezepteErezept { ErezeptId = "ZZZ", ApoIkNr= 2L },
-                                new ErSenderezepteErezept { ErezeptId = "AAA", ApoIkNr= 3L },
+                                new ErSenderezepteErezept { ErezeptId =  "BBB", ApoIkNr= 1L, ErSenderezepteErezeptDatens=datens , ErSenderezepteErezeptStatuses=statuses  } ,
+                                new ErSenderezepteErezept { ErezeptId = "ZZZ", ApoIkNr= 2L, ErSenderezepteErezeptDatens=datens , ErSenderezepteErezeptStatuses=statuses  },
+                                new ErSenderezepteErezept { ErezeptId = "AAA", ApoIkNr= 3L, ErSenderezepteErezeptDatens=datens , ErSenderezepteErezeptStatuses=statuses  },
                             };
 
             var mock = data.AsQueryable().BuildMockDbSet();
@@ -113,7 +120,7 @@ namespace ArzTiServer.xUnit.Repositories
                 zeitraum);
 
             // Assert
-            Assert.Equal(3, result.Count);
+            Assert.Single(result);
             this.mockArzDBContext.Verify(f => f.ErSenderezepteErezepts, Times.Once);
             //this.mockRepository.VerifyAll();
         }
@@ -281,14 +288,12 @@ namespace ArzTiServer.xUnit.Repositories
         {
             // Arrange
             var datenERepository = this.CreateDatenERepository();
-            string apoik = null;
-            string rezid = null;
+            int id = 0;
             string status = null;
 
             // Act
-            var result = await datenERepository.PatchERezeptIdStatusAsync(
-                apoik,
-                rezid,
+            var result = await datenERepository.PatchERezeptStatusAsync(
+                id,
                 status);
 
             // Assert
@@ -296,23 +301,6 @@ namespace ArzTiServer.xUnit.Repositories
             this.mockRepository.VerifyAll();
         }
 
-        [Fact]
-        public async Task PatchERezeptUIdStatusAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var datenERepository = this.CreateDatenERepository();
-            string ruid = null;
-            string status = null;
-
-            // Act
-            var result = await datenERepository.PatchERezeptUIdStatusAsync(
-                ruid,
-                status);
-
-            // Assert
-            Assert.True(false);
-            this.mockRepository.VerifyAll();
-        }
 
         [Fact]
         public async Task PatchERezeptIdListStatusAsync_StateUnderTest_ExpectedBehavior()

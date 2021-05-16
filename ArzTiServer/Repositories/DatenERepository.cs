@@ -59,9 +59,14 @@ namespace ArzTiServer.Repositories
         public async Task<List<ErSenderezepteErezept>>  GetERezeptIdListAsync(string apoik, int? maxnum, string zeitraum)
         {
             #region disable_format
-            return await _context.ErSenderezepteErezepts
+            var r=await _context.ErSenderezepteErezepts
+                //.Join(_context.ErSenderezepteErezeptDatens, r => r.IdSenderezepteErezept, d => d.IdSenderezepteErezept, (r, d) => new { ErSenderezepteErezept = r})
                 .Where(a => a.ApoIkNr.ToString() == apoik)
+                //.Select(post => new { post, post.ErSenderezepteErezeptDatens  })
+                //.SelectMany(suit => _context.ErSenderezepteErezeptDatens.Select(rank => new { Suit = suit, suit.ErSenderezepteErezeptDatens = rank }))
                 .ToListAsync();
+
+            return r;
             #endregion
         }
         public async Task<List<ErSenderezepteErezept>>  GetERezeptIdListByTransferAsync(string apoik, string zeitraum)
@@ -72,7 +77,7 @@ namespace ArzTiServer.Repositories
                  .ToListAsync();
             #endregion
         }
-        public async Task<ICollection<StatusResult>>    GetERezeptIdStatusListAsync(string apoik, string zeitraum)
+        public async Task<List<ErSenderezepteErezept>>    GetERezeptIdStatusListAsync(string apoik, string zeitraum)
         {
             #region disable_format
             var res = await _context.ErSenderezepteErezepts
@@ -83,9 +88,9 @@ namespace ArzTiServer.Repositories
             List<StatusResult> list = new();
             foreach (var r in res)
             {
-                list.Add(new StatusResult() { id = r.ErezeptId, uid = r.ErSenderezepteErezeptDatens.First().RezeptUuid, status = r.ErSenderezepteErezeptStatuses.First().RezeptStatus });
+                //list.Add(new StatusResult() { id = r.ErezeptId, uid = r.ErSenderezepteErezeptDatens.First().RezeptUuid, status = r.ErSenderezepteErezeptStatuses.First().RezeptStatus });
             }
-            return list;
+            return res;
         }
 
 
@@ -190,52 +195,21 @@ namespace ArzTiServer.Repositories
 
         #endregion
         #region ERezept Patch
-        public async Task<RezeptStatus> PatchERezeptIdStatusAsync(string apoik, string rezid, string status)
+        public async Task<ErSenderezepteErezeptStatus> PatchERezeptStatusAsync(int id, string status)
         {
-            RezeptStatus stat = new() { Id = new RezeptId() { Id = rezid, Typ = RezeptTyp.ERezept } };
             #region disable_format
-            var res = _context.ErSenderezepteErezepts
-                    .Where(a => a.ApoIkNr == long.Parse(apoik))
-                    .Where(a => a.ErezeptId == rezid)
+            var res = _context.ErSenderezepteErezeptStatuses
+                    .Where(s => s.IdSenderezepteErezept.GetValueOrDefault().Equals(id))
                     .First()
                     ;
             #endregion
             if (res != null)
             {
                 lock (_context.ErSenderezepteErezepts)
-                    res.ErSenderezepteErezeptStatuses.First().RezeptStatus = status;
-
-                stat.Status = status;
-            }
-            else
-            {
-                stat.Status = "";
+                    res.RezeptStatus = status;
             }
             await _context.SaveChangesAsync();
-            return stat;
-        }
-        public async Task<RezeptStatus> PatchERezeptUIdStatusAsync(string ruid, string status)
-        {
-            RezeptStatus stat = new() { Uid = new RezeptUId() { Ruid = ruid } };
-            #region disable_format
-            var res = _context.ErSenderezepteErezepts
-                      .Where(a => a.ErSenderezepteErezeptDatens.First().RezeptUuid == ruid)
-                      .First()
-                    ;
-            #endregion
-            if (res != null)
-            {
-                lock (_context.ErSenderezepteErezepts)
-                    res.ErSenderezepteErezeptStatuses.First().RezeptStatus = status;
-
-                stat.Status = status;
-            }
-            else
-            {
-                stat.Status = "";
-            }
-            await _context.SaveChangesAsync();
-            return stat;
+            return res;
         }
         public async Task<Dictionary<string, string>> PatchERezeptIdListStatusAsync(string apoik, Dictionary<string, string> rezeptlist)
         {
@@ -411,5 +385,36 @@ namespace ArzTiServer.Repositories
 
         }
 
+        public async Task<ErSenderezepteErezeptDaten> GetERezeptDatenAsync(int id)
+        {
+            #region disable_format
+            return await _context.ErSenderezepteErezeptDatens
+                .Where(a => a.IdSenderezepteErezept == id)
+                .FirstAsync()
+                ;
+            #endregion       
+        }
+
+        public async Task<ErSenderezepteErezeptStatus> GetERezeptStatusAsync(int id)
+        {
+            #region disable_format
+            return await _context
+                .ErSenderezepteErezeptStatuses 
+                .Where(a => a.IdSenderezepteErezept == id)
+                .FirstAsync()
+                ;
+            #endregion       
+        }
+
+        public async Task<List<ErSenderezepteErezeptStatusinfo>> GetERezeptStatusinfoListAsync(int id)
+        {
+            #region disable_format
+            return await _context
+                .ErSenderezepteErezeptStatusinfos
+                .Where(a => a.IdSenderezepteErezept == id)
+                .ToListAsync ()
+                ;
+            #endregion       
+        }
     }
 }

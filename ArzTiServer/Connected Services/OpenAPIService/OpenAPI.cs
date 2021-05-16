@@ -376,6 +376,7 @@ namespace ArzTiServer.OpenAPIService
     
     }
     
+    /// <summary>E-, M-, oder P-Rezept</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v12.0.0.2)")]
     public enum RezeptTyp
     {
@@ -402,6 +403,13 @@ namespace ArzTiServer.OpenAPIService
     
         [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Data { get; set; }
+    
+        /// <summary>Status des Rezepts</summary>
+        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Status { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("apoik", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Apoik { get; set; }
     
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
     
@@ -467,7 +475,40 @@ namespace ArzTiServer.OpenAPIService
         public RezeptUId Uid { get; set; }
     
         [Newtonsoft.Json.JsonProperty("statusinfo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<string> Statusinfo { get; set; }
+        public System.Collections.Generic.List<Statusinfo> Statusinfo { get; set; }
+    
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
+    
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties; }
+            set { _additionalProperties = value; }
+        }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v12.0.0.2)")]
+    public partial class Statusinfo 
+    {
+        [Newtonsoft.Json.JsonProperty("fcode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Fcode { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("fstatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Fstatus { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("fkommentar", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Fkommentar { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("ftcode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Ftcode { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("posnr", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Posnr { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("fkurztext", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Fkurztext { get; set; }
     
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties = new System.Collections.Generic.Dictionary<string, object>();
     

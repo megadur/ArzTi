@@ -1400,6 +1400,7 @@
       },
       "RezeptTyp": {
         "type": "string",
+        "description": "E-, M-, oder P-Rezept",
         "enum": [
           "ERezept",
           "MRezept",
@@ -1418,6 +1419,13 @@
             "$ref": "#/components/schemas/RezeptUId"
           },
           "data": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status des Rezepts"
+          },
+          "apoik": {
             "type": "string"
           }
         }
@@ -1457,8 +1465,31 @@
           "statusinfo": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/Statusinfo"
             }
+          }
+        }
+      },
+      "Statusinfo": {
+        "type": "object",
+        "properties": {
+          "fcode": {
+            "type": "string"
+          },
+          "fstatus": {
+            "type": "string"
+          },
+          "fkommentar": {
+            "type": "string"
+          },
+          "ftcode": {
+            "type": "string"
+          },
+          "posnr": {
+            "type": "string"
+          },
+          "fkurztext": {
+            "type": "string"
           }
         }
       },
