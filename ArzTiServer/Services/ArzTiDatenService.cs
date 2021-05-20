@@ -1,6 +1,5 @@
 ﻿
 using ArzTiServer.Models;
-using ArzTiServer.OpenAPIService;
 using ArzTiServer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,7 +25,7 @@ namespace ArzTiServer.Services
 
             return new Rezept
             {
-                Id = new RezeptId() { Id = item.ErezeptId, Typ = RezeptTyp.ERezept },               
+                Id = new RezeptId() { Id = item.ErezeptId, Typ = RezeptTyp.ERezeptEnum },               
                 Uid = new RezeptUId() { Ruid = erd .RezeptUuid},
                 Data = erd.XmlRequest,
                 Status= ers.RezeptStatus
@@ -46,7 +45,7 @@ namespace ArzTiServer.Services
         private async Task<RezeptStatus> getERezeptStatus(ErSenderezepteErezept item)
         {
             var ers = await _datenRepository.GetERezeptStatusAsync(item.IdSenderezepteErezept);
-            return new RezeptStatus() { Id = new RezeptId() { Id = item.ErezeptId, Typ = RezeptTyp.ERezept }, Status = ers.RezeptStatus };
+            return new RezeptStatus() { Id = new RezeptId() { Id = item.ErezeptId, Typ = RezeptTyp.ERezeptEnum }, Status = ers.RezeptStatus };
         }
         private bool checkERezStatus(string rezeptStatus)
         {
@@ -92,7 +91,7 @@ namespace ArzTiServer.Services
 
             return new Rezept
             {
-                Id = new RezeptId() { Id = item.Muster16Id.ToString() , Typ = RezeptTyp.MRezept },
+                Id = new RezeptId() { Id = item.Muster16Id.ToString() , Typ = RezeptTyp.MRezeptEnum },
                 Data = item.ErSenderezepteEmuster16Datens.First().XmlRequest
             };
 
@@ -111,7 +110,7 @@ namespace ArzTiServer.Services
         {
             if (checkMRezStatus(item.ErSenderezepteEmuster16Statuses.Last().RezeptStatus))
             {
-                return new RezeptStatus() { Id = new RezeptId() { Id = item.Muster16Id.ToString() , Typ = RezeptTyp.ERezept }, Status = item.ErSenderezepteEmuster16Statuses.Last().RezeptStatus };
+                return new RezeptStatus() { Id = new RezeptId() { Id = item.Muster16Id.ToString() , Typ = RezeptTyp.ERezeptEnum }, Status = item.ErSenderezepteEmuster16Statuses.Last().RezeptStatus };
             }
             return null;
         }
@@ -134,7 +133,7 @@ namespace ArzTiServer.Services
         #region Get
         public async Task<Rezept> GetRezeptIdAsync(string apoik, RezeptTyp reztyp, string rezid)
         {
-            if (reztyp == RezeptTyp.ERezept)
+            if (reztyp == RezeptTyp.ERezeptEnum)
             {
                 var res = await _datenRepository.GetERezeptIdAsync(apoik, rezid);
                 return await getERez(res);
@@ -148,7 +147,7 @@ namespace ArzTiServer.Services
         }
         public async Task<Rezept> GetRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid)
         {
-            if (reztyp == RezeptTyp.ERezept)
+            if (reztyp == RezeptTyp.ERezeptEnum)
             {
                 var res = await _datenRepository.GetERezeptIdStatusAsync(apoik, rezid);
                 return await getERez(res);
@@ -159,7 +158,7 @@ namespace ArzTiServer.Services
         public async Task<ICollection<Rezept>> GetRezeptIdListAsync(string apoik, RezeptTyp? reztyp, int? maxnum, string zeitraum)
         {
             List<Rezept> rezList = new List<Rezept>();
-            if (reztyp ==null || reztyp == RezeptTyp.ERezept)
+            if (reztyp ==null || reztyp == RezeptTyp.ERezeptEnum)
             {
                 var erl = await _datenRepository.GetERezeptIdListAsync(apoik, maxnum, zeitraum);
                 foreach(var r in erl)
@@ -174,7 +173,7 @@ namespace ArzTiServer.Services
         public async Task<ICollection<Rezept>> GetRezeptIdListByTransferAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
         {
             var rezList = new List<Rezept>();
-            if (reztyp ==null || reztyp == RezeptTyp.ERezept)
+            if (reztyp ==null || reztyp == RezeptTyp.ERezeptEnum)
             {
                 var list = await _datenRepository.GetERezeptIdListByTransferAsync(apoik, zeitraum);
                 rezList.AddRange(await getERezList(list));
@@ -184,7 +183,7 @@ namespace ArzTiServer.Services
         public async Task<ICollection<Rezept>> GetRezeptIdListByStatusAsync(string apoik, RezeptTyp? reztyp, string zeitraum, IEnumerable<string> status)
         {
             List<Rezept> resList = new ();
-            if (reztyp ==null || reztyp == RezeptTyp.ERezept)
+            if (reztyp ==null || reztyp == RezeptTyp.ERezeptEnum)
             {
                 var res = await _datenRepository.GetERezeptIdListByStatusAsync(apoik, zeitraum, status);
                 List<StatusResult> list = new();
@@ -199,7 +198,7 @@ namespace ArzTiServer.Services
         public async Task<ICollection<RezeptStatus>> GetRezeptIdStatusListAsync(string apoik, RezeptTyp? reztyp, string zeitraum)
         {
             List<RezeptStatus> resList = new ();
-            if (reztyp ==null || reztyp == RezeptTyp.ERezept)
+            if (reztyp ==null || reztyp == RezeptTyp.ERezeptEnum)
             {
                 var list = await _datenRepository.GetERezeptIdStatusListAsync(apoik, zeitraum);
                 resList.AddRange(await getERezStatusList(list));
@@ -209,7 +208,7 @@ namespace ArzTiServer.Services
         public async Task<ICollection<RezeptPruefResult>> GetRezeptIdListPruefResAsync(string apoik, RezeptTyp? reztyp, string zeitraum, IEnumerable<string> status)
         {
             List<RezeptPruefResult> resList = new ();
-            if (reztyp ==null || reztyp == RezeptTyp.ERezept)
+            if (reztyp ==null || reztyp == RezeptTyp.ERezeptEnum)
             {
                 ICollection<ErezeptPruefResult> list = await _datenRepository.GetERezeptIdListPruefResAsync(apoik, zeitraum, status);
                 foreach(ErezeptPruefResult r in list)
@@ -220,7 +219,7 @@ namespace ArzTiServer.Services
                     {
                         siList.Add( new Statusinfo { Fcode = si.Fcode , Fkommentar =si.Fkommentar , Fstatus= si.Fstatus });
                     }
-                    resList.Add(new RezeptPruefResult() { Id =new RezeptId() { Id = r.id , Typ = RezeptTyp.ERezept }, Uid = new RezeptUId() { Ruid= r.uid }, Statusinfo = siList });
+                    resList.Add(new RezeptPruefResult() { Id =new RezeptId() { Id = r.id , Typ = RezeptTyp.ERezeptEnum }, Uid = new RezeptUId() { Ruid= r.uid }, Statusinfo = siList });
                 }
             }
             return resList;
@@ -238,7 +237,7 @@ namespace ArzTiServer.Services
             List<string> rezeptlist = new ();
             foreach (var a in body)
             {
-                if (a.Typ == RezeptTyp.ERezept)
+                if (a.Typ == RezeptTyp.ERezeptEnum)
                 {
                     rezeptlist.Add(a.Id);
                 }
@@ -246,7 +245,7 @@ namespace ArzTiServer.Services
             var res = await _datenRepository.PatchERezeptIdListAbholstatusAsync(apoik, rezeptlist);
             foreach (var r in res)
             {
-                list.Add(new Abholstatus() { Id = new RezeptId() { Id = r.Key,Typ = RezeptTyp.ERezept }, Uid = new RezeptUId() { }, Abgeholt = r.Value });
+                list.Add(new Abholstatus() { Id = new RezeptId() { Id = r.Key,Typ = RezeptTyp.ERezeptEnum }, Uid = new RezeptUId() { }, Abgeholt = r.Value });
             }
             return list;
         }
@@ -261,7 +260,7 @@ namespace ArzTiServer.Services
             var res = await _datenRepository.PatchERezeptUIdListAbholstatusAsync(rezeptlist);
             foreach (var r in res)
             {
-                list.Add(new Abholstatus() { Id = new RezeptId() { Id = r.Key, Typ = RezeptTyp.ERezept }, Uid = new RezeptUId() { }, Abgeholt = r.Value });
+                list.Add(new Abholstatus() { Id = new RezeptId() { Id = r.Key, Typ = RezeptTyp.ERezeptEnum }, Uid = new RezeptUId() { }, Abgeholt = r.Value });
             }
             return list;
         }
@@ -271,7 +270,7 @@ namespace ArzTiServer.Services
             List<string> rezeptlist = new ();
             foreach (var a in body)
             {
-                if (a.Typ == RezeptTyp.ERezept)
+                if (a.Typ == RezeptTyp.ERezeptEnum)
                 {
                     rezeptlist.Add(a.Id);
                 }
@@ -294,7 +293,7 @@ namespace ArzTiServer.Services
         #region Patch
         public async Task<RezeptStatus> PatchRezeptIdStatusAsync(string apoik, RezeptTyp reztyp, string rezid, string status)
         {
-            if (reztyp == RezeptTyp.ERezept)
+            if (reztyp == RezeptTyp.ERezeptEnum)
             {
                 var r = await _datenRepository.GetERezeptIdAsync(apoik, rezid);
                 if (r == null)
@@ -308,7 +307,7 @@ namespace ArzTiServer.Services
             var s = await _datenRepository.PatchERezeptStatusAsync(id, status);
             if (s == null)
                 return null;
-            return new RezeptStatus() { Id = new RezeptId() { Id = rezid, Typ = RezeptTyp.ERezept }, Status = s.RezeptStatus };
+            return new RezeptStatus() { Id = new RezeptId() { Id = rezid, Typ = RezeptTyp.ERezeptEnum }, Status = s.RezeptStatus };
 
         }
         public async Task<RezeptStatus> PatchRezeptUIdStatusAsync(string ruid, string status)
@@ -326,14 +325,14 @@ namespace ArzTiServer.Services
             Dictionary<string, string> rezeptlist = new();
             foreach (var a in body)
             {
-                if (a.Id.Typ == RezeptTyp.ERezept)
+                if (a.Id.Typ == RezeptTyp.ERezeptEnum)
                   rezeptlist.Add(a.Id.Id, a.Status   );
             }
             Dictionary<string, string> rs = await _datenRepository.PatchERezeptIdListStatusAsync(apoik, rezeptlist);
             List<RezeptStatus> rslist = new();
             foreach (var r in rs)
             {
-                rslist.Add(new RezeptStatus() { Id =new RezeptId() { Id =r.Key , Typ = RezeptTyp.ERezept }, Status =r.Value  });
+                rslist.Add(new RezeptStatus() { Id =new RezeptId() { Id =r.Key , Typ = RezeptTyp.ERezeptEnum }, Status =r.Value  });
             }
             return rslist;
         }
@@ -342,7 +341,7 @@ namespace ArzTiServer.Services
             Dictionary<string, string> rezeptlist = new();
             foreach (var a in body)
             {
-                if (a.Id.Typ == RezeptTyp.ERezept)
+                if (a.Id.Typ == RezeptTyp.ERezeptEnum)
                     rezeptlist.Add(a.Id.Id, a.Status );
             }
             Dictionary<string, string> rs = await _datenRepository.PatchERezeptUIdListStatusAsync(rezeptlist);
@@ -358,7 +357,7 @@ namespace ArzTiServer.Services
         #region Delete
         public async Task<Rezept> DeleteRezeptIdAsync(string apoik, RezeptTyp reztyp, string rezid)
         {
-            if (reztyp == RezeptTyp.ERezept)
+            if (reztyp == RezeptTyp.ERezeptEnum)
             {
                 var res = await _datenRepository.DeleteERezeptIdAsync(apoik, rezid);
                 return await getERez(res);

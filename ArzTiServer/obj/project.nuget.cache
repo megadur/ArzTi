@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "pwdOOOhAbkZbTLYHobu/vaSvPBjp77TQxaWkwXJ+48yq/pLk9jFEQxbq38CkG79Yj1LKDyD9QWyhvV9b2EEW3w==",
+  "dgSpecHash": "rd6B3uOJeUzIRNnfgrQvxIvM09X3bVUzIfuKUrKKRtLu9hITdvX72JI9QO4/fiCNNspmGSFUqyagRatpdkzQWg==",
   "success": true,
-  "projectFilePath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj",
+  "projectFilePath": "C:\\data\\src\\Apo\\_src\\ArzTi\\ArzTiServer\\ArzTiServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DonTillo\\.nuget\\packages\\aspnetcore.healthchecks.npgsql\\5.0.2\\aspnetcore.healthchecks.npgsql.5.0.2.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\aspnetcore.healthchecks.ui\\5.0.1\\aspnetcore.healthchecks.ui.5.0.1.nupkg.sha512",
@@ -147,6 +147,7 @@
     "C:\\Users\\DonTillo\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.0.4\\sqlitepclraw.lib.e_sqlite3.2.0.4.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\sqlitepclraw.provider.dynamic_cdecl\\2.0.4\\sqlitepclraw.provider.dynamic_cdecl.2.0.4.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\swashbuckle.aspnetcore\\6.1.2\\swashbuckle.aspnetcore.6.1.2.nupkg.sha512",
+    "C:\\Users\\DonTillo\\.nuget\\packages\\swashbuckle.aspnetcore.annotations\\6.1.4\\swashbuckle.aspnetcore.annotations.6.1.4.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\swashbuckle.aspnetcore.newtonsoft\\6.1.4\\swashbuckle.aspnetcore.newtonsoft.6.1.4.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.1.4\\swashbuckle.aspnetcore.swagger.6.1.4.nupkg.sha512",
     "C:\\Users\\DonTillo\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.1.4\\swashbuckle.aspnetcore.swaggergen.6.1.4.nupkg.sha512",

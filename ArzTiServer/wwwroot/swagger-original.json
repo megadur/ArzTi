@@ -2,10 +2,14 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Webservice ArzTI API",
-    "description": "Kommunikation des Webservers mit den jeweiligen Rechenzentren\n* UC: Abruf der eRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum\n* UC: Abruf der eMuster16-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum\n* UC: Abruf der pRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum\n* UC: Aktualisierung des eRezept-Status - eRezept-ID\n* UC: Löschen eines eRezepts - eRezept-ID\n* UC: Aktualisierung von Kundendaten (Apotheke -> Rechenzentrum Zuordnung) - Apotheke-IK\n* UC: ... ",
+    "description": "Kommunikation des Webservers mit den jeweiligen Rechenzentren ",
     "version": "V1"
   },
   "servers": [
+    {
+      "url": "/v1",
+      "description": "Local server"
+    },
     {
       "url": "http://arzsoftware.de/v1",
       "description": "Main (production) server"
@@ -16,6 +20,107 @@
     }
   ],
   "paths": {
+    "/apotheke": {
+      "get": {
+        "tags": [
+          "Apotheke"
+        ],
+        "summary": "liefert eine Liste aller Apotheken",
+        "description": "",
+        "operationId": "getApothekenList",
+        "responses": {
+          "200": {
+            "description": "Liefert eine Liste mit den gefundenen Rezepten.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Apotheke"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Apotheke"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/apotheke/{apoik}": {
+      "get": {
+        "tags": [
+          "Apotheke"
+        ],
+        "summary": "liefert Details einer Apotheke",
+        "description": "",
+        "operationId": "getApothekeByIK",
+        "parameters": [
+          {
+            "name": "apoik",
+            "in": "path",
+            "required": true,
+            "description": "Die Apotheken IK.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "liefert Details einer Apotheke.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apotheke"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Apotheke"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": [
+              "arz_read"
+            ]
+          }
+        ]
+      }
+    },
     "/apotheke/{apoik}/rezept": {
       "get": {
         "tags": [
@@ -1274,107 +1379,6 @@
             "BasicAuth": [
               "arz_read",
               "arz_write"
-            ]
-          }
-        ]
-      }
-    },
-    "/apotheke": {
-      "get": {
-        "tags": [
-          "Apotheke"
-        ],
-        "summary": "liefert eine Liste aller Apotheken",
-        "description": "",
-        "operationId": "getApothekenList",
-        "responses": {
-          "200": {
-            "description": "Liefert eine Liste mit den gefundenen Rezepten.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Apotheke"
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Apotheke"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized",
-            "description": ""
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound",
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "BasicAuth": [
-              "arz_read"
-            ]
-          }
-        ]
-      }
-    },
-    "/apotheke/{apoik}": {
-      "get": {
-        "tags": [
-          "Apotheke"
-        ],
-        "summary": "liefert Details einer Apotheke",
-        "description": "",
-        "operationId": "getApothekeByIK",
-        "parameters": [
-          {
-            "name": "apoik",
-            "in": "path",
-            "required": true,
-            "description": "Die Apotheken IK.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "liefert Details einer Apotheke.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Apotheke"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Apotheke"
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized",
-            "description": ""
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound",
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "BasicAuth": [
-              "arz_read"
             ]
           }
         ]
