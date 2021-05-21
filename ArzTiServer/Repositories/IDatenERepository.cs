@@ -17,11 +17,11 @@ namespace ArzTiServer.Repositories
         Task<ErSenderezepteErezept> GetERezeptUIdAsync(string ruid);
         Task<ErSenderezepteErezept> GetERezeptIdStatusAsync(string apoik, string status);
 
-        Task<ICollection<ErezeptPruefResult>>   GetERezeptIdListPruefResAsync(string apoik, string zeitraum, IEnumerable<string> status);
-        Task<List<ErSenderezepteErezept>>       GetERezeptIdStatusListAsync(string apoik, string zeitraum);
-        Task<ErSenderezepteErezeptDaten>        GetERezeptDatenAsync(int id);
-        Task<ErSenderezepteErezeptStatus>       GetERezeptStatusAsync(int id);
-        Task<List<ErSenderezepteErezeptStatusinfo>> GetERezeptStatusinfoListAsync(int id);
+        Task<List<ErSenderezepteErezeptStatusinfo>>  GetErSenderezepteErezeptStatusinfosAsync(int? id);
+        Task<List<ErSenderezepteErezept>>                   GetERezeptIdStatusListAsync(string apoik, string zeitraum);
+        Task<ErSenderezepteErezeptDaten>                    GetERezeptDatenAsync(int id);
+        Task<ErSenderezepteErezeptStatus>                   GetERezeptStatusAsync(int id);
+        Task<List<ErSenderezepteErezeptStatusinfo>>         GetERezeptStatusinfoListAsync(int id);
 
         Task<List<ErSenderezepteErezept>> GetERezeptIdListAsync(string apoik, int? maxnum, string zeitraum);
         Task<List<ErSenderezepteErezept>> GetERezeptIdListByStatusAsync(string apoik, string zeitraum, IEnumerable<string> status);

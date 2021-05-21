@@ -1,7 +1,7 @@
 /*
  * Webservice ArzTI API
  *
- * Kommunikation des Webservers mit den jeweiligen Rechenzentren * UC: Abruf der eRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Abruf der eMuster16-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Abruf der pRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Aktualisierung des eRezept-Status - eRezept-ID * UC: Löschen eines eRezepts - eRezept-ID * UC: Aktualisierung von Kundendaten (Apotheke -> Rechenzentrum Zuordnung) - Apotheke-IK * UC: ... 
+ * Kommunikation des Webservers mit den jeweiligen Rechenzentren V.2021-05-20            
  *
  * The version of the OpenAPI document: V1
  * 
@@ -21,24 +21,22 @@ using ArzTiServer.Converters;
 namespace ArzTiServer.Models
 { 
     /// <summary>
-    /// 
+    /// die Rezept ID
     /// </summary>
     [DataContract]
-    public partial class Apotheke : IEquatable<Apotheke>
+    public partial class RezeptId : IEquatable<RezeptId>
     {
         /// <summary>
-        /// Gets or Sets Ik
+        /// Gets or Sets Typ
         /// </summary>
-        [Required]
-        [DataMember(Name="ik", EmitDefaultValue=false)]
-        public string Ik { get; set; }
+        [DataMember(Name="typ", EmitDefaultValue=false)]
+        public RezeptTyp Typ { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets Id
         /// </summary>
-        [Required]
-        [DataMember(Name="name", EmitDefaultValue=false)]
-        public string Name { get; set; }
+        [DataMember(Name="id", EmitDefaultValue=false)]
+        public string Id { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -47,9 +45,9 @@ namespace ArzTiServer.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Apotheke {\n");
-            sb.Append("  Ik: ").Append(Ik).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("class RezeptId {\n");
+            sb.Append("  Typ: ").Append(Typ).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -72,29 +70,29 @@ namespace ArzTiServer.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Apotheke)obj);
+            return obj.GetType() == GetType() && Equals((RezeptId)obj);
         }
 
         /// <summary>
-        /// Returns true if Apotheke instances are equal
+        /// Returns true if RezeptId instances are equal
         /// </summary>
-        /// <param name="other">Instance of Apotheke to be compared</param>
+        /// <param name="other">Instance of RezeptId to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Apotheke other)
+        public bool Equals(RezeptId other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    Ik == other.Ik ||
-                    Ik != null &&
-                    Ik.Equals(other.Ik)
+                    Typ == other.Typ ||
+                    
+                    Typ.Equals(other.Typ)
                 ) && 
                 (
-                    Name == other.Name ||
-                    Name != null &&
-                    Name.Equals(other.Name)
+                    Id == other.Id ||
+                    Id != null &&
+                    Id.Equals(other.Id)
                 );
         }
 
@@ -108,10 +106,10 @@ namespace ArzTiServer.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Ik != null)
-                    hashCode = hashCode * 59 + Ik.GetHashCode();
-                    if (Name != null)
-                    hashCode = hashCode * 59 + Name.GetHashCode();
+                    
+                    hashCode = hashCode * 59 + Typ.GetHashCode();
+                    if (Id != null)
+                    hashCode = hashCode * 59 + Id.GetHashCode();
                 return hashCode;
             }
         }
@@ -119,12 +117,12 @@ namespace ArzTiServer.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Apotheke left, Apotheke right)
+        public static bool operator ==(RezeptId left, RezeptId right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Apotheke left, Apotheke right)
+        public static bool operator !=(RezeptId left, RezeptId right)
         {
             return !Equals(left, right);
         }

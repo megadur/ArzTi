@@ -10,23 +10,27 @@ namespace ArzTiServer.Controllers.impl
 {
     public class ApothekeApiImpl : ApothekeApiController
     {
-        IArzTiDatenService _arzTiDatenService;
         IArzTiVerwaltungService _arzTiVerwaltungService;
-        public ApothekeApiImpl(IArzTiDatenService arzTiDatenService, IArzTiVerwaltungService arzTiVerwaltungService)
+        public ApothekeApiImpl(IArzTiVerwaltungService arzTiVerwaltungService)
         {
-            _arzTiDatenService = arzTiDatenService;
             _arzTiVerwaltungService = arzTiVerwaltungService;
         }
 
-        public override Task<IActionResult> GetApothekeByIK([FromRoute(Name = "apoik"), Required] string apoik)
+        public async override Task<IActionResult> GetApothekeByIK([FromRoute(Name = "apoik"), Required] string apoik)
         {
-            throw new System.NotImplementedException();
+            var thing = await _arzTiVerwaltungService.GetApothekeByIKAsync(apoik);
+            if (thing == null)
+                return NotFound();
+            return Ok(thing); // T
+
         }
 
         public async override Task<IActionResult> GetApothekenList()
         {
-            //return await _arzTiVerwaltungService.GetApothekenListAsync();
-            return StatusCode(200, await _arzTiVerwaltungService.GetApothekenListAsync());
+            var thing = await _arzTiVerwaltungService.GetApothekenListAsync();
+            if (thing == null)
+                return NotFound();
+            return Ok(thing); // T
 
         }
 
@@ -35,7 +39,7 @@ namespace ArzTiServer.Controllers.impl
         /*
         public IActionResult GetApothekenList()
         {
-            return StatusCode(200, _arzTiVerwaltungService.GetApothekenListAsync());
+            var thing = _arzTiVerwaltungService.GetApothekenListAsync());
 
         }
         

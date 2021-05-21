@@ -54,7 +54,16 @@ namespace ArzTiServer.Repositories
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            return await Context.Set<T>().ToListAsync();
+            try
+            {
+                return await Context.Set<T>().ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+
+            }
+            return null;
         }
 
         public async Task<IEnumerable<T>> GetWhere(Expression<Func<T, bool>> predicate)

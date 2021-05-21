@@ -1,7 +1,7 @@
 /*
  * Webservice ArzTI API
  *
- * Kommunikation des Webservers mit den jeweiligen Rechenzentren * UC: Abruf der eRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Abruf der eMuster16-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Abruf der pRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Aktualisierung des eRezept-Status - eRezept-ID * UC: Löschen eines eRezepts - eRezept-ID * UC: Aktualisierung von Kundendaten (Apotheke -> Rechenzentrum Zuordnung) - Apotheke-IK * UC: ... 
+ * Kommunikation des Webservers mit den jeweiligen Rechenzentren V.2021-05-20            
  *
  * The version of the OpenAPI document: V1
  * 

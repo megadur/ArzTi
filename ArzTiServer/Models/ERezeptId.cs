@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ArzTiServer.Models
 {
-    public class ERezeptId
+    public class xERezeptId
     {
         public String  Id { get; set; }
         public String ApoIk { get; set; }

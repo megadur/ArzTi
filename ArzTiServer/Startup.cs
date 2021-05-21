@@ -115,8 +115,8 @@ namespace ArzTiServer
 
 
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
-            //services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["PostgreSqlConnectionString"]));
-            services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["OpiPcConnectionString"]));
+            services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["PostgreSqlConnectionString"]));
+            //services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["OpiPcConnectionString"]));
             //services.AddDbContext<ArzDBContext>(options => options.UseSqlite("Filename=TestDatabase.db"));
             //var connectionString = new ConnectionString(Configuration.GetConnectionString("DefaultConnection"));
 

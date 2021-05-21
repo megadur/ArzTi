@@ -1,7 +1,7 @@
 /*
  * Webservice ArzTI API
  *
- * Kommunikation des Webservers mit den jeweiligen Rechenzentren * UC: Abruf der eRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Abruf der eMuster16-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Abruf der pRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Aktualisierung des eRezept-Status - eRezept-ID * UC: Löschen eines eRezepts - eRezept-ID * UC: Aktualisierung von Kundendaten (Apotheke -> Rechenzentrum Zuordnung) - Apotheke-IK * UC: ... 
+ * Kommunikation des Webservers mit den jeweiligen Rechenzentren V.2021-05-20            
  *
  * The version of the OpenAPI document: V1
  * 
@@ -21,10 +21,10 @@ using ArzTiServer.Converters;
 namespace ArzTiServer.Models
 { 
     /// <summary>
-    /// 
+    /// base64 codierte Leistung
     /// </summary>
     [DataContract]
-    public partial class RezeptPruefResult : IEquatable<RezeptPruefResult>
+    public partial class Rezept : IEquatable<Rezept>
     {
         /// <summary>
         /// Gets or Sets Id
@@ -39,10 +39,23 @@ namespace ArzTiServer.Models
         public RezeptUId Uid { get; set; }
 
         /// <summary>
-        /// Gets or Sets Statusinfo
+        /// Gets or Sets Data
         /// </summary>
-        [DataMember(Name="statusinfo", EmitDefaultValue=false)]
-        public List<Statusinfo> Statusinfo { get; set; }
+        [DataMember(Name="data", EmitDefaultValue=false)]
+        public string Data { get; set; }
+
+        /// <summary>
+        /// Status des Rezepts
+        /// </summary>
+        /// <value>Status des Rezepts</value>
+        [DataMember(Name="status", EmitDefaultValue=false)]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Apoik
+        /// </summary>
+        [DataMember(Name="apoik", EmitDefaultValue=false)]
+        public string Apoik { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -51,10 +64,12 @@ namespace ArzTiServer.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class RezeptPruefResult {\n");
+            sb.Append("class Rezept {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Uid: ").Append(Uid).Append("\n");
-            sb.Append("  Statusinfo: ").Append(Statusinfo).Append("\n");
+            sb.Append("  Data: ").Append(Data).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Apoik: ").Append(Apoik).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -77,15 +92,15 @@ namespace ArzTiServer.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((RezeptPruefResult)obj);
+            return obj.GetType() == GetType() && Equals((Rezept)obj);
         }
 
         /// <summary>
-        /// Returns true if RezeptPruefResult instances are equal
+        /// Returns true if Rezept instances are equal
         /// </summary>
-        /// <param name="other">Instance of RezeptPruefResult to be compared</param>
+        /// <param name="other">Instance of Rezept to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(RezeptPruefResult other)
+        public bool Equals(Rezept other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -102,10 +117,19 @@ namespace ArzTiServer.Models
                     Uid.Equals(other.Uid)
                 ) && 
                 (
-                    Statusinfo == other.Statusinfo ||
-                    Statusinfo != null &&
-                    other.Statusinfo != null &&
-                    Statusinfo.SequenceEqual(other.Statusinfo)
+                    Data == other.Data ||
+                    Data != null &&
+                    Data.Equals(other.Data)
+                ) && 
+                (
+                    Status == other.Status ||
+                    Status != null &&
+                    Status.Equals(other.Status)
+                ) && 
+                (
+                    Apoik == other.Apoik ||
+                    Apoik != null &&
+                    Apoik.Equals(other.Apoik)
                 );
         }
 
@@ -123,8 +147,12 @@ namespace ArzTiServer.Models
                     hashCode = hashCode * 59 + Id.GetHashCode();
                     if (Uid != null)
                     hashCode = hashCode * 59 + Uid.GetHashCode();
-                    if (Statusinfo != null)
-                    hashCode = hashCode * 59 + Statusinfo.GetHashCode();
+                    if (Data != null)
+                    hashCode = hashCode * 59 + Data.GetHashCode();
+                    if (Status != null)
+                    hashCode = hashCode * 59 + Status.GetHashCode();
+                    if (Apoik != null)
+                    hashCode = hashCode * 59 + Apoik.GetHashCode();
                 return hashCode;
             }
         }
@@ -132,12 +160,12 @@ namespace ArzTiServer.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(RezeptPruefResult left, RezeptPruefResult right)
+        public static bool operator ==(Rezept left, Rezept right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(RezeptPruefResult left, RezeptPruefResult right)
+        public static bool operator !=(Rezept left, Rezept right)
         {
             return !Equals(left, right);
         }

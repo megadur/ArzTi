@@ -17,13 +17,11 @@ namespace ArzTiServer.Repositories
         }
         public List<ErApotheke> GetApothekeList()
         {
-            //throw new NotImplementedException();
             return _dbSet.ToList (); 
         }
 
         public ErApotheke GetApothekeDetails(string apoik)
         {
-            //            throw new NotImplementedException();
             long lapoik = long.Parse(apoik);
             return _dbSet.Where(a=> a.ApoIkNr == lapoik).FirstOrDefault ();
 

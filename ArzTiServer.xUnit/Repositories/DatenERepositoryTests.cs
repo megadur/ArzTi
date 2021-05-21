@@ -236,13 +236,14 @@ namespace ArzTiServer.xUnit.Repositories
             var datenERepository = this.CreateDatenERepository();
             string apoik = null;
             string zeitraum = null;
-            List<string> status = null;
+            int MaxNum = 0;
 
             // Act
-            var result = await datenERepository.GetERezeptIdListPruefResAsync(
+            var result = await datenERepository.GetERezeptIdListAsync(
                 apoik,
-                zeitraum,
-                status);
+                MaxNum,
+                zeitraum
+                );
 
             // Assert
             Assert.True(false);
@@ -308,7 +309,7 @@ namespace ArzTiServer.xUnit.Repositories
             // Arrange
             var datenERepository = this.CreateDatenERepository();
             string apoik = null;
-            Dictionary<string, string> rezeptlist=null;
+            Dictionary<string, string> rezeptlist = null;
             // Act
             var result = await datenERepository.PatchERezeptIdListStatusAsync(
                 apoik,

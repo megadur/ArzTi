@@ -1,7 +1,7 @@
 /*
  * Webservice ArzTI API
  *
- * Kommunikation des Webservers mit den jeweiligen Rechenzentren * UC: Abruf der eRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Abruf der eMuster16-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Abruf der pRezept-Daten - neue (noch nicht gesendete) | eRezept-ID | Zeitraum * UC: Aktualisierung des eRezept-Status - eRezept-ID * UC: Löschen eines eRezepts - eRezept-ID * UC: Aktualisierung von Kundendaten (Apotheke -> Rechenzentrum Zuordnung) - Apotheke-IK * UC: ... 
+ * Kommunikation des Webservers mit den jeweiligen Rechenzentren V.2021-05-20            
  *
  * The version of the OpenAPI document: V1
  * 
@@ -19,31 +19,31 @@ using Newtonsoft.Json;
 using ArzTiServer.Converters;
 
 namespace ArzTiServer.Models
-{
+{ 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class Abholstatus : IEquatable<Abholstatus>
+    public partial class RezeptStatus : IEquatable<RezeptStatus>
     {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [DataMember(Name="id", EmitDefaultValue=false)]
         public RezeptId Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Uid
         /// </summary>
-        [DataMember(Name = "uid", EmitDefaultValue = false)]
+        [DataMember(Name="uid", EmitDefaultValue=false)]
         public RezeptUId Uid { get; set; }
 
         /// <summary>
-        /// Gets or Sets Abgeholt
+        /// Status des Rezepts
         /// </summary>
-        [Required]
-        [DataMember(Name = "abgeholt", EmitDefaultValue = false)]
-        public bool Abgeholt { get; set; }
+        /// <value>Status des Rezepts</value>
+        [DataMember(Name="status", EmitDefaultValue=false)]
+        public string Status { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -52,10 +52,10 @@ namespace ArzTiServer.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Abholstatus {\n");
+            sb.Append("class RezeptStatus {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Uid: ").Append(Uid).Append("\n");
-            sb.Append("  Abgeholt: ").Append(Abgeholt).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -78,34 +78,34 @@ namespace ArzTiServer.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Abholstatus)obj);
+            return obj.GetType() == GetType() && Equals((RezeptStatus)obj);
         }
 
         /// <summary>
-        /// Returns true if Abholstatus instances are equal
+        /// Returns true if RezeptStatus instances are equal
         /// </summary>
-        /// <param name="other">Instance of Abholstatus to be compared</param>
+        /// <param name="other">Instance of RezeptStatus to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Abholstatus other)
+        public bool Equals(RezeptStatus other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return
+            return 
                 (
                     Id == other.Id ||
                     Id != null &&
                     Id.Equals(other.Id)
-                ) &&
+                ) && 
                 (
                     Uid == other.Uid ||
                     Uid != null &&
                     Uid.Equals(other.Uid)
-                ) &&
+                ) && 
                 (
-                    Abgeholt == other.Abgeholt ||
-
-                    Abgeholt.Equals(other.Abgeholt)
+                    Status == other.Status ||
+                    Status != null &&
+                    Status.Equals(other.Status)
                 );
         }
 
@@ -119,30 +119,30 @@ namespace ArzTiServer.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                if (Id != null)
+                    if (Id != null)
                     hashCode = hashCode * 59 + Id.GetHashCode();
-                if (Uid != null)
+                    if (Uid != null)
                     hashCode = hashCode * 59 + Uid.GetHashCode();
-
-                hashCode = hashCode * 59 + Abgeholt.GetHashCode();
+                    if (Status != null)
+                    hashCode = hashCode * 59 + Status.GetHashCode();
                 return hashCode;
             }
         }
 
         #region Operators
-#pragma warning disable 1591
+        #pragma warning disable 1591
 
-        public static bool operator ==(Abholstatus left, Abholstatus right)
+        public static bool operator ==(RezeptStatus left, RezeptStatus right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Abholstatus left, Abholstatus right)
+        public static bool operator !=(RezeptStatus left, RezeptStatus right)
         {
             return !Equals(left, right);
         }
 
-#pragma warning restore 1591
+        #pragma warning restore 1591
         #endregion Operators
     }
 }
