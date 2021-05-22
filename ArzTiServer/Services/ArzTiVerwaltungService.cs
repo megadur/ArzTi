@@ -1,4 +1,5 @@
 ﻿
+using ArzTiServer.Domain;
 using ArzTiServer.Models;
 using ArzTiServer.Repositories;
 using System;
@@ -23,8 +24,11 @@ namespace ArzTiServer.Services
         public async Task<Apotheke> GetApothekeByIKAsync(string apoik)
         {
             var res = await _repository.GetWhere(a => a.ApoIkNr.ToString() == apoik);
+            if (res.Count() == 0)
+                throw new DomainException($"Apotheke with id {apoik} could not be found.");
+
             Apotheke apo = new();
-            apo.Ik = res.First().ApoIkNr.ToString ();
+            apo.Ik = res.First().ApoIkNr.ToString();
             apo.Name = res.First().ApothekeName;
             return apo;
         }

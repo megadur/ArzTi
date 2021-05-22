@@ -20,6 +20,7 @@ using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Serilog;
+using ArzTiServer.Infrastructure.Middlewares;
 
 namespace ArzTiServer
 {
@@ -115,7 +116,6 @@ namespace ArzTiServer
             services.AddScoped<IVerwaltungRepository, VerwaltungRepository>();
             services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
 
-
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
             //services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["PostgreSqlConnectionString"]));
             services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["OpiPcConnectionString"]));
@@ -143,6 +143,7 @@ namespace ArzTiServer
             builder.UseAuthorization();
             builder.UseSerilogRequestLogging();
 
+            builder.UseMiddleware<ApiExceptionHandlingMiddleware>();
 
             builder.UseEndpoints(endpoints =>
             {
