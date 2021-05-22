@@ -82,7 +82,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdAbdaImport)
                     .HasName("er_abda_import_pkey");
 
-                entity.ToTable("er_abda_import", "daten");
+                entity.ToTable("er_abda_import", "apoti");
 
                 entity.Property(e => e.IdAbdaImport).HasColumnName("id_abda_import");
 
@@ -190,7 +190,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdAbda)
                     .HasName("er_abda_pkey");
 
-                entity.ToTable("er_abda_temp", "daten");
+                entity.ToTable("er_abda_temp", "apoti");
 
                 entity.Property(e => e.IdAbda).HasColumnName("id_abda");
 
@@ -360,7 +360,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdAbdaUs)
                     .HasName("er_abda_us_pkey");
 
-                entity.ToTable("er_abda_us", "daten");
+                entity.ToTable("er_abda_us", "apoti");
 
                 entity.HasIndex(e => new { e.Pzn, e.GueltigAb, e.GueltigBis }, "idx_er_abda_us_pzn_gueltigabbis_20210401");
 
@@ -412,7 +412,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdAbdaUs)
                     .HasName("er_abda_us_temp_pkey");
 
-                entity.ToTable("er_abda_us_temp", "daten");
+                entity.ToTable("er_abda_us_temp", "apoti");
 
                 entity.Property(e => e.IdAbdaUs)
                     .HasColumnName("id_abda_us")
@@ -462,7 +462,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdAbda)
                     .HasName("er_abda_temp_pkey");
 
-                entity.ToTable("er_abda", "daten");
+                entity.ToTable("er_abda", "apoti");
 
                 entity.HasIndex(e => new { e.Pzn, e.GueltigAb, e.GueltigBis }, "idx_er_abda_pzn_gueltigabbis_20210401");
 
@@ -636,7 +636,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdApotheke)
                     .HasName("apotheke_pkey");
 
-                entity.ToTable("er_apotheke", "daten");
+                entity.ToTable("er_apotheke", "apoti");
 
                 entity.HasIndex(e => e.ApoIkNr, "idx_er_apotheke_apo_ik_nr");
 
@@ -755,7 +755,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdFiverxVersion)
                     .HasName("er_fiverx_version_pkey");
 
-                entity.ToTable("er_fiverx_version", "daten");
+                entity.ToTable("er_fiverx_version", "apoti");
 
                 entity.Property(e => e.IdFiverxVersion)
                     .ValueGeneratedNever()
@@ -782,7 +782,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdPrueferezeptEmuster16)
                     .HasName("er_prueferezept_emuster16_pkey");
 
-                entity.ToTable("er_prueferezept_emuster16", "daten");
+                entity.ToTable("er_prueferezept_emuster16", "apoti");
 
                 entity.Property(e => e.IdPrueferezeptEmuster16).HasColumnName("id_prueferezept_emuster16");
 
@@ -1016,7 +1016,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdPrueferezeptEmuster16Artikel)
                     .HasName("er_prueferezept_emuster16_artikel_pkey");
 
-                entity.ToTable("er_prueferezept_emuster16_artikel", "daten");
+                entity.ToTable("er_prueferezept_emuster16_artikel", "apoti");
 
                 entity.Property(e => e.IdPrueferezeptEmuster16Artikel)
                     .HasColumnName("id_prueferezept_emuster16_artikel")
@@ -1054,7 +1054,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdPrueferezeptEmuster16Status)
                     .HasName("er_prueferezept_emuster16_status_pkey");
 
-                entity.ToTable("er_prueferezept_emuster16_status", "daten");
+                entity.ToTable("er_prueferezept_emuster16_status", "apoti");
 
                 entity.Property(e => e.IdPrueferezeptEmuster16Status)
                     .HasColumnName("id_prueferezept_emuster16_status")
@@ -1094,7 +1094,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdPrueferezeptEmuster16Statusinfo)
                     .HasName("er_prueferezept_emuster16_statusinfo_pkey");
 
-                entity.ToTable("er_prueferezept_emuster16_statusinfo", "daten");
+                entity.ToTable("er_prueferezept_emuster16_statusinfo", "apoti");
 
                 entity.Property(e => e.IdPrueferezeptEmuster16Statusinfo)
                     .HasColumnName("id_prueferezept_emuster16_statusinfo")
@@ -1131,7 +1131,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdPrueferezeptErezept)
                     .HasName("er_prueferezept_erezept_pkey");
 
-                entity.ToTable("er_prueferezept_erezept", "daten");
+                entity.ToTable("er_prueferezept_erezept", "apoti");
 
                 entity.Property(e => e.IdPrueferezeptErezept).HasColumnName("id_prueferezept_erezept");
 
@@ -1174,7 +1174,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => new { e.IdPrueferezeptErezept, e.IdPrueferezeptHeader })
                     .HasName("er_prueferezept_erezept_lieferid_pkey");
 
-                entity.ToTable("er_prueferezept_erezept_lieferid", "daten");
+                entity.ToTable("er_prueferezept_erezept_lieferid", "apoti");
 
                 entity.Property(e => e.IdPrueferezeptErezept).HasColumnName("id_prueferezept_erezept");
 
@@ -1198,7 +1198,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdPrueferezeptErezeptStatusinfo)
                     .HasName("er_prueferezept_erezept_statusinfo_pkey");
 
-                entity.ToTable("er_prueferezept_erezept_statusinfo", "daten");
+                entity.ToTable("er_prueferezept_erezept_statusinfo", "apoti");
 
                 entity.Property(e => e.IdPrueferezeptErezeptStatusinfo)
                     .HasColumnName("id_prueferezept_erezept_statusinfo")
@@ -1231,7 +1231,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdPrueferezeptHeader)
                     .HasName("er_prueferezept_header_pkey");
 
-                entity.ToTable("er_prueferezept_header", "daten");
+                entity.ToTable("er_prueferezept_header", "apoti");
 
                 entity.Property(e => e.IdPrueferezeptHeader).HasColumnName("id_prueferezept_header");
 
@@ -1344,7 +1344,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdRabattGruppe)
                     .HasName("er_rabatt_gruppe_temp_pkey");
 
-                entity.ToTable("er_rabatt_gruppe", "daten");
+                entity.ToTable("er_rabatt_gruppe", "apoti");
 
                 entity.HasIndex(e => new { e.KeyGruppe, e.GueltigAb, e.GueltigBis }, "idx_er_rabatt_gruppe_keygruppe_gueltigabbis_20210401");
 
@@ -1372,7 +1372,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdRabattGruppe)
                     .HasName("er_rabatt_gruppe_pkey");
 
-                entity.ToTable("er_rabatt_gruppe_temp", "daten");
+                entity.ToTable("er_rabatt_gruppe_temp", "apoti");
 
                 entity.Property(e => e.IdRabattGruppe)
                     .HasColumnName("id_rabatt_gruppe")
@@ -1398,7 +1398,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdRabattIndika)
                     .HasName("er_rabatt_indika_pkey");
 
-                entity.ToTable("er_rabatt_indika", "daten");
+                entity.ToTable("er_rabatt_indika", "apoti");
 
                 entity.HasIndex(e => new { e.Indikation, e.Pzn }, "idx_er_rabatt_indika_indikation_pzn_20210401");
 
@@ -1426,7 +1426,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdRabattIndika)
                     .HasName("er_rabatt_indika_temp_pkey");
 
-                entity.ToTable("er_rabatt_indika_temp", "daten");
+                entity.ToTable("er_rabatt_indika_temp", "apoti");
 
                 entity.Property(e => e.IdRabattIndika)
                     .HasColumnName("id_rabatt_indika")
@@ -1450,7 +1450,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdRabattKasse)
                     .HasName("er_rabatt_kasse_temp_pkey");
 
-                entity.ToTable("er_rabatt_kasse", "daten");
+                entity.ToTable("er_rabatt_kasse", "apoti");
 
                 entity.HasIndex(e => new { e.KeyGruppe, e.GueltigAb, e.GueltigBis }, "idx_er_rabatt_kasse_keygruppe_gueltigabbis_20210401");
 
@@ -1476,7 +1476,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdRabattKasse)
                     .HasName("er_rabatt_kasse_pkey");
 
-                entity.ToTable("er_rabatt_kasse_temp", "daten");
+                entity.ToTable("er_rabatt_kasse_temp", "apoti");
 
                 entity.Property(e => e.IdRabattKasse)
                     .HasColumnName("id_rabatt_kasse")
@@ -1500,7 +1500,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdRabattPzn)
                     .HasName("er_rabatt_pzn_pkey");
 
-                entity.ToTable("er_rabatt_pzn", "daten");
+                entity.ToTable("er_rabatt_pzn", "apoti");
 
                 entity.HasIndex(e => new { e.ArzneiPzn, e.KeyGruppe, e.GueltigAb, e.GueltigBis }, "idx_er_rabatt_pzn_arzneipzn_keygruppe_gueltigabbis_20210401");
 
@@ -1526,7 +1526,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdRabattPzn)
                     .HasName("er_rabatt_pzn_temp_pkey");
 
-                entity.ToTable("er_rabatt_pzn_temp", "daten");
+                entity.ToTable("er_rabatt_pzn_temp", "apoti");
 
                 entity.Property(e => e.IdRabattPzn)
                     .HasColumnName("id_rabatt_pzn")
@@ -1550,7 +1550,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => new { e.Pzn, e.Komponentennr, e.FaiDbRang, e.GueltigBis })
                     .HasName("er_rabatt_wirkstoff_pkey");
 
-                entity.ToTable("er_rabatt_wirkstoff", "daten");
+                entity.ToTable("er_rabatt_wirkstoff", "apoti");
 
                 entity.HasIndex(e => new { e.Pzn, e.GueltigAb, e.GueltigBis }, "idx_er_rabatt_wirkstoff_pzn_gueltigabbis_20210401");
 
@@ -1614,7 +1614,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => new { e.Pzn, e.Komponentennr, e.FaiDbRang, e.GueltigBis })
                     .HasName("er_rabatt_wirkstoff_temp_pkey");
 
-                entity.ToTable("er_rabatt_wirkstoff_temp", "daten");
+                entity.ToTable("er_rabatt_wirkstoff_temp", "apoti");
 
                 entity.Property(e => e.Pzn).HasColumnName("pzn");
 
@@ -1676,7 +1676,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSecAccessFiverx)
                     .HasName("er_sec_access_fiverx_pkey");
 
-                entity.ToTable("er_sec_access_fiverx", "daten");
+                entity.ToTable("er_sec_access_fiverx", "apoti");
 
                 entity.HasIndex(e => e.LoginId, "er_sec_access_fiverx_login_id_key")
                     .IsUnique();
@@ -1764,7 +1764,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteEmuster16)
                     .HasName("er_senderezepte_emuster16_pkey");
 
-                entity.ToTable("er_senderezepte_emuster16", "daten");
+                entity.ToTable("er_senderezepte_emuster16", "apoti");
 
                 entity.HasIndex(e => e.ApoIkNr, "idx_er_sendrez_apoik");
 
@@ -2009,7 +2009,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteEmuster16Artikel)
                     .HasName("er_senderezepte_emuster16_artikel_pkey");
 
-                entity.ToTable("er_senderezepte_emuster16_artikel", "daten");
+                entity.ToTable("er_senderezepte_emuster16_artikel", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezepteEmuster16, "idx_er_sendrez_em16_artikel_id");
 
@@ -2050,7 +2050,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteEmuster16Daten)
                     .HasName("er_senderezepte_emuster16_daten_pkey");
 
-                entity.ToTable("er_senderezepte_emuster16_daten", "daten");
+                entity.ToTable("er_senderezepte_emuster16_daten", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezepteEmuster16, "idx_er_sendrez_em16_daten_id");
 
@@ -2088,7 +2088,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteEmuster16Status)
                     .HasName("er_senderezepte_emuster16_status_pkey");
 
-                entity.ToTable("er_senderezepte_emuster16_status", "daten");
+                entity.ToTable("er_senderezepte_emuster16_status", "apoti");
 
                 entity.HasIndex(e => new { e.IdSenderezepteEmuster16, e.Muster16Id, e.RezeptStatus }, "idx_er_sendrez_em16_stat_idrezem16");
 
@@ -2142,7 +2142,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteEmuster16Statusinfo)
                     .HasName("er_senderezepte_emuster16_statusinfo_pkey");
 
-                entity.ToTable("er_senderezepte_emuster16_statusinfo", "daten");
+                entity.ToTable("er_senderezepte_emuster16_statusinfo", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezepteEmuster16, "idx_er_sendrez_em16_stinfo_id");
 
@@ -2190,7 +2190,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteErezept)
                     .HasName("er_senderezepte_erezept_pkey");
 
-                entity.ToTable("er_senderezepte_erezept", "daten");
+                entity.ToTable("er_senderezepte_erezept", "apoti");
 
                 entity.Property(e => e.IdSenderezepteErezept).HasColumnName("id_senderezepte_erezept");
 
@@ -2242,7 +2242,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteErezeptDaten)
                     .HasName("er_senderezepte_erezept_daten_pkey");
 
-                entity.ToTable("er_senderezepte_erezept_daten", "daten");
+                entity.ToTable("er_senderezepte_erezept_daten", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezepteErezept, "idx_er_sendrez_erez_daten_id");
 
@@ -2278,7 +2278,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteErezeptStatus)
                     .HasName("er_senderezepte_erezept_status_pkey");
 
-                entity.ToTable("er_senderezepte_erezept_status", "daten");
+                entity.ToTable("er_senderezepte_erezept_status", "apoti");
 
                 entity.HasIndex(e => new { e.IdSenderezepteErezept, e.ErezeptId, e.RezeptStatus }, "idx_er_sendrez_erez_stat_idrezerez");
 
@@ -2334,7 +2334,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteErezeptStatusinfo)
                     .HasName("er_senderezepte_erezept_statusinfo_pkey");
 
-                entity.ToTable("er_senderezepte_erezept_statusinfo", "daten");
+                entity.ToTable("er_senderezepte_erezept_statusinfo", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezepteErezept, "idx_er_sendrez_erez_stinfo_id");
 
@@ -2382,7 +2382,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteHeader)
                     .HasName("er_senderezepte_header_pkey");
 
-                entity.ToTable("er_senderezepte_header", "daten");
+                entity.ToTable("er_senderezepte_header", "apoti");
 
                 entity.HasIndex(e => new { e.ApoIntNr, e.RzLieferId }, "idx_er_sendrez_head_apo_int_nr");
 
@@ -2509,7 +2509,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezepteHeaderDaten)
                     .HasName("er_senderezepte_header_daten_pkey");
 
-                entity.ToTable("er_senderezepte_header_daten", "daten");
+                entity.ToTable("er_senderezepte_header_daten", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezepteHeader, "idx_er_sendrez_header_daten_id");
 
@@ -2545,7 +2545,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezeptePrezept)
                     .HasName("er_senderezepte_prezept_pkey");
 
-                entity.ToTable("er_senderezepte_prezept", "daten");
+                entity.ToTable("er_senderezepte_prezept", "apoti");
 
                 entity.HasIndex(e => new { e.RzLieferId, e.TransaktionsNummer }, "idx_er_sendrez_prez_rz_liefer_id");
 
@@ -2730,7 +2730,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezeptePrezeptDaten)
                     .HasName("er_senderezepte_prezept_daten_pkey");
 
-                entity.ToTable("er_senderezepte_prezept_daten", "daten");
+                entity.ToTable("er_senderezepte_prezept_daten", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezeptePrezept, "idx_er_sendrez_prez_daten_id");
 
@@ -2766,7 +2766,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezeptePrezeptPcharge)
                     .HasName("id_senderezepte_prez_pcharge_pkey");
 
-                entity.ToTable("er_senderezepte_prezept_pcharge", "daten");
+                entity.ToTable("er_senderezepte_prezept_pcharge", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezeptePrezept, "idx_er_sendrez_prez_pch_prezid");
 
@@ -2809,7 +2809,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezeptePrezeptPwirkstoff)
                     .HasName("er_senderezepte_prezept_pcharge_pwirkstoff_pkey");
 
-                entity.ToTable("er_senderezepte_prezept_pcharge_pwirkstoff", "daten");
+                entity.ToTable("er_senderezepte_prezept_pcharge_pwirkstoff", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezeptePrezeptPcharge, "idx_er_sendrez_prez_pch_pwirk_pchid");
 
@@ -2869,7 +2869,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezeptePrezeptStatus)
                     .HasName("er_senderezepte_prezept_status_pkey");
 
-                entity.ToTable("er_senderezepte_prezept_status", "daten");
+                entity.ToTable("er_senderezepte_prezept_status", "apoti");
 
                 entity.HasIndex(e => new { e.IdSenderezeptePrezept, e.TransaktionsNummer, e.RezeptStatus }, "idx_er_sendrez_prez_stat_idrezprez");
 
@@ -2923,7 +2923,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSenderezeptePrezeptStatusinfo)
                     .HasName("er_senderezepte_prezept_statusinfo_pkey");
 
-                entity.ToTable("er_senderezepte_prezept_statusinfo", "daten");
+                entity.ToTable("er_senderezepte_prezept_statusinfo", "apoti");
 
                 entity.HasIndex(e => e.IdSenderezeptePrezept, "idx_er_sendrez_prez_stinfo_id");
 
@@ -2971,7 +2971,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdSonderPzn)
                     .HasName("er_sonder_pzn_temp_pkey");
 
-                entity.ToTable("er_sonder_pzn", "daten");
+                entity.ToTable("er_sonder_pzn", "apoti");
 
                 entity.HasIndex(e => new { e.SonderPzn, e.GueltigAb, e.GueltigBis }, "idx_er_sonder_pzn_sonderpzn_gueltigabbis_20191024");
 
@@ -3007,7 +3007,7 @@ namespace ArzTiServer.Models
                 entity.HasKey(e => e.IdUsecase)
                     .HasName("er_usecase_pkey");
 
-                entity.ToTable("er_usecase", "daten");
+                entity.ToTable("er_usecase", "apoti");
 
                 entity.HasIndex(e => new { e.MainUcNr, e.SubUcNr }, "idx_uc_mucnr_sucnr");
 
@@ -3043,9 +3043,9 @@ namespace ArzTiServer.Models
                     .HasDefaultValueSql("0");
             });
 
-            modelBuilder.HasSequence("er_fiverx_schema_id_fiverx_schema_seq", "daten");
+            modelBuilder.HasSequence("er_fiverx_schema_id_fiverx_schema_seq", "apoti");
 
-            modelBuilder.HasSequence("er_senderezepte_prezept_pwirk_id_senderezepte_prezept_pwirk_seq", "daten");
+            modelBuilder.HasSequence("er_senderezepte_prezept_pwirk_id_senderezepte_prezept_pwirk_seq", "apoti");
 
             OnModelCreatingPartial(modelBuilder);
         }
