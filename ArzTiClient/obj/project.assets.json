@@ -2224,6 +2224,18 @@
           "build/_._": {}
         }
       },
+      "Swashbuckle.AspNetCore.Annotations/6.1.4": {
+        "type": "package",
+        "dependencies": {
+          "Swashbuckle.AspNetCore.SwaggerGen": "6.1.4"
+        },
+        "compile": {
+          "lib/net5.0/Swashbuckle.AspNetCore.Annotations.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/Swashbuckle.AspNetCore.Annotations.dll": {}
+        }
+      },
       "Swashbuckle.AspNetCore.Newtonsoft/6.1.4": {
         "type": "package",
         "dependencies": {
@@ -3446,6 +3458,7 @@
           "Serilog.Sinks.Console": "3.1.1",
           "Serilog.Sinks.File": "4.1.0",
           "Swashbuckle.AspNetCore": "6.1.2",
+          "Swashbuckle.AspNetCore.Annotations": "6.1.4",
           "Swashbuckle.AspNetCore.Newtonsoft": "6.1.4"
         },
         "compile": {
@@ -7018,6 +7031,26 @@
         "swashbuckle.aspnetcore.nuspec"
       ]
     },
+    "Swashbuckle.AspNetCore.Annotations/6.1.4": {
+      "sha512": "sEAPcJ3s0XigrDWcufXmDipCxuPayEhWYo15RfN9xiPOq3G2rmH9G+wSaJwLrDJ0+xMLe+Q41cRM3TKd5E8y1A==",
+      "type": "package",
+      "path": "swashbuckle.aspnetcore.annotations/6.1.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net5.0/Swashbuckle.AspNetCore.Annotations.dll",
+        "lib/net5.0/Swashbuckle.AspNetCore.Annotations.pdb",
+        "lib/net5.0/Swashbuckle.AspNetCore.Annotations.xml",
+        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Annotations.dll",
+        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Annotations.pdb",
+        "lib/netcoreapp3.0/Swashbuckle.AspNetCore.Annotations.xml",
+        "lib/netstandard2.0/Swashbuckle.AspNetCore.Annotations.dll",
+        "lib/netstandard2.0/Swashbuckle.AspNetCore.Annotations.pdb",
+        "lib/netstandard2.0/Swashbuckle.AspNetCore.Annotations.xml",
+        "swashbuckle.aspnetcore.annotations.6.1.4.nupkg.sha512",
+        "swashbuckle.aspnetcore.annotations.nuspec"
+      ]
+    },
     "Swashbuckle.AspNetCore.Newtonsoft/6.1.4": {
       "sha512": "XxrRKJO7kt30+6L5CmI6riItWrRrwp/9kkaJgJwn3w2BGTa2caqcT5seqMf22/DaefCVgmP8D+33BLH9bxgGxg==",
       "type": "package",
@@ -10459,11 +10492,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj",
+      "projectUniqueName": "C:\\data\\src\\Apo\\_src\\ArzTi\\ArzTiClient\\ArzTiClient.csproj",
       "projectName": "ArzTiClient",
-      "projectPath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\ArzTiClient.csproj",
+      "projectPath": "C:\\data\\src\\Apo\\_src\\ArzTi\\ArzTiClient\\ArzTiClient.csproj",
       "packagesPath": "C:\\Users\\DonTillo\\.nuget\\packages\\",
-      "outputPath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiClient\\obj\\",
+      "outputPath": "C:\\data\\src\\Apo\\_src\\ArzTi\\ArzTiClient\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -10485,8 +10518,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj": {
-              "projectPath": "C:\\data\\src\\Apo\\_src\\gfal\\ArzTi\\ArzTiServer\\ArzTiServer.csproj"
+            "C:\\data\\src\\Apo\\_src\\ArzTi\\ArzTiServer\\ArzTiServer.csproj": {
+              "projectPath": "C:\\data\\src\\Apo\\_src\\ArzTi\\ArzTiServer\\ArzTiServer.csproj"
             }
           }
         }
