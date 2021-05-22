@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Logging;
 
 #nullable disable
 
@@ -8,13 +9,17 @@ namespace ArzTiServer.Models
 {
     public partial class ArzDBContext : DbContext
     {
+        private readonly ILoggerFactory _loggerFactory;
+
+
         public ArzDBContext()
         {
         }
 
-        public ArzDBContext(DbContextOptions<ArzDBContext> options)
+        public ArzDBContext(DbContextOptions<ArzDBContext> options, ILoggerFactory loggerFactory)
             : base(options)
         {
+            _loggerFactory = loggerFactory;
         }
 
         public virtual DbSet<ErAbdaImport> ErAbdaImports { get; set; }

@@ -11,13 +11,16 @@ namespace ArzTiServer.Controllers.impl
     public class ApothekeApiImpl : ApothekeApiController
     {
         IArzTiVerwaltungService _arzTiVerwaltungService;
-        public ApothekeApiImpl(IArzTiVerwaltungService arzTiVerwaltungService)
+        Serilog.ILogger _logger;
+        public ApothekeApiImpl(IArzTiVerwaltungService arzTiVerwaltungService, Serilog.ILogger logger)
         {
             _arzTiVerwaltungService = arzTiVerwaltungService;
+            _logger = logger;
         }
 
         public async override Task<IActionResult> GetApothekeByIK([FromRoute(Name = "apoik"), Required] string apoik)
         {
+            _logger.Information("GetApothekeByIK: apoik {@apoik}", apoik);
             var thing = await _arzTiVerwaltungService.GetApothekeByIKAsync(apoik);
             if (thing == null)
                 return NotFound();
@@ -27,6 +30,7 @@ namespace ArzTiServer.Controllers.impl
 
         public async override Task<IActionResult> GetApothekenList()
         {
+            _logger.Information("GetApothekenList()");
             var thing = await _arzTiVerwaltungService.GetApothekenListAsync();
             if (thing == null)
                 return NotFound();

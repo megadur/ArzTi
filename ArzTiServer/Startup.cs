@@ -19,6 +19,7 @@ using System.IO;
 using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Serilog;
 
 namespace ArzTiServer
 {
@@ -43,7 +44,8 @@ namespace ArzTiServer
         public void ConfigureServices(IServiceCollection services)
         {
             _logger.LogInformation($"{nameof(ConfigureServices)} starting...");
-
+            services.AddSingleton<Serilog.ILogger>(Log.Logger);
+            services.AddLogging();
             services.AddControllers();
             services.AddMvc(options =>
             {
@@ -127,10 +129,10 @@ namespace ArzTiServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder builder, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder builder, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var logger = builder.ApplicationServices.GetService<ILogger<Startup>>();
-
+            loggerFactory.AddSerilog();
             logger.LogInformation($"{nameof(Configure)} starting...");
             builder.UseHttpsRedirection();
             builder.UseDefaultFiles();
@@ -139,6 +141,7 @@ namespace ArzTiServer
             builder.UseRouting();
 
             builder.UseAuthorization();
+            builder.UseSerilogRequestLogging();
 
 
             builder.UseEndpoints(endpoints =>
