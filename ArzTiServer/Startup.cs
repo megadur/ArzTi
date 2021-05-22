@@ -157,12 +157,13 @@ namespace ArzTiServer
                 builder.UseSwaggerUI(c =>
                     {
                         // set route prefix to openapi, e.g. http://localhost:8080/openapi/index.html
-                        //c.RoutePrefix = "openapi";
+                        c.RoutePrefix = "openapi";
                         //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
                         //c.SwaggerEndpoint("/openapi/1.0.0/openapi.json", "Swagger Petstore");
                         //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
                         c.SwaggerEndpoint("/swagger-original.json", "ArzTiServer v1 Original");
                         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArzTiServer v1");
+                        //c.RoutePrefix = "swagger";
                     });
 
             }
