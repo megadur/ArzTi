@@ -21,6 +21,11 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Serilog;
 using ArzTiServer.Infrastructure.Middlewares;
+using Serilog.Ui.Web;
+using Serilog.Ui.PostgreSqlProvider.Extensions;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Http;
 
 namespace ArzTiServer
 {
@@ -116,68 +121,105 @@ namespace ArzTiServer
             services.AddScoped<IVerwaltungRepository, VerwaltungRepository>();
             services.AddScoped<IAsyncRepository<ErApotheke>, ErApothekeRepository<ErApotheke>>();
 
-            var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
+            //var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
+            var sqlConnectionString = Configuration["OpiPcConnectionString"];
             //services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["PostgreSqlConnectionString"]));
-            services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(Configuration["OpiPcConnectionString"]));
+            services.AddDbContext<ArzDBContext>(options => options.UseNpgsql(sqlConnectionString));
             //services.AddDbContext<ArzDBContext>(options => options.UseSqlite("Filename=TestDatabase.db"));
             //var connectionString = new ConnectionString(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddSerilogUi(options => options
 
-            //services.AddHealthChecks().AddNpgSql(sqlConnectionString);
-            //services.AddHealthChecksUI().AddInMemoryStorage();
+                .EnableAuthorization(authOptions =>
+                {
+                    authOptions.AuthenticationType = AuthenticationType.Jwt; // or AuthenticationType.Cookie
+                    authOptions.Usernames = new[] { "User1", "User2" };
+                    authOptions.Roles = new[] { "AdminRole" };
+                })
+
+                .UseNpgSql(sqlConnectionString, "table_name")
+            );
+
+            //adding health check services to container
+            services.AddHealthChecks().AddNpgSql(sqlConnectionString);
+            //adding healthchecks UI
+            services.AddHealthChecksUI(opt =>
+            {
+                opt.SetEvaluationTimeInSeconds(15); //time in seconds between check
+                opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks
+                opt.SetApiMaxActiveRequests(1); //api requests concurrency
+
+                opt.AddHealthCheckEndpoint("default api", "/healthz"); //map health check api
+            })
+            .AddInMemoryStorage();
 
             _logger.LogInformation($"{nameof(ConfigureServices)} complete...");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder builder, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            var logger = builder.ApplicationServices.GetService<ILogger<Startup>>();
+            var logger = app.ApplicationServices.GetService<ILogger<Startup>>();
             loggerFactory.AddSerilog();
             logger.LogInformation($"{nameof(Configure)} starting...");
-            builder.UseHttpsRedirection();
-            builder.UseDefaultFiles();
-            builder.UseStaticFiles();
+            app.UseHttpsRedirection();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
-            builder.UseRouting();
+            app.UseRouting();
 
-            builder.UseAuthorization();
-            builder.UseSerilogRequestLogging();
+            app.UseAuthorization();
+            app.UseSerilogRequestLogging();
 
-            builder.UseMiddleware<ApiExceptionHandlingMiddleware>();
+            app.UseMiddleware<ApiExceptionHandlingMiddleware>();
 
-            builder.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //               endpoints.MapHealthChecks("/health");
-                //               endpoints.MapHealthChecksUI();
-            });
+                //adding endpoint of health check for the health check ui in UI format
+                endpoints.MapHealthChecks("/healthz", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
 
+                //map healthcheck ui endpoing - default is /healthchecks-ui/
+                endpoints.MapHealthChecksUI();
+
+                endpoints.MapGet("/", async context => await context.Response.WriteAsync("Hello World!"));
+            });
             if (env.IsDevelopment())
             {
-                builder.UseDeveloperExceptionPage();
-                builder.UseSwagger();
-                //                builder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArzTiServer v1"));
-                //builder.UseSwagger(c =>             {                    c.RouteTemplate = "openapi/{documentName}/openapi.json";                });
-                builder.UseSwaggerUI(c =>
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
                     {
                         // set route prefix to openapi, e.g. http://localhost:8080/openapi/index.html
-                        c.RoutePrefix = "openapi";
+                        //c.RoutePrefix = "openapi";
                         //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
                         //c.SwaggerEndpoint("/openapi/1.0.0/openapi.json", "Swagger Petstore");
                         //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
                         c.SwaggerEndpoint("/swagger-original.json", "ArzTiServer v1 Original");
                         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArzTiServer v1");
-                        //c.RoutePrefix = "swagger";
+                        c.RoutePrefix = "swagger";
                     });
 
             }
             else
             {
                 //TODO: Enable production exception handling (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/error-handling)
-                builder.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Error");
 
-                builder.UseHsts();
+                app.UseHsts();
             }
+            // Enable middleware to serve log-ui (HTML, JS, CSS, etc.).
+            app.UseSerilogUi();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             //app.UseHttpsRedirection();
 

@@ -134,6 +134,10 @@
               "target": "Package",
               "version": "[5.0.1, )"
             },
+            "AspNetCore.HealthChecks.UI.Client": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
             "AspNetCore.HealthChecks.UI.InMemory.Storage": {
               "target": "Package",
               "version": "[5.0.1, )"
@@ -241,6 +245,14 @@
             "Serilog.Sinks.PostgreSQL.Configuration": {
               "target": "Package",
               "version": "[1.0.0, )"
+            },
+            "Serilog.UI": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Serilog.UI.PostgreSqlProvider": {
+              "target": "Package",
+              "version": "[2.1.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
