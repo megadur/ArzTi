@@ -1,6 +1,7 @@
 ﻿using ArzTiServer.Models;
 using ArzTiServer.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
@@ -16,10 +17,18 @@ namespace ArzTiServer.Controllers.impl
         }
         public async override Task<IActionResult> GetRezeptIdList([FromRoute(Name = "apoik"), Required] string apoik, [FromQuery(Name = "reztyp")] RezeptTyp? reztyp, [FromQuery(Name = "maxnum")] int? maxnum, [FromQuery(Name = "zeitraum")] string zeitraum, [FromQuery(Name = "status")] List<string> status)
         {
-            var thing = await _arzTiDatenService.GetRezeptIdListAsync(apoik, reztyp, maxnum, zeitraum);
-            if (thing == null)
-                return NotFound();
-            return Ok(thing); // T
+            try
+            {
+                var thing = await _arzTiDatenService.GetRezeptIdListAsync(apoik, reztyp, maxnum, zeitraum);
+                if (thing == null)
+                    return NotFound();
+                return Ok(thing); // T
+
+            }
+            catch (Exception e)
+            {
+                return UnprocessableEntity();
+            }
 
         }
 

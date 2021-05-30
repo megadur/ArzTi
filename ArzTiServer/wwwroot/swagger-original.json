@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Webservice ArzTI API",
-    "description": "Kommunikation des Webservers mit den jeweiligen Rechenzentren \n\n V.2021-05-20",
+    "description": "Kommunikation des Webservers mit den jeweiligen Rechenzentren \n\n V.2021-05-26",
     "version": "V1"
   },
   "servers": [

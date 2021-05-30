@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31229.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArzTiClient", "src\ArzTiClient\ArzTiClient.csproj", "{D6688AC9-CCA0-4A97-97ED-172B5AF69582}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArzTiClient.Test", "src\ArzTiClient.Test\ArzTiClient.Test.csproj", "{19F1DEBC-DE5E-4517-8062-F000CD499087}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6688AC9-CCA0-4A97-97ED-172B5AF69582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6688AC9-CCA0-4A97-97ED-172B5AF69582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6688AC9-CCA0-4A97-97ED-172B5AF69582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6688AC9-CCA0-4A97-97ED-172B5AF69582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5FA3AA3C-9F36-4E94-AA8C-4AE55947F604}
+	EndGlobalSection
+EndGlobal

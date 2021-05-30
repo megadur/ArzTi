@@ -64,14 +64,14 @@ namespace ArzTiServer
                 {
                     Title = "ArzTiServer",
                     Version = "v1",
-                    Description = "Webservice ArzTI API (ASP.NET Core 5.0)",
+                    Description = "Webservice ArzTI API (R.2021-05-26)",
                     Contact = new OpenApiContact()
                     {
-                        Name = "Swagger Codegen Contributors",
-                        Url = new Uri("https://github.com/swagger-api/swagger-codegen"),
+                        Name = "Arz Software",
+                        Url = new Uri("https://arzsoftware.de"),
                         Email = ""
                     },
-                    TermsOfService = new Uri("http://localhost")
+                    TermsOfService = new Uri("https://arzsoftware.de")
                 });
                 c.CustomSchemaIds(type => type.FullName);
                 c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
@@ -152,15 +152,8 @@ namespace ArzTiServer
             {
                 builder.UseDeveloperExceptionPage();
                 builder.UseSwagger();
-                //                builder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArzTiServer v1"));
-                //builder.UseSwagger(c =>             {                    c.RouteTemplate = "openapi/{documentName}/openapi.json";                });
                 builder.UseSwaggerUI(c =>
                     {
-                        // set route prefix to openapi, e.g. http://localhost:8080/openapi/index.html
-                        c.RoutePrefix = "openapi";
-                        //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
-                        //c.SwaggerEndpoint("/openapi/1.0.0/openapi.json", "Swagger Petstore");
-                        //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
                         c.SwaggerEndpoint("/swagger-original.json", "ArzTiServer v1 Original");
                         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArzTiServer v1");
                         //c.RoutePrefix = "swagger";
@@ -187,35 +180,6 @@ namespace ArzTiServer
             */
         }
 
-        /*void fillDb()
-        {
-            string dbName = "TestDatabase.db";
-            if (File.Exists(dbName))
-            {
-                File.Delete(dbName);
-            }
-            using (var dbContext = new    ArzDBContext())
-            {
-                //Ensure database is created
-                dbContext.Database.EnsureCreated();
-                if (!dbContext.ErApotheke.Any())
-                {
-                    dbContext.ErApotheke.AddRange(new ErApotheke[]
-                        {
-                             new ErApotheke{ ApoIkNr =1L, ApothekeName="A1" },
-                             new ErApotheke{ ApoIkNr =2L, ApothekeName="A2" },
-                             new ErApotheke{ ApoIkNr =2L, ApothekeName="A3" }
-                        });
-                    dbContext.SaveChanges();
-                }
-                foreach (var blog in dbContext.ErApotheke)
-                {
-                    Console.WriteLine($"BlogID={blog.BlogId}\tTitle={blog.Title}\t{blog.SubTitle}\tDateTimeAdd={blog.DateTimeAdd}");
-                }
-            }
-            Console.ReadLine();
-        }
-    }
-        */
+
     }
 }
