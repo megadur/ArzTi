@@ -1,0 +1,834 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ArzTiServer</name>
+    </assembly>
+    <members>
+        <member name="T:ArzTiServer.Attributes.ValidateModelStateAttribute">
+            <summary>
+            Model state validation attribute
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Attributes.ValidateModelStateAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            Called before the action method is invoked
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:ArzTiServer.Api.Controllers.ApothekeApiController">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.ApothekeApiController.GetApothekeByIK(System.String)">
+            <summary>
+            liefert Details einer Apotheke
+            </summary>
+            <remarks>getApothekeByIK</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <response code="200">liefert Details einer Apotheke.</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.ApothekeApiController.GetApothekenList">
+            <summary>
+            liefert eine Liste aller Apotheken
+            </summary>
+            <remarks>getApothekenList</remarks>
+            <response code="200">Liefert eine Liste mit den gefundenen Rezepten.</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="T:ArzTiServer.Api.Controllers.RezeptIDApiController">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDApiController.DeleteRezeptId(System.String,ArzTiServer.Api.Model.RezeptTyp,System.String)">
+            <summary>
+            l�scht ein Rezept
+            </summary>
+            <remarks>deleteRezeptId</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die RezeptID.</param>
+            <response code="200">Liefert das Rezept f�r die ID</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDApiController.GetRezeptId(System.String,ArzTiServer.Api.Model.RezeptTyp,System.String)">
+            <summary>
+            liefert ein Rezept
+            </summary>
+            <remarks>getRezeptId</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die RezeptID.</param>
+            <response code="200">Liefert das Rezept f�r die ID</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDApiController.GetRezeptIdStatus(System.String,ArzTiServer.Api.Model.RezeptTyp,System.String)">
+            <summary>
+            Statusabfrage eines Rezeptes
+            </summary>
+            <remarks>getRezeptIdStatus</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die Rezept-ID.</param>
+            <response code="200">Liefert den Status des Rezeptes f�r die ID</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDApiController.PatchRezeptIdStatus(System.String,ArzTiServer.Api.Model.RezeptTyp,System.String,System.String)">
+            <summary>
+            Status�nderung eines Rezeptes
+            </summary>
+            <remarks>patchRezeptIdStatus</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="rezid">Die Rezept-ID.</param>
+            <param name="status">Status value</param>
+            <response code="200">Liefert den Status des Rezeptes f�r die ID</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="T:ArzTiServer.Api.Controllers.RezeptIDListApiController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDListApiController.GetRezeptIdList(System.String,System.Nullable{ArzTiServer.Api.Model.RezeptTyp},System.Nullable{System.Int32},System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            liefert eine Liste von Rezepten  einer Apotheke
+            </summary>
+            <remarks>getRezeptIdList: F�r die angegebene ApoIK werden alle Rezepte zur�ckgegeben.     Optional kann ein Rezepttyp angegeben werden und die maximale Anzahl der Datens�tze, die zur�ckgegeben werden.      Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datens�tze, die zur�ckgegeben werden.      Es werden solange neue Datens�tze zur�ckgegenben, bis keine neuen mehr vorhanden sind.</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="maxnum">maximale Anzahl der Rezepte, die zur�ckgegeben werden</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <param name="status">Status values that need to be considered for filter</param>
+            <response code="200">Liefert eine Liste mit den gefundenen Rezepten.</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDListApiController.GetRezeptIdListAbholstatus(System.String,System.Nullable{ArzTiServer.Api.Model.RezeptTyp},System.String)">
+            <summary>
+            Abfrage aller neuen Rezepte einer Apotheke
+            </summary>
+            <remarks>F�r die angegebene ApoIK werden alle Rezepte zur�ckgegeben, die noch nicht abgeholt wurden.      Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datens�tze, die zur�ckgegeben werden.      Es werden solange neue Datens�tze zur�ckgegenben, bis keine neuen mehr vorhanden sind.</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <response code="200">Liefert eine Liste der Status aller Rezepte</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDListApiController.GetRezeptIdListPruefRes(System.String,System.Nullable{ArzTiServer.Api.Model.RezeptTyp},System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Ergebnisabfrage zur Vorpr�fung aller Rezepte einer Apotheke
+            </summary>
+            <remarks>getRezeptIdListPruefRes</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <param name="status">Status values that need to be considered for filter</param>
+            <response code="200">Liefert eine Liste der Status aller Rezepte</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDListApiController.GetRezeptIdStatusList(System.String,System.Nullable{ArzTiServer.Api.Model.RezeptTyp},System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Statusabfrage aller Rezepte einer Apotheke
+            </summary>
+            <remarks>getRezeptIdStatusList</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="reztyp">.</param>
+            <param name="zeitraum">Welcher Zeitraum im Format YYYY-MM</param>
+            <param name="abgeholt">Wwurd edas rezept bereits abgeholt?</param>
+            <response code="200">Liefert eine Liste der Status aller Rezepte</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDListApiController.PatchRezeptIdListAbholstatus(System.String,System.Collections.Generic.List{ArzTiServer.Api.Model.RezeptId})">
+            <summary>
+            �nderung des Abholstatus einer Liste von Rezepten
+            </summary>
+            <remarks>patchRezeptIdListAbholstatus: �ndert Abholstatus einer Liste von Rezepten</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="rezeptId"></param>
+            <response code="200">Returns the newly created item</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+            <response code="405">Validation exception</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDListApiController.PatchRezeptIdListStatus(System.String,System.Collections.Generic.List{ArzTiServer.Api.Model.RezeptStatus})">
+            <summary>
+            Status�nderung einer Liste von Rezepten
+            </summary>
+            <remarks>patchRezeptIdListStatus</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="rezeptStatus"></param>
+            <response code="200">Liefert den Status einer Liste von Rezepten</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptIDListApiController.PutRezeptIdListPruefung(System.String,System.Collections.Generic.List{ArzTiServer.Api.Model.RezeptId})">
+            <summary>
+            pr�ft eine Liste von Rezepten
+            </summary>
+            <remarks>putRezeptIdListPruefung</remarks>
+            <param name="apoik">Die Apotheken IK.</param>
+            <param name="rezeptId">user to add to the system</param>
+            <response code="202">die Liste wurde akzeptiert</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="T:ArzTiServer.Api.Controllers.RezeptUIDApiController">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptUIDApiController.DeleteRezeptUId(System.String)">
+            <summary>
+            l�scht ein Rezept
+            </summary>
+            <remarks>deleteRezeptUId</remarks>
+            <param name="ruid">Die Rezept UID.</param>
+            <response code="200">Liefert das Rezept f�r die ID</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptUIDApiController.GetRezeptUId(System.String)">
+            <summary>
+            liefert ein Rezept
+            </summary>
+            <remarks>getRezeptUId</remarks>
+            <param name="ruid">Die Rezept UID.</param>
+            <response code="200">Liefert das gefundene Rezepte.</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptUIDApiController.GetRezeptUIdStatus(System.String)">
+            <summary>
+            liefert den Status eines Rezepts
+            </summary>
+            <remarks>getRezeptUIdStatus</remarks>
+            <param name="ruid">Die Rezept UID.</param>
+            <response code="200">Liefert das gefundene Rezepte.</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptUIDApiController.PatchRezeptUIdStatus(System.String,System.String)">
+            <summary>
+            Status�nderung eines Rezeptes
+            </summary>
+            <remarks>patchRezeptUIdStatus</remarks>
+            <param name="ruid">Die Rezept UID.</param>
+            <param name="status">Status value</param>
+            <response code="200">Liefert den Status des Rezeptes f�r die ID</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="T:ArzTiServer.Api.Controllers.RezeptUIDListApiController">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptUIDListApiController.PatchRezeptUIdListAbholstatus(System.Collections.Generic.List{ArzTiServer.Api.Model.RezeptUId})">
+            <summary>
+            �nderung des Abholstatus einer Liste von Rezepten
+            </summary>
+            <remarks>patchRezeptUIdListAbholstatus</remarks>
+            <param name="rezeptUId"></param>
+            <response code="200">Returns the newly created item</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+            <response code="405">Validation exception</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptUIDListApiController.PatchRezeptUIdListStatus(System.Collections.Generic.List{ArzTiServer.Api.Model.RezeptStatus})">
+            <summary>
+            Status�nderung einer Liste von Rezepten
+            </summary>
+            <remarks>patchRezeptUIdListStatus</remarks>
+            <param name="rezeptStatus">???</param>
+            <response code="200">Liefert den Status einer Liste von Rezepten</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="M:ArzTiServer.Api.Controllers.RezeptUIDListApiController.PutRezeptUidListPruefung(System.Collections.Generic.List{ArzTiServer.Api.Model.RezeptUId})">
+            <summary>
+            pr�ft eine Liste von UUID Rezepten
+            </summary>
+            <remarks>putRezeptUidListPruefung</remarks>
+            <param name="rezeptUId">optionaler Datensatz</param>
+            <response code="202">zur Pr�fung angenommen</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">The specified resource was not found</response>
+        </member>
+        <member name="T:ArzTiServer.Api.Converters.CustomEnumConverter`1">
+            <summary>
+            Custom string to enum converter
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Converters.CustomEnumConverter`1.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Determine if we can convert a type to an enum
+            </summary>
+            <param name="context"></param>
+            <param name="sourceType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Converters.CustomEnumConverter`1.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            Convert from a type value to an enum
+            </summary>
+            <param name="context"></param>
+            <param name="culture"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ArzTiServer.Api.Filters.BasePathFilter">
+            <summary>
+            BasePath Document Filter sets BasePath property of Swagger and removes it from the individual URL paths
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Filters.BasePathFilter.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="basePath">BasePath to remove from Operations</param>
+        </member>
+        <member name="P:ArzTiServer.Api.Filters.BasePathFilter.BasePath">
+            <summary>
+            Gets the BasePath of the Swagger Doc
+            </summary>
+            <returns>The BasePath of the Swagger Doc</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Filters.BasePathFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            Apply the filter
+            </summary>
+            <param name="swaggerDoc">OpenApiDocument</param>
+            <param name="context">FilterContext</param>
+        </member>
+        <member name="T:ArzTiServer.Api.Filters.GeneratePathParamsValidationFilter">
+            <summary>
+            Path Parameter Validation Rules Filter
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Filters.GeneratePathParamsValidationFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="operation">Operation</param>
+            <param name="context">OperationFilterContext</param>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.Abholstatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Abholstatus.Id">
+            <summary>
+            Gets or Sets Id
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Abholstatus.Uid">
+            <summary>
+            Gets or Sets Uid
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Abholstatus.Abgeholt">
+            <summary>
+            Gets or Sets Abgeholt
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Abholstatus.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Abholstatus.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Abholstatus.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Abholstatus.Equals(ArzTiServer.Api.Model.Abholstatus)">
+            <summary>
+            Returns true if Abholstatus instances are equal
+            </summary>
+            <param name="other">Instance of Abholstatus to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Abholstatus.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.Apotheke">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Apotheke.Ik">
+            <summary>
+            Gets or Sets Ik
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Apotheke.Name">
+            <summary>
+            Gets or Sets Name
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Apotheke.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Apotheke.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Apotheke.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Apotheke.Equals(ArzTiServer.Api.Model.Apotheke)">
+            <summary>
+            Returns true if Apotheke instances are equal
+            </summary>
+            <param name="other">Instance of Apotheke to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Apotheke.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.Error">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Error.Code">
+            <summary>
+            Gets or Sets Code
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Error.Message">
+            <summary>
+            Gets or Sets Message
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Error.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Error.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Error.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Error.Equals(ArzTiServer.Api.Model.Error)">
+            <summary>
+            Returns true if Error instances are equal
+            </summary>
+            <param name="other">Instance of Error to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Error.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.Rezept">
+            <summary>
+            base64 codierte Leistung
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Rezept.Id">
+            <summary>
+            Gets or Sets Id
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Rezept.Uid">
+            <summary>
+            Gets or Sets Uid
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Rezept.Data">
+            <summary>
+            Gets or Sets Data
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Rezept.Status">
+            <summary>
+            Status des Rezepts
+            </summary>
+            <value>Status des Rezepts</value>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Rezept.Apoik">
+            <summary>
+            Gets or Sets Apoik
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Rezept.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Rezept.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Rezept.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Rezept.Equals(ArzTiServer.Api.Model.Rezept)">
+            <summary>
+            Returns true if Rezept instances are equal
+            </summary>
+            <param name="other">Instance of Rezept to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Rezept.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.RezeptId">
+            <summary>
+            die Rezept ID
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.RezeptId.Typ">
+            <summary>
+            Gets or Sets Typ
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.RezeptId.Id">
+            <summary>
+            Gets or Sets Id
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptId.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptId.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptId.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptId.Equals(ArzTiServer.Api.Model.RezeptId)">
+            <summary>
+            Returns true if RezeptId instances are equal
+            </summary>
+            <param name="other">Instance of RezeptId to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptId.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.RezeptPruefResult">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.RezeptPruefResult.Id">
+            <summary>
+            Gets or Sets Id
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.RezeptPruefResult.Uid">
+            <summary>
+            Gets or Sets Uid
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.RezeptPruefResult.Statusinfo">
+            <summary>
+            Gets or Sets Statusinfo
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptPruefResult.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptPruefResult.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptPruefResult.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptPruefResult.Equals(ArzTiServer.Api.Model.RezeptPruefResult)">
+            <summary>
+            Returns true if RezeptPruefResult instances are equal
+            </summary>
+            <param name="other">Instance of RezeptPruefResult to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptPruefResult.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.RezeptStatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.RezeptStatus.Id">
+            <summary>
+            Gets or Sets Id
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.RezeptStatus.Uid">
+            <summary>
+            Gets or Sets Uid
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.RezeptStatus.Status">
+            <summary>
+            Status des Rezepts
+            </summary>
+            <value>Status des Rezepts</value>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptStatus.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptStatus.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptStatus.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptStatus.Equals(ArzTiServer.Api.Model.RezeptStatus)">
+            <summary>
+            Returns true if RezeptStatus instances are equal
+            </summary>
+            <param name="other">Instance of RezeptStatus to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptStatus.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.RezeptTyp">
+            <summary>
+            E-, M-, oder P-Rezept
+            </summary>
+            <value>E-, M-, oder P-Rezept</value>
+        </member>
+        <member name="F:ArzTiServer.Api.Model.RezeptTyp.ERezeptEnum">
+            <summary>
+            Enum ERezeptEnum for ERezept
+            </summary>
+        </member>
+        <member name="F:ArzTiServer.Api.Model.RezeptTyp.MRezeptEnum">
+            <summary>
+            Enum MRezeptEnum for MRezept
+            </summary>
+        </member>
+        <member name="F:ArzTiServer.Api.Model.RezeptTyp.PRezeptEnum">
+            <summary>
+            Enum PRezeptEnum for PRezept
+            </summary>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.RezeptUId">
+            <summary>
+            die Rezept RUID
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.RezeptUId.Ruid">
+            <summary>
+            Gets or Sets Ruid
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptUId.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptUId.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptUId.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptUId.Equals(ArzTiServer.Api.Model.RezeptUId)">
+            <summary>
+            Returns true if RezeptUId instances are equal
+            </summary>
+            <param name="other">Instance of RezeptUId to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.RezeptUId.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:ArzTiServer.Api.Model.Statusinfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Statusinfo.Fcode">
+            <summary>
+            Gets or Sets Fcode
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Statusinfo.Fstatus">
+            <summary>
+            Gets or Sets Fstatus
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Statusinfo.Fkommentar">
+            <summary>
+            Gets or Sets Fkommentar
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Statusinfo.Ftcode">
+            <summary>
+            Gets or Sets Ftcode
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Statusinfo.Posnr">
+            <summary>
+            Gets or Sets Posnr
+            </summary>
+        </member>
+        <member name="P:ArzTiServer.Api.Model.Statusinfo.Fkurztext">
+            <summary>
+            Gets or Sets Fkurztext
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Statusinfo.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Statusinfo.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Statusinfo.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Statusinfo.Equals(ArzTiServer.Api.Model.Statusinfo)">
+            <summary>
+            Returns true if Statusinfo instances are equal
+            </summary>
+            <param name="other">Instance of Statusinfo to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:ArzTiServer.Api.Model.Statusinfo.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:ArzTiServer.Security.BasicAuthenticationHandler">
+            <summary>
+            class to handle basic authentication.
+            </summary>
+        </member>
+        <member name="F:ArzTiServer.Security.BasicAuthenticationHandler.SchemeName">
+            <summary>
+            scheme name for authentication handler.
+            </summary>
+        </member>
+        <member name="M:ArzTiServer.Security.BasicAuthenticationHandler.HandleAuthenticateAsync">
+            <summary>
+            verify that require authorization header exists and handle decode data.
+            </summary>
+        </member>
+    </members>
+</doc>

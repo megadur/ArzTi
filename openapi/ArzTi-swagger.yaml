@@ -1,0 +1,1003 @@
+openapi: 3.0.0
+info:
+  title: Webservice ArzTI API
+  description: "Kommunikation des Webservers mit den jeweiligen Rechenzentren
+      
+        V.2021-06-02
+               
+    "
+  version: V1
+servers:
+  - url: http://arzsoftware.de/v1
+    description: Main (production) server
+  - url: http://staging-api.arzsoftware.de/v1
+    description: Internal staging server for testing
+  - url: /v1
+    description: Internal development server for testing
+  - url: http://www.zuramm.de/v1/swagger
+    description: Internal development server for testing
+
+                                                        
+
+tags:
+  - name: RezeptID
+    description: Alle Operationen für ein Rezept per Rezept-ID
+  - name: RezeptUID
+    description: Alle Operationen für ein Rezept per Rezept-UID               
+  - name: RezeptIDList
+    description: Alle Operationen für RezeptListen per Rezept-ID
+  - name: RezeptUIDList
+    description: Alle Operationen für RezeptListen per Rezept-UID
+paths:
+# Apotheke
+  /apotheke:
+    get:
+      tags:
+        - Apotheke
+      summary: liefert eine Liste aller Apotheken
+      description: "getApothekenList"
+      operationId: "getApothekenList"
+      security:
+        - BasicAuth: [Apotheke:read]
+      responses:
+        '200':
+          description: Liefert eine Liste mit den gefundenen Rezepten.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Apotheke'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Apotheke'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}:
+    get:
+      tags:
+        - Apotheke
+      summary: liefert Details einer Apotheke
+      description: "getApothekeByIK"
+      operationId: "getApothekeByIK"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: liefert Details einer Apotheke.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Apotheke'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Apotheke'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+# RezeptList
+  /apotheke/{apoik}/rezept:
+    get:
+      tags:
+        - RezeptIDList
+      summary: liefert eine Liste von Rezepten  einer Apotheke
+      description: "getRezeptIdList: Für die angegebene ApoIK werden alle Rezepte zurückgegeben.\r\n\r\n
+          Optional kann ein Rezepttyp angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n
+          Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n
+          Es werden solange neue Datensätze zurückgegenben, bis keine neuen mehr vorhanden sind."
+      operationId: "getRezeptIdList"
+      security:
+        - BasicAuth: [arz_read]
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: reztyp
+          in: query
+          description: .
+          required: false
+          schema:
+            $ref: '#/components/schemas/RezeptTyp'
+        - name: maxnum
+          in: query
+          description: maximale Anzahl der Rezepte, die zurückgegeben werden
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: zeitraum
+          in: query
+          description: Welcher Zeitraum im Format YYYY-MM
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: "Status values that need to be considered for filter"
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true          
+      responses:
+        '200':
+          description: Liefert eine Liste mit den gefundenen Rezepten.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/rezept/abholung:
+    get:
+      tags:
+        - RezeptIDList
+      summary: Abfrage aller neuen Rezepte einer Apotheke
+      description: "Für die angegebene ApoIK werden alle Rezepte zurückgegeben, die noch nicht abgeholt wurden. \r\n\r\n
+          Optional kann ein Zeitraum in der Form yyyy-mm angegeben werden und die maximale Anzahl der Datensätze, die zurückgegeben werden. \r\n\r\n
+          Es werden solange neue Datensätze zurückgegenben, bis keine neuen mehr vorhanden sind."
+      operationId: "getRezeptIdListAbholstatus"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: reztyp
+          in: query
+          description: .
+          required: false
+          schema:
+            $ref: '#/components/schemas/RezeptTyp'
+        - name: zeitraum
+          in: query
+          description: Welcher Zeitraum im Format YYYY-MM
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liefert eine Liste der Status aller Rezepte
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+    patch:
+      tags:
+        - RezeptIDList
+      summary: Änderung des Abholstatus einer Liste von Rezepten 
+      description: "patchRezeptIdListAbholstatus: ändert Abholstatus einer Liste von Rezepten"
+      operationId: "patchRezeptIdListAbholstatus"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptId'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptId'
+      responses:
+        '200':
+          description: Returns the newly created item
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Abholstatus'
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Abholstatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+        "405":
+          description: "Validation exception"      
+
+  /apotheke/{apoik}/rezept/status:
+    get:
+      tags:
+        - RezeptIDList
+      summary: Statusabfrage aller Rezepte einer Apotheke
+      operationId: "getRezeptIdStatusList"
+      description: "getRezeptIdStatusList"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: reztyp
+          in: query
+          description: .
+          required: false
+          schema:
+            $ref: '#/components/schemas/RezeptTyp'
+        - name: zeitraum
+          in: query
+          description: Welcher Zeitraum im Format YYYY-MM
+          required: false
+          schema:
+            type: string
+        - name: abgeholt
+          in: query
+          description: Wwurd edas rezept bereits abgeholt?
+          required: false
+          schema:
+            type: "boolean"
+            default: false  
+      responses:
+        '200':
+          description: Liefert eine Liste der Status aller Rezepte
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RezeptStatus'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+    patch:
+      tags:
+        - RezeptIDList
+      summary: Statusänderung einer Liste von Rezepten
+      description: "patchRezeptIdListStatus"
+      operationId: "patchRezeptIdListStatus"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        required: false
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptStatus'
+          application/xml:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptStatus'
+      responses:
+        '200':
+          description: Liefert den Status einer Liste von Rezepten
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RezeptStatus'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/rezept/pruefung:
+    get:
+      tags:
+        - RezeptIDList
+      summary: Ergebnisabfrage zur Vorprüfung aller Rezepte einer Apotheke
+      description: "getRezeptIdListPruefRes"
+      operationId: "getRezeptIdListPruefRes"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: reztyp
+          in: query
+          description: .
+          required: false
+          schema:
+            $ref: '#/components/schemas/RezeptTyp'
+        - name: zeitraum
+          in: query
+          description: Welcher Zeitraum im Format YYYY-MM
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: "Status values that need to be considered for filter"
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true          
+      responses:
+        '200':
+          description: Liefert eine Liste der Status aller Rezepte
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RezeptPruefResult'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RezeptPruefResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+    put:
+      tags:
+        - RezeptIDList
+      summary: prüft eine Liste von Rezepten
+      description: "putRezeptIdListPruefung"
+      operationId: "putRezeptIdListPruefung"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: user to add to the system
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptId'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptId'
+          application/xml:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptId'
+      responses:
+        '202':
+          description: die Liste wurde akzeptiert
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+# RezeptID
+  /apotheke/{apoik}/rezept/{reztyp}/{rezid}:
+    get:
+      tags:
+        - RezeptID
+      summary: liefert ein Rezept
+      description: "getRezeptId"
+      operationId: "getRezeptId"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: reztyp
+          in: path
+          description: .
+          required: true
+          schema:
+            $ref: '#/components/schemas/RezeptTyp'
+        - name: rezid
+          in: path
+          description: Die RezeptID.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liefert das Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+    delete:
+      tags:
+        - RezeptID
+      summary: löscht ein Rezept
+      description: "deleteRezeptId"
+      operationId: "deleteRezeptId"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: reztyp
+          in: path
+          description: .
+          required: true
+          schema:
+            $ref: '#/components/schemas/RezeptTyp'
+        - name: rezid
+          in: path
+          description: Die RezeptID.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liefert das Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+    patch:
+      tags:
+        - RezeptID
+      summary: Statusänderung eines Rezeptes
+      description: "patchRezeptIdStatus"
+      operationId: "patchRezeptIdStatus"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: reztyp
+          in: path
+          description: .
+          required: true
+          schema:
+            $ref: '#/components/schemas/RezeptTyp'
+        - name: rezid
+          in: path
+          description: Die Rezept-ID.
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: "Status value"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liefert den Status des Rezeptes für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RezeptStatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/RezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /apotheke/{apoik}/rezept/{reztyp}/{rezid}/status:
+    get:
+      tags:
+        - RezeptID
+      summary: Statusabfrage eines Rezeptes
+      description: "getRezeptIdStatus"
+      operationId: "getRezeptIdStatus"
+      parameters:
+        - name: apoik
+          in: path
+          description: Die Apotheken IK.
+          required: true
+          schema:
+            type: string
+        - name: reztyp
+          in: path
+          description: .
+          required: true
+          schema:
+            $ref: '#/components/schemas/RezeptTyp'
+        - name: rezid
+          in: path
+          description: Die Rezept-ID.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liefert den Status des Rezeptes für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+  
+# RezeptRUID
+  /rezept/{ruid}:
+    get:
+      tags:
+        - RezeptUID
+      summary: liefert ein Rezept
+      description: "getRezeptUId"
+      operationId: "getRezeptUId"
+      parameters:
+        - name: ruid
+          in: path
+          description: Die Rezept UID.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liefert das gefundene Rezepte.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+    delete:
+      tags:
+        - RezeptUID
+      summary: löscht ein Rezept
+      description: "deleteRezeptUId"
+      operationId: "deleteRezeptUId"
+      parameters:
+        - name: ruid
+          in: path
+          description: Die Rezept UID.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liefert das Rezept für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Rezept'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+  /rezept/{ruid}/status:
+    get:
+      tags:
+        - RezeptUID
+      summary: liefert den Status eines Rezepts
+      description: "getRezeptUIdStatus"
+      operationId: "getRezeptUIdStatus"
+      parameters:
+        - name: ruid
+          in: path
+          description: Die Rezept UID.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liefert das gefundene Rezepte.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RezeptStatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/RezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+    patch:
+      tags:
+        - RezeptUID
+      summary: Statusänderung eines Rezeptes
+      description: "patchRezeptUIdStatus"
+      operationId: "patchRezeptUIdStatus"
+      parameters:
+        - name: ruid
+          in: path
+          description: Die Rezept UID.
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: "Status value"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liefert den Status des Rezeptes für die ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RezeptStatus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/RezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+# RezeptRUIDList
+  /rezept/abholung:
+    patch:
+      tags:
+        - RezeptUIDList
+      summary: Änderung des Abholstatus einer Liste von Rezepten 
+      description: "patchRezeptUIdListAbholstatus"
+      operationId: "patchRezeptUIdListAbholstatus"
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptUId'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptUId'
+      responses:
+        '200':
+          description: Returns the newly created item
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Abholstatus'
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Abholstatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+        "405":
+          description: "Validation exception"      
+  /rezept/status:
+    patch:
+      tags:
+        - RezeptUIDList
+      summary: Statusänderung einer Liste von Rezepten
+      description: "patchRezeptUIdListStatus"
+      operationId: "patchRezeptUIdListStatus"
+      requestBody:
+        description: '???'
+        required: false
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptStatus'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptStatus'
+      responses:
+        '200':
+          description: Liefert den Status einer Liste von Rezepten
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RezeptStatus'
+            application/*+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RezeptStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+  /rezept/pruefung:
+    put:
+      tags:
+        - RezeptUIDList
+      summary: prüft eine Liste von UUID Rezepten
+      description: "putRezeptUidListPruefung"
+      operationId: "putRezeptUidListPruefung"
+      requestBody:
+        description: 'optionaler Datensatz'
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptUId'
+          application/xml:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RezeptUId'
+      responses:
+        '202':
+          description: zur Prüfung angenommen
+        '401':
+          $ref: '#/components/responses/Unauthorized'   # <-----
+        '404':
+          $ref: '#/components/responses/NotFound'       # <-----
+
+
+
+components:
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Error'
+        # Definition of all error statuses
+    default:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+  
+    RezeptStatus:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/RezeptId'
+        uid:
+          $ref: '#/components/schemas/RezeptUId'
+        status:
+          type: string
+          description: Status des Rezepts
+
+    RezeptTyp:
+      type: string
+      description: "E-, M-, oder P-Rezept"
+      enum:
+        - "ERezept"
+        - "MRezept"
+        - "PRezept"
+
+    Rezept:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/RezeptId'
+        uid:
+          $ref: '#/components/schemas/RezeptUId'
+        data:
+          type: string
+        status:
+          type: string
+          description: Status des Rezepts
+        apoik:
+          type: string
+      title: Rezept 
+      description: "base64 codierte Leistung"
+    
+    RezeptId:
+      type: object
+      properties:
+        typ: 
+          $ref: '#/components/schemas/RezeptTyp'
+        id:
+          type: string
+      title: Rezept 
+      description: "die Rezept ID"
+ 
+    RezeptUId:
+      type: object
+      properties:
+        ruid:
+          type: string
+      title: Rezept 
+      description: "die Rezept RUID"
+ 
+    RezeptPruefResult:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/RezeptId'
+        uid:
+          $ref: '#/components/schemas/RezeptUId'
+        statusinfo:
+          type: array
+          items:
+            $ref: '#/components/schemas/Statusinfo'
+    
+    Statusinfo:
+      type: object
+      properties:
+        fcode:
+          type: string
+        fstatus:
+          type: string
+        fkommentar:
+          type: string
+        ftcode:
+          type: string
+        posnr:
+          type: string
+        fkurztext:
+          type: string
+
+    
+    # Schema for status body
+    Abholstatus:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/RezeptId'
+        uid:
+          $ref: '#/components/schemas/RezeptUId'
+        abgeholt:
+          type: boolean
+      required:
+        - abgeholt
+    
+
+    # Schema for error response body
+    Apotheke:
+      type: object
+      properties:
+        ik:
+          type: string
+        name:
+          type: string
+      required:
+        - ik
+        - name
+              
+    # Schema for error response body
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+
+security:
+  - BasicAuth: 
+      - Apotheke:read
+      - Apotheke:write
+
+        
+
+

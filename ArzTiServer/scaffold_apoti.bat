@@ -1,0 +1,2 @@
+SET CONN="Username=postgres;Password=postgres;Server=localhost;Port=5432;Database=apoti;Integrated Security=true;Pooling=true;"
+dotnet ef dbcontext scaffold  %CONN% Npgsql.EntityFrameworkCore.PostgreSQL -o Domain.Model
